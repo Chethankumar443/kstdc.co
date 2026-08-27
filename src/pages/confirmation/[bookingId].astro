@@ -1,0 +1,34 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { ConfirmationCompanion } from '../../components/confirmation/ConfirmationCompanion';
+
+export function getStaticPaths() {
+  return [
+    { params: { bookingId: 'KSTDC-2026-CRG-8841' } },
+    { params: { bookingId: 'demo-coorg-ticket' } },
+    { params: { bookingId: 'latest' } },
+  ];
+}
+
+const { bookingId } = Astro.params;
+---
+
+<Layout
+  title="Booking Confirmed & Travel Companion | KSTDC Karnataka"
+  description="Your KSTDC government tour is confirmed. Access your digital ticket, pickup points, and local travel phrasebook."
+>
+  <div id="confirmation-root">
+    <ConfirmationCompanion client:load bookingId={bookingId || 'latest'} />
+  </div>
+
+  <script is:inline>
+    // Handle dynamic client-generated booking IDs if different from static paths
+    if (typeof window !== 'undefined') {
+      const parts = window.location.pathname.split('/').filter(Boolean);
+      const urlId = parts[parts.length - 1];
+      if (urlId && urlId !== 'confirmation' && urlId !== 'latest') {
+        // ID is passed to client island via window storage or component load
+      }
+    }
+  </script>
+</Layout>

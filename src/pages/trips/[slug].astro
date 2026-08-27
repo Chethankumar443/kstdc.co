@@ -1,0 +1,26 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { TRIPS_DATA } from '../../data/tripsData';
+import { TripDetailPage } from '../../components/trips/TripDetailPage';
+import type { TripPackage } from '../../types/travel';
+
+export function getStaticPaths() {
+  return TRIPS_DATA.map((trip) => ({
+    params: { slug: trip.slug },
+    props: { trip },
+  }));
+}
+
+interface Props {
+  trip: TripPackage;
+}
+
+const { trip } = Astro.props;
+---
+
+<Layout
+  title={`${trip.title} | Official KSTDC Tour Package`}
+  description={trip.tagline}
+>
+  <TripDetailPage client:load trip={trip} />
+</Layout>

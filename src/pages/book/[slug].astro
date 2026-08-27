@@ -1,0 +1,26 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { TRIPS_DATA } from '../../data/tripsData';
+import { BookingCheckoutFlow } from '../../components/booking/BookingCheckoutFlow';
+import type { TripPackage } from '../../types/travel';
+
+export function getStaticPaths() {
+  return TRIPS_DATA.map((trip) => ({
+    params: { slug: trip.slug },
+    props: { trip },
+  }));
+}
+
+interface Props {
+  trip: TripPackage;
+}
+
+const { trip } = Astro.props;
+---
+
+<Layout
+  title={`Express Booking: ${trip.title} | KSTDC Citizen Service`}
+  description={`Instant 3-step express booking for ${trip.title}. Zero transaction fees.`}
+>
+  <BookingCheckoutFlow client:load trip={trip} />
+</Layout>

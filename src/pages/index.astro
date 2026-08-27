@@ -1,0 +1,23 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { HeroBanner } from '../components/home/HeroBanner';
+import { TrendingTrips } from '../components/home/TrendingTrips';
+import { MayuraStaysStrip } from '../components/home/MayuraStaysStrip';
+import { AirportTaxiSection } from '../components/home/AirportTaxiSection';
+import { ActivitiesShowcase } from '../components/home/ActivitiesShowcase';
+import { DestinationsShowcase } from '../components/home/DestinationsShowcase';
+import { WhyKstdcTrust } from '../components/home/WhyKstdcTrust';
+---
+
+<Layout
+  title="KSTDC — Official Karnataka Tours, Mayura Hotels & Airport Taxi"
+  description="Official government portal for conducted Volvo bus tour packages, Hotel Mayura stays, Bangalore airport taxi transfers, and Ambaari heritage experiences across Karnataka."
+>
+  <HeroBanner client:load />
+  <TrendingTrips client:load />
+  <MayuraStaysStrip client:load />
+  <AirportTaxiSection client:load />
+  <ActivitiesShowcase client:load />
+  <DestinationsShowcase client:load />
+  <WhyKstdcTrust client:load />
+</Layout>

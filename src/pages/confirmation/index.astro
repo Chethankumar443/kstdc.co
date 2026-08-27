@@ -1,0 +1,11 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { ConfirmationCompanion } from '../../components/confirmation/ConfirmationCompanion';
+---
+
+<Layout
+  title="Booking Confirmed & Travel Companion | KSTDC Karnataka"
+  description="Your KSTDC government tour is confirmed. Access your digital ticket, pickup points, and local travel phrasebook."
+>
+  <ConfirmationCompanion client:load bookingId="latest" />
+</Layout>

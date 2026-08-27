@@ -1,0 +1,42 @@
+---
+import '../styles/global.css';
+import { HeaderNav } from '../components/common/HeaderNav';
+import { FooterSection } from '../components/common/FooterSection';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'KSTDC — Official Karnataka Tours & Stays',
+  description = 'Explore and book official government-certified Karnataka tours, Volvo coach transport, and Hotel Mayura stays.',
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    
+    <!-- Clean Minimalist Typography: Inter & Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="min-h-screen flex flex-col bg-canvas text-ink antialiased selection:bg-slate-200">
+    <HeaderNav client:load />
+    <main class="flex-1">
+      <slot />
+    </main>
+    <FooterSection client:load />
+  </body>
+</html>

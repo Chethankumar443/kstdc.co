@@ -1,0 +1,11 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { MyBookingsList } from '../components/bookings/MyBookingsList';
+---
+
+<Layout
+  title="My Bookings & Digital Tickets | KSTDC Citizen Portal"
+  description="View your active KSTDC conducted tour bookings, boarding passes, and travel companion itineraries."
+>
+  <MyBookingsList client:load />
+</Layout>
