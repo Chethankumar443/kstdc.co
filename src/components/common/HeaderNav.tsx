@@ -16,6 +16,13 @@ interface Props {
   currentPath?: string;
 }
 
+// Precise path normalizer helper to prevent hydration mismatches and layout flicker
+const normalizePath = (p?: string): string => {
+  if (!p) return '/';
+  const cleaned = p.split('?')[0].replace(/\/$/, '') || '/';
+  return cleaned;
+};
+
 export const HeaderNav: React.FC<Props> = ({ currentPath: initialPath = '' }) => {
   const [lang, setLang] = useState<Language>('en');
   const [langMenuOpen, setLangMenuOpen] = useState(false);
@@ -25,7 +32,7 @@ export const HeaderNav: React.FC<Props> = ({ currentPath: initialPath = '' }) =>
   const [isHighContrast, setIsHighContrast] = useState(false);
   const [isLowBandwidth, setIsLowBandwidth] = useState(false);
   const [fontScale, setFontScale] = useState<'normal' | 'lg' | 'xl'>('normal');
-  const [activePath, setActivePath] = useState(initialPath || (typeof window !== 'undefined' ? window.location.pathname : '/'));
+  const [activePath, setActivePath] = useState(() => normalizePath(initialPath));
   const [bookingsCount, setBookingsCount] = useState(0);
 
   // Global Quick Search Bar state
@@ -37,7 +44,7 @@ export const HeaderNav: React.FC<Props> = ({ currentPath: initialPath = '' }) =>
   useEffect(() => {
     setLang(getStoredLanguage());
     if (typeof window !== 'undefined') {
-      const cleanP = window.location.pathname.replace(/\/$/, '') || '/';
+      const cleanP = normalizePath(window.location.pathname);
       setActivePath(cleanP);
       const updateCount = () => {
         setBookingsCount(getStoredBookings().length);
@@ -50,11 +57,12 @@ export const HeaderNav: React.FC<Props> = ({ currentPath: initialPath = '' }) =>
       window.addEventListener('kstdc_lang_changed', langHandler);
       window.addEventListener('kstdc_bookings_changed', bookingsHandler);
 
-      // Close search on Escape
+      // Close search and menus on Escape
       const keyHandler = (e: KeyboardEvent) => {
         if (e.key === 'Escape') {
           setSearchOpen(false);
           setLangMenuOpen(false);
+          setMobileMenuOpen(false);
         }
       };
       window.addEventListener('keydown', keyHandler);
@@ -77,7 +85,7 @@ export const HeaderNav: React.FC<Props> = ({ currentPath: initialPath = '' }) =>
         document.removeEventListener('mousedown', clickOutsideHandler);
       };
     }
-  }, []);
+  }, [initialPath]);
 
   useEffect(() => {
     if (searchOpen && searchInputRef.current) {
@@ -88,6 +96,7 @@ export const HeaderNav: React.FC<Props> = ({ currentPath: initialPath = '' }) =>
   const handleLanguageChange = (newLang: Language) => {
     setLang(newLang);
     setStoredLanguage(newLang);
+    setLangMenuOpen(false);
   };
 
   const toggleHighContrast = () => {
@@ -148,14 +157,20 @@ export const HeaderNav: React.FC<Props> = ({ currentPath: initialPath = '' }) =>
     searchCabResults.length +
     searchActResults.length;
 
-  const normalizedPath = activePath.replace(/\/$/, '') || '/';
+  const isHome = activePath === '/';
+  const isTrips = activePath === '/trips' || activePath.startsWith('/trips/') || activePath.startsWith('/book');
+  const isStays = activePath === '/stays' || activePath.startsWith('/stays/');
+  const isCabs = activePath === '/cabs' || activePath.startsWith('/cabs/');
+  const isActivities = activePath === '/activities' || activePath.startsWith('/activities/');
+  const isDestinations = activePath === '/destinations' || activePath.startsWith('/destinations/');
+
   const navLinks = [
-    { href: '/', label: 'Home', active: normalizedPath === '/' },
-    { href: '/trips', label: 'Tours', active: normalizedPath === '/trips' || normalizedPath.startsWith('/trips/') || normalizedPath.startsWith('/book') },
-    { href: '/stays', label: 'Hotels', active: normalizedPath === '/stays' || normalizedPath.startsWith('/stays/') },
-    { href: '/cabs', label: 'Airport Taxi', active: normalizedPath === '/cabs' || normalizedPath.startsWith('/cabs/') },
-    { href: '/activities', label: 'Activities', active: normalizedPath === '/activities' || normalizedPath.startsWith('/activities/') },
-    { href: '/destinations', label: 'Destinations', active: normalizedPath === '/destinations' || normalizedPath.startsWith('/destinations/') },
+    { href: '/', label: 'Home', active: isHome },
+    { href: '/trips', label: 'Tours', active: isTrips },
+    { href: '/stays', label: 'Hotels', active: isStays },
+    { href: '/cabs', label: 'Airport Taxi', active: isCabs },
+    { href: '/activities', label: 'Activities', active: isActivities },
+    { href: '/destinations', label: 'Destinations', active: isDestinations },
   ];
 
   return (
@@ -306,7 +321,7 @@ export const HeaderNav: React.FC<Props> = ({ currentPath: initialPath = '' }) =>
         </div>
 
         {/* MAIN NAVIGATION BAR */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between gap-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-[68px] sm:h-[72px] flex items-center justify-between gap-4">
           
           {/* Official KSTDC & Karnataka Tourism Logos */}
           <a href="/" className="flex items-center gap-2.5 sm:gap-3.5 shrink-0 group">
@@ -340,9 +355,9 @@ export const HeaderNav: React.FC<Props> = ({ currentPath: initialPath = '' }) =>
               <a
                 key={link.href}
                 href={link.href}
-                className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all ${
+                className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all duration-150 ${
                   link.active
-                    ? 'bg-slate-950 text-white shadow-xs'
+                    ? 'bg-slate-950 text-white shadow-xs font-bold'
                     : 'text-slate-700 hover:text-slate-950 hover:bg-white'
                 }`}
               >
