@@ -70,13 +70,13 @@ export const TripsExplorer: React.FC = () => {
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 bg-slate-900 dark:bg-slate-950 p-8 sm:p-10 rounded-[32px] text-white border border-slate-800 shadow-md">
           <div className="space-y-1.5 max-w-xl">
             <span className="text-xs uppercase tracking-wider font-bold text-emerald-400 block">
-              Official Conducted Tours
+              {t.trendingSectionTag || 'Official Conducted Tours'}
             </span>
             <h1 className="text-2xl sm:text-4xl font-bold tracking-tight text-white">
-              All Curated Tour Packages
+              {t.toursExploreTitle || 'All Curated Tour Packages'}
             </h1>
             <p className="text-xs sm:text-sm text-slate-300">
-              Filter by time, destination or budget. Complete route transparency with Volvo transport and Hotel Mayura stays.
+              {t.toursExploreSubtitle || 'Filter by time, destination or budget. Complete route transparency with Volvo transport and Hotel Mayura stays.'}
             </p>
           </div>
 
@@ -92,22 +92,22 @@ export const TripsExplorer: React.FC = () => {
         {/* Filters and Search Container */}
         <div className="bg-canvas p-6 rounded-[24px] border border-hairline-soft shadow-sm space-y-5">
           
-          {/* Search Pill (DESIGN-meta search-pill) */}
+          {/* Search Pill */}
           <div className="relative">
             <Search className="w-4 h-4 text-steel absolute left-4 top-1/2 -translate-y-1/2" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search by destination (e.g. Coorg, Hampi, Mysuru, Beach, Hills)..."
+              placeholder={t.destinationSearchPlaceholder || 'Search by destination (e.g. Coorg, Hampi, Mysuru, Beach, Hills)...'}
               className="w-full pl-11 pr-4 py-3 rounded-full bg-surface-soft border border-hairline-soft text-ink placeholder:text-stone focus:outline-none focus:ring-2 focus:ring-primary-cobalt text-xs sm:text-sm font-semibold"
             />
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery('')}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-bold text-steel hover:text-ink"
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-bold text-steel hover:text-ink cursor-pointer"
               >
-                Clear
+                {lang === 'kn' ? 'ತೆರವುಗೊಳಿಸಿ' : 'Clear'}
               </button>
             )}
           </div>
@@ -127,7 +127,7 @@ export const TripsExplorer: React.FC = () => {
                 <button
                   key={cat.id}
                   onClick={() => setSelectedCategory(cat.id)}
-                  className={`px-4 py-1.5 rounded-full text-xs font-semibold transition-all ${
+                  className={`px-4 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer ${
                     selectedCategory === cat.id
                       ? 'bg-black text-white shadow-sm'
                       : 'text-charcoal hover:text-ink hover:bg-canvas'
@@ -140,17 +140,17 @@ export const TripsExplorer: React.FC = () => {
 
             {/* Duration */}
             <div className="flex items-center gap-1 bg-surface-soft p-1 rounded-full border border-hairline-soft">
-              <span className="text-xs text-steel font-medium pl-2 pr-1">Duration:</span>
+              <span className="text-xs text-steel font-medium pl-2 pr-1">{t.durationLabel || 'Duration'}:</span>
               {[
-                { id: 'all', label: 'All' },
-                { id: '1', label: '1 Day' },
-                { id: '2', label: '2 Days' },
-                { id: '3', label: '3+ Days' },
+                { id: 'all', label: t.filterAll },
+                { id: '1', label: t.duration1D || '1 Day' },
+                { id: '2', label: t.duration2D || '2 Days' },
+                { id: '3', label: t.duration3D || '3+ Days' },
               ].map((d) => (
                 <button
                   key={d.id}
                   onClick={() => setSelectedDuration(d.id)}
-                  className={`px-3 py-1 rounded-full text-xs font-bold transition-all ${
+                  className={`px-3 py-1 rounded-full text-xs font-bold transition-all cursor-pointer ${
                     selectedDuration === d.id
                       ? 'bg-black text-white shadow-sm'
                       : 'text-charcoal hover:text-ink hover:bg-canvas'
@@ -167,7 +167,9 @@ export const TripsExplorer: React.FC = () => {
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-3 border-t border-hairline-soft text-xs">
             <div className="flex items-center gap-2">
               <SlidersHorizontal className="w-4 h-4 text-primary-cobalt" />
-              <span className="font-semibold text-ink">Max Budget per Person:</span>
+              <span className="font-semibold text-ink">
+                {lang === 'kn' ? 'ಗರಿಷ್ಠ ಬಜೆಟ್ (ಪ್ರತಿ ವ್ಯಕ್ತಿಗೆ):' : 'Max Budget per Person:'}
+              </span>
               <span className="font-bold text-primary-cobalt text-sm">₹{maxPrice.toLocaleString('en-IN')}</span>
             </div>
             <div className="w-full sm:w-64 flex items-center gap-3">
@@ -189,11 +191,17 @@ export const TripsExplorer: React.FC = () => {
 
         {/* Counter */}
         <div className="flex items-center justify-between text-xs text-steel px-1">
-          <span>Showing <strong>{filteredTrips.length}</strong> tour packages</span>
-          <span>Verified Government Tariffs</span>
+          <span>
+            {lang === 'kn' ? (
+              <>ಲಭ್ಯವಿರುವ <strong>{filteredTrips.length}</strong> ಪ್ರವಾಸ ಪ್ಯಾಕೇಜ್‌ಗಳು</>
+            ) : (
+              <>Showing <strong>{filteredTrips.length}</strong> tour packages</>
+            )}
+          </span>
+          <span>{t.footerTrust || 'Verified Government Tariffs'}</span>
         </div>
 
-        {/* Trips Grid: 28px card rounding, cobalt buy pill */}
+        {/* Trips Grid */}
         {filteredTrips.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredTrips.map((trip) => (
@@ -248,7 +256,7 @@ export const TripsExplorer: React.FC = () => {
                         <Building className="w-3.5 h-3.5 text-primary-cobalt shrink-0" />
                         <span className="truncate">{trip.hotel.name}</span>
                         <span className="text-[10px] text-primary-cobalt font-bold ml-auto shrink-0 uppercase tracking-wider">
-                          Included
+                          {lang === 'kn' ? 'ಸೇರಿದೆ' : 'Included'}
                         </span>
                       </div>
                     )}
@@ -256,12 +264,14 @@ export const TripsExplorer: React.FC = () => {
 
                   <div className="pt-4 border-t border-hairline-soft flex items-center justify-between">
                     <div>
-                      <span className="text-[11px] text-steel block font-medium">From</span>
+                      <span className="text-[11px] text-steel block font-medium">
+                        {lang === 'kn' ? 'ಪ್ರಾರಂಭಿಕ ದರ' : 'From'}
+                      </span>
                       <div className="flex items-baseline gap-1">
                         <span className="text-2xl font-bold text-ink-deep">
                           ₹{trip.pricePerPerson.toLocaleString('en-IN')}
                         </span>
-                        <span className="text-xs text-steel">/ person</span>
+                        <span className="text-xs text-steel">/{t.perPerson || 'person'}</span>
                       </div>
                     </div>
 
@@ -269,7 +279,7 @@ export const TripsExplorer: React.FC = () => {
                       href={`/trips/${trip.slug}`}
                       className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-primary-cobalt hover:bg-primary-deep text-white font-bold text-xs shadow-sm transition-all"
                     >
-                      <span>View Details</span>
+                      <span>{t.viewTripBtn || 'View Details'}</span>
                       <ArrowRight className="w-3.5 h-3.5" />
                     </a>
                   </div>
@@ -279,8 +289,12 @@ export const TripsExplorer: React.FC = () => {
           </div>
         ) : (
           <div className="text-center py-16 bg-surface-soft rounded-[32px] border border-hairline-soft p-8 space-y-4">
-            <h3 className="text-lg font-bold text-ink-deep">No tours match your current filters</h3>
-            <p className="text-xs text-steel max-w-md mx-auto">Try resetting search criteria or opening the trip planner.</p>
+            <h3 className="text-lg font-bold text-ink-deep">
+              {lang === 'kn' ? 'ಯಾವುದೇ ಪ್ರವಾಸ ಪ್ಯಾಕೇಜ್ ಕಂಡುಬಂದಿಲ್ಲ' : 'No tours match your current filters'}
+            </h3>
+            <p className="text-xs text-steel max-w-md mx-auto">
+              {lang === 'kn' ? 'ಹುಡುಕಾಟದ ಮಾನದಂಡಗಳನ್ನು ಬದಲಾಯಿಸಿ ಅಥವಾ ಎಐ ಟ್ರಿಪ್ ಪ್ಲಾನರ್ ಬಳಸಿ.' : 'Try resetting search criteria or opening the trip planner.'}
+            </p>
             <button
               onClick={() => {
                 setSearchQuery('');
@@ -288,9 +302,9 @@ export const TripsExplorer: React.FC = () => {
                 setSelectedDuration('all');
                 setMaxPrice(10000);
               }}
-              className="px-6 py-2.5 rounded-full bg-black text-white font-bold text-xs"
+              className="px-6 py-2.5 rounded-full bg-black text-white font-bold text-xs cursor-pointer"
             >
-              Reset Filters
+              {lang === 'kn' ? 'ಫಿಲ್ಟರ್ ಮರುಹೊಂದಿಸಿ' : 'Reset Filters'}
             </button>
           </div>
         )}

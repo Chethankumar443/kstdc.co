@@ -1,8 +1,22 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Compass, Clock, MapPin, ArrowRight } from 'lucide-react';
 import { ACTIVITIES_DATA } from '../../data/activitiesData';
+import { getStoredLanguage } from '../../lib/bookingStore';
+import { TRANSLATIONS } from '../../data/translations';
+import type { Language } from '../../types/travel';
 
 export const ActivitiesShowcase: React.FC = () => {
+  const [lang, setLang] = useState<Language>('en');
+
+  useEffect(() => {
+    setLang(getStoredLanguage());
+    const handler = (e: any) => setLang(e.detail);
+    window.addEventListener('kstdc_lang_changed', handler);
+    return () => window.removeEventListener('kstdc_lang_changed', handler);
+  }, []);
+
+  const t = TRANSLATIONS[lang] || TRANSLATIONS.en;
+
   return (
     <section className="py-12 sm:py-18 bg-canvas border-t border-hairline-soft transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
@@ -11,13 +25,13 @@ export const ActivitiesShowcase: React.FC = () => {
           <div className="space-y-1">
             <div className="flex items-center gap-2 text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">
               <Compass className="w-4 h-4" />
-              <span>City Experiences & Heritage Walks</span>
+              <span>{t.activitiesTag || 'City Experiences & Heritage Walks'}</span>
             </div>
             <h2 className="text-2xl sm:text-4xl font-bold tracking-tight text-slate-900 dark:text-white">
-              KSTDC Conducted Activities
+              {t.activitiesTitle || 'KSTDC Conducted Activities'}
             </h2>
             <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 max-w-xl">
-              Open-top double decker Ambaari tours in Mysuru, official Vidhana Soudha heritage walks, and Sharavathi river water sports.
+              {t.activitiesSubtitle || 'Open-top double decker Ambaari tours in Mysuru, official Vidhana Soudha heritage walks, and Sharavathi river water sports.'}
             </p>
           </div>
 
@@ -25,7 +39,7 @@ export const ActivitiesShowcase: React.FC = () => {
             href="/activities"
             className="inline-flex items-center gap-1.5 text-xs font-bold text-blue-600 dark:text-blue-400 hover:underline self-start md:self-end"
           >
-            <span>Explore All Activities</span>
+            <span>{t.exploreAllActivities || 'Explore All Activities'}</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </a>
         </div>
@@ -67,17 +81,21 @@ export const ActivitiesShowcase: React.FC = () => {
                   </p>
 
                   <div className="p-3 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-700 dark:text-slate-300">
-                    <span className="font-semibold block text-slate-900 dark:text-white">Schedule:</span>
+                    <span className="font-semibold block text-slate-900 dark:text-white">
+                      {lang === 'kn' ? 'ಸಮಯಾವಧಿ / ವೇಳಾಪಟ್ಟಿ:' : 'Schedule:'}
+                    </span>
                     <span className="text-[11px] text-slate-500 dark:text-slate-400">{act.schedule}</span>
                   </div>
                 </div>
 
                 <div className="pt-4 border-t border-slate-100 dark:border-slate-700 flex items-center justify-between">
                   <div>
-                    <span className="text-[11px] text-slate-500 dark:text-slate-400 block font-medium">Ticket from</span>
+                    <span className="text-[11px] text-slate-500 dark:text-slate-400 block font-medium">
+                      {t.ticketFrom || 'Ticket from'}
+                    </span>
                     <span className="text-xl font-bold text-slate-900 dark:text-white">
                       ₹{act.price.toLocaleString('en-IN')}
-                      <span className="text-xs font-normal text-slate-500 dark:text-slate-400"> / person</span>
+                      <span className="text-xs font-normal text-slate-500 dark:text-slate-400"> /{t.perPerson || 'person'}</span>
                     </span>
                   </div>
 
@@ -85,7 +103,7 @@ export const ActivitiesShowcase: React.FC = () => {
                     href="/activities"
                     className="px-5 py-2.5 rounded-full bg-slate-900 dark:bg-blue-600 hover:bg-black dark:hover:bg-blue-700 text-white font-bold text-xs shadow-xs transition-all"
                   >
-                    Book Ticket →
+                    {t.bookTicketBtn || 'Book Ticket →'}
                   </a>
                 </div>
               </div>

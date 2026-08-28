@@ -18,27 +18,27 @@ export const MayuraStaysStrip: React.FC = () => {
   const t = TRANSLATIONS[lang] || TRANSLATIONS.en;
 
   return (
-    <section className="py-12 sm:py-18 bg-canvas border-t border-hairline-soft">
+    <section className="py-12 sm:py-18 bg-canvas border-t border-hairline-soft transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
         
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div className="space-y-1">
-            <span className="text-xs uppercase tracking-wider font-bold text-primary-cobalt block">
-              Government-Run Hospitality
+            <span className="text-xs uppercase tracking-wider font-bold text-blue-600 dark:text-blue-400 block">
+              {t.staysTag || 'Government-Run Hospitality'}
             </span>
-            <h2 className="text-2xl sm:text-4xl font-bold tracking-tight text-ink-deep">
+            <h2 className="text-2xl sm:text-4xl font-bold tracking-tight text-slate-900 dark:text-white">
               {t.staysTitle}
             </h2>
-            <p className="text-xs sm:text-sm text-steel max-w-xl">
+            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 max-w-xl">
               {t.staysSubtitle}
             </p>
           </div>
 
           <a
             href="/stays"
-            className="inline-flex items-center gap-1.5 text-xs font-bold text-primary-cobalt hover:underline self-start md:self-end"
+            className="inline-flex items-center gap-1.5 text-xs font-bold text-blue-600 dark:text-blue-400 hover:underline self-start md:self-end"
           >
-            <span>Explore All Mayura Properties</span>
+            <span>{t.exploreAllStays || 'Explore All Mayura Properties'}</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </a>
         </div>
@@ -48,9 +48,9 @@ export const MayuraStaysStrip: React.FC = () => {
           {HOTELS_DATA.slice(0, 3).map((hotel) => (
             <div
               key={hotel.id}
-              className="bg-canvas rounded-[28px] overflow-hidden border border-hairline-soft hover:border-steel/40 transition-all flex flex-col justify-between"
+              className="bg-white dark:bg-slate-800/90 rounded-[28px] overflow-hidden border border-slate-200 dark:border-slate-700 hover:border-slate-400 dark:hover:border-slate-500 transition-all flex flex-col justify-between shadow-xs"
             >
-              <div className="relative aspect-[16/10] overflow-hidden bg-surface-soft">
+              <div className="relative aspect-[16/10] overflow-hidden bg-slate-100 dark:bg-slate-700">
                 <img
                   src={hotel.image}
                   alt={hotel.name}
@@ -63,7 +63,7 @@ export const MayuraStaysStrip: React.FC = () => {
                 <div className="absolute top-3.5 left-3.5 bg-black/80 backdrop-blur-sm text-white px-3 py-1 rounded-full text-[11px] font-bold">
                   {hotel.category}
                 </div>
-                <div className="absolute bottom-3.5 right-3.5 bg-white/95 px-2.5 py-1 rounded-full text-xs font-bold text-ink flex items-center gap-1 shadow-sm">
+                <div className="absolute bottom-3.5 right-3.5 bg-white/95 dark:bg-slate-900/95 px-2.5 py-1 rounded-full text-xs font-bold text-slate-900 dark:text-white flex items-center gap-1 shadow-sm">
                   <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
                   <span>{hotel.rating}</span>
                 </div>
@@ -71,40 +71,42 @@ export const MayuraStaysStrip: React.FC = () => {
 
               <div className="p-6 flex-1 flex flex-col justify-between gap-4">
                 <div className="space-y-1.5">
-                  <div className="flex items-center gap-1 text-xs text-steel">
-                    <MapPin className="w-3.5 h-3.5 text-primary-cobalt" />
+                  <div className="flex items-center gap-1 text-xs text-slate-500 dark:text-slate-400">
+                    <MapPin className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
                     <span>{hotel.destination}</span>
                   </div>
-                  <h3 className="text-xl font-bold text-ink-deep">
+                  <h3 className="text-xl font-bold text-slate-900 dark:text-white">
                     {hotel.name}
                   </h3>
-                  <p className="text-xs text-steel line-clamp-2 leading-relaxed">
+                  <p className="text-xs text-slate-600 dark:text-slate-400 line-clamp-2 leading-relaxed">
                     {hotel.tagline}
                   </p>
 
                   <div className="flex flex-wrap gap-1.5 pt-2">
                     {hotel.highlights.slice(0, 2).map((h, i) => (
-                      <span key={i} className="text-[11px] px-2.5 py-0.5 rounded-full bg-surface-soft text-charcoal border border-hairline-soft font-medium">
+                      <span key={i} className="text-[11px] px-2.5 py-0.5 rounded-full bg-slate-50 dark:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-600 font-medium">
                         ✓ {h}
                       </span>
                     ))}
                   </div>
                 </div>
 
-                <div className="pt-4 border-t border-hairline-soft flex items-center justify-between">
+                <div className="pt-4 border-t border-slate-100 dark:border-slate-700 flex items-center justify-between">
                   <div>
-                    <span className="text-[11px] text-steel block font-medium">Direct Citizen Tariff</span>
-                    <span className="text-xl font-bold text-ink-deep">
+                    <span className="text-[11px] text-slate-500 dark:text-slate-400 block font-medium">
+                      {t.directTariff || 'Direct Citizen Tariff'}
+                    </span>
+                    <span className="text-xl font-bold text-slate-900 dark:text-white">
                       ₹{hotel.pricePerNight.toLocaleString('en-IN')}
-                      <span className="text-xs font-normal text-steel"> / night</span>
+                      <span className="text-xs font-normal text-slate-500 dark:text-slate-400"> {t.perNight || '/ night'}</span>
                     </span>
                   </div>
 
                   <a
                     href="/stays"
-                    className="px-4 py-2 rounded-full bg-surface-soft hover:bg-neutral-200 text-ink font-bold text-xs border border-hairline-soft transition-colors"
+                    className="px-4 py-2 rounded-full bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-900 dark:text-white font-bold text-xs border border-slate-200 dark:border-slate-600 transition-colors"
                   >
-                    View Property →
+                    {t.viewStayBtn || 'View Property'} →
                   </a>
                 </div>
               </div>

@@ -67,62 +67,65 @@ export const FooterSection: React.FC = () => {
           {/* Quick Circuits */}
           <div className="space-y-3">
             <h4 className="text-xs font-bold uppercase tracking-wider text-white">
-              Official Circuits
+              {t.topCircuits || 'Official Circuits'}
             </h4>
             <ul className="space-y-2 text-xs text-slate-200 font-medium">
-              <li><a href="/trips/coorg-mist-and-waterfalls" className="hover:text-white hover:underline transition-colors">Southern: Coorg Mist & Coffee</a></li>
-              <li><a href="/trips/hampi-the-golden-empire" className="hover:text-white hover:underline transition-colors">Northern: Hampi UNESCO Heritage</a></li>
-              <li><a href="/trips/mysuru-royal-heritage-express" className="hover:text-white hover:underline transition-colors">Royal: Mysuru Palace Express</a></li>
-              <li><a href="/trips/gokarna-murudeshwar-coastal-escape" className="hover:text-white hover:underline transition-colors">Coastal: Gokarna & Murudeshwar</a></li>
-              <li><a href="/trips/chikmagalur-mullayanagiri-trails" className="hover:text-white hover:underline transition-colors">Hill Trails: Chikmagalur Peak</a></li>
+              <li><a href="/trips/coorg-mist-and-waterfalls" className="hover:text-white hover:underline transition-colors">{lang === 'kn' ? 'ದಕ್ಷಿಣ: ಕೂರ್ಗ್ ಮಂಜು ಮತ್ತು ಜಲಪಾತ' : 'Southern: Coorg Mist & Coffee'}</a></li>
+              <li><a href="/trips/hampi-the-golden-empire" className="hover:text-white hover:underline transition-colors">{lang === 'kn' ? 'ಉತ್ತರ: ಹಂಪಿ ಯುನೆಸ್ಕೋ ವಿಶ್ವ ಪರಂಪರೆ' : 'Northern: Hampi UNESCO Heritage'}</a></li>
+              <li><a href="/trips/mysuru-royal-heritage-express" className="hover:text-white hover:underline transition-colors">{lang === 'kn' ? 'ರಾಜಪ್ರವಾಸ: ಮೈಸೂರು ಅರಮನೆ ಎಕ್ಸ್‌ಪ್ರೆಸ್' : 'Royal: Mysuru Palace Express'}</a></li>
+              <li><a href="/trips/gokarna-murudeshwar-coastal-escape" className="hover:text-white hover:underline transition-colors">{lang === 'kn' ? 'ಕರಾವಳಿ: ಗೋಕರ್ಣ ಮತ್ತು ಮುರುಡೇಶ್ವರ' : 'Coastal: Gokarna & Murudeshwar'}</a></li>
+              <li><a href="/trips/chikmagalur-mullayanagiri-trails" className="hover:text-white hover:underline transition-colors">{lang === 'kn' ? 'ಗಿರಿಧಾಮ: ಚಿಕ್ಕಮಗಳೂರು ಮುಳ್ಳಯ್ಯನಗಿರಿ' : 'Hill Trails: Chikmagalur Peak'}</a></li>
             </ul>
           </div>
 
           {/* Hotel Mayura */}
           <div className="space-y-3">
             <h4 className="text-xs font-bold uppercase tracking-wider text-white">
-              Hotel Mayura Stays
+              {lang === 'kn' ? 'ಹೋಟೆಲ್ ಮಯೂರ ವಾಸ್ತವ್ಯ' : 'Hotel Mayura Stays'}
             </h4>
             <ul className="space-y-2 text-xs text-slate-200 font-medium">
-              <li><a href="/stays" className="hover:text-white hover:underline transition-colors">Hotel Mayura Valley View (Coorg)</a></li>
-              <li><a href="/stays" className="hover:text-white hover:underline transition-colors">Hotel Mayura Bhuvaneshwari (Hampi)</a></li>
-              <li><a href="/stays" className="hover:text-white hover:underline transition-colors">Hotel Mayura Hoysala (Mysuru)</a></li>
-              <li><a href="/stays" className="hover:text-white hover:underline transition-colors">Hotel Mayura Samudra (Gokarna)</a></li>
-              <li><a href="/stays" className="hover:text-white hover:underline transition-colors">Hotel Mayura Gerusoppa (Jog Falls)</a></li>
+              <li><a href="/stays" className="hover:text-white hover:underline transition-colors">{lang === 'kn' ? 'ಹೋಟೆಲ್ ಮಯೂರ ವ್ಯಾಲಿ ವ್ಯೂ (ಮಡಿಕೇರಿ)' : 'Hotel Mayura Valley View (Coorg)'}</a></li>
+              <li><a href="/stays" className="hover:text-white hover:underline transition-colors">{lang === 'kn' ? 'ಹೋಟೆಲ್ ಮಯೂರ ಭುವನೇಶ್ವರಿ (ಕಮಲಾಪುರ / ಹಂಪಿ)' : 'Hotel Mayura Bhuvaneshwari (Hampi)'}</a></li>
+              <li><a href="/stays" className="hover:text-white hover:underline transition-colors">{lang === 'kn' ? 'ಹೋಟೆಲ್ ಮಯೂರ ಹೊಯ್ಸಳ (ಮೈಸೂರು)' : 'Hotel Mayura Hoysala (Mysuru)'}</a></li>
+              <li><a href="/stays" className="hover:text-white hover:underline transition-colors">{lang === 'kn' ? 'ಹೋಟೆಲ್ ಮಯೂರ ಸಮುದ್ರ (ಗೋಕರ್ಣ)' : 'Hotel Mayura Samudra (Gokarna)'}</a></li>
+              <li><a href="/stays" className="hover:text-white hover:underline transition-colors">{lang === 'kn' ? 'ಹೋಟೆಲ್ ಮಯೂರ ಗೇರುಸೊಪ್ಪ (ಜೋಗ್ ಜಲಪಾತ)' : 'Hotel Mayura Gerusoppa (Jog Falls)'}</a></li>
             </ul>
           </div>
 
           {/* Citizen Charter & Services */}
           <div className="space-y-3">
             <h4 className="text-xs font-bold uppercase tracking-wider text-white">
-              Citizen Charter
+              {t.governmentPortals || 'Citizen Charter'}
             </h4>
             <ul className="space-y-2 text-xs text-slate-200 font-medium">
-              <li><a href="/cabs" className="hover:text-white hover:underline transition-colors">24x7 Airport Prepaid Taxi</a></li>
-              <li><a href="/activities" className="hover:text-white hover:underline transition-colors">Ambaari Open Deck Bus</a></li>
-              <li><a href="/terms" className="hover:text-white hover:underline transition-colors">Terms & Conditions</a></li>
-              <li><a href="/privacy" className="hover:text-white hover:underline transition-colors">Privacy Policy</a></li>
-              <li className="flex items-center gap-1.5 text-emerald-300 pt-1 font-semibold"><ShieldCheck className="w-3.5 h-3.5" /> Verified Public Tariffs</li>
+              <li><a href="/cabs" className="hover:text-white hover:underline transition-colors">{lang === 'kn' ? '24x7 ಏರ್‌ಪೋರ್ಟ್ ಪ್ರಿಪೇಯ್ಡ್ ಟ್ಯಾಕ್ಸಿ' : '24x7 Airport Prepaid Taxi'}</a></li>
+              <li><a href="/activities" className="hover:text-white hover:underline transition-colors">{lang === 'kn' ? 'ಅಂಬಾರಿ ಓಪನ್ ಡೆಕ್ ಬಸ್' : 'Ambaari Open Deck Bus'}</a></li>
+              <li><a href="/terms" className="hover:text-white hover:underline transition-colors">{lang === 'kn' ? 'ನಿಯಮ ಮತ್ತು ಷರತ್ತುಗಳು' : 'Terms & Conditions'}</a></li>
+              <li><a href="/privacy" className="hover:text-white hover:underline transition-colors">{lang === 'kn' ? 'ಗೌಪ್ಯತಾ ನೀತಿ' : 'Privacy Policy'}</a></li>
+              <li className="flex items-center gap-1.5 text-emerald-300 pt-1 font-semibold">
+                <ShieldCheck className="w-3.5 h-3.5" />
+                <span>{t.footerTrust || 'Verified Public Tariffs'}</span>
+              </li>
             </ul>
           </div>
 
         </div>
 
-        {/* Bottom Legal Disclosure & Hackathon Prototype Disclaimer */}
+        {/* Bottom Legal Disclosure */}
         <div className="pt-8 border-t border-slate-400/20 space-y-4 text-xs text-slate-300">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="text-center sm:text-left">
-              <span>© 2026 Karnataka State Tourism Development Corporation (KSTDC). </span>
-              <span className="text-slate-300 font-medium">Citizen Tourism Redesign Initiative.</span>
+              <span>{t.allRightsReserved || '© 2026 Karnataka State Tourism Development Corporation (KSTDC).'} </span>
+              <span className="text-slate-300 font-medium">{lang === 'kn' ? 'ಕರ್ನಾಟಕ ಸರ್ಕಾರದ ಅಧಿಕೃತ ಸಾರ್ವಜನಿಕ ಪ್ರವಾಸೋದ್ಯಮ ತಾಣ.' : 'Citizen Tourism Redesign Initiative.'}</span>
             </div>
 
             <div className="flex items-center gap-5 text-xs font-medium text-slate-200">
-              <a href="/terms" className="hover:text-white hover:underline transition-colors">Terms</a>
-              <a href="/privacy" className="hover:text-white hover:underline transition-colors">Privacy</a>
-              <a href="/trips" className="hover:text-white hover:underline transition-colors">Tours</a>
-              <a href="/stays" className="hover:text-white hover:underline transition-colors">Stays</a>
-              <a href="/cabs" className="hover:text-white hover:underline transition-colors">Airport Taxi</a>
-              <a href="/my-bookings" className="hover:text-white hover:underline transition-colors">My Bookings</a>
+              <a href="/terms" className="hover:text-white hover:underline transition-colors">{lang === 'kn' ? 'ನಿಯಮಗಳು' : 'Terms'}</a>
+              <a href="/privacy" className="hover:text-white hover:underline transition-colors">{lang === 'kn' ? 'ಗೌಪ್ಯತೆ' : 'Privacy'}</a>
+              <a href="/trips" className="hover:text-white hover:underline transition-colors">{lang === 'kn' ? 'ಪ್ರವಾಸಗಳು' : 'Tours'}</a>
+              <a href="/stays" className="hover:text-white hover:underline transition-colors">{lang === 'kn' ? 'ವಾಸ್ತವ್ಯ' : 'Stays'}</a>
+              <a href="/cabs" className="hover:text-white hover:underline transition-colors">{lang === 'kn' ? 'ಟ್ಯಾಕ್ಸಿ' : 'Airport Taxi'}</a>
+              <a href="/my-bookings" className="hover:text-white hover:underline transition-colors">{lang === 'kn' ? 'ನನ್ನ ಬುಕಿಂಗ್‌ಗಳು' : 'My Bookings'}</a>
             </div>
           </div>
 

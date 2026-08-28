@@ -168,18 +168,18 @@ export const StaysDirectory: React.FC = () => {
         {/* Header */}
         <div className="bg-slate-900 dark:bg-slate-950 p-8 sm:p-12 rounded-[32px] text-white border border-slate-800 shadow-md space-y-2">
           <span className="text-xs uppercase tracking-wider font-bold text-emerald-400 block">
-            Government-Run Hospitality
+            {t.staysTag || 'Government-Run Hospitality'}
           </span>
           <h1 className="text-2xl sm:text-4xl font-bold tracking-tight text-white">
-            Stay with Hotel Mayura
+            {t.staysTitle || 'Stay with Hotel Mayura'}
           </h1>
           <p className="text-xs sm:text-sm text-slate-300 max-w-2xl leading-relaxed">
-            Heritage properties, hilltop view lodges, and coastal retreats situated right next to Karnataka's prime monuments, peaks and waterfalls. Direct citizen pricing with zero commission markups.
+            {t.staysSubtitle || "Heritage properties, hilltop view lodges, and coastal retreats situated right next to Karnataka's prime monuments, peaks and waterfalls. Direct citizen pricing with zero commission markups."}
           </p>
         </div>
 
         {/* Search & Filter Bar Container */}
-        <div className="bg-white p-5 rounded-[28px] border border-slate-200 shadow-sm space-y-4">
+        <div className="bg-white dark:bg-slate-900 p-5 rounded-[28px] border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
           
           <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
             
@@ -190,13 +190,13 @@ export const StaysDirectory: React.FC = () => {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search hotel name or destination (e.g. Coorg, Hampi, Mysuru, Jog Falls)..."
-                className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-full text-xs font-semibold text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900"
+                placeholder={t.hotelSearchPlaceholder || 'Search hotel name or destination (e.g. Coorg, Hampi, Mysuru, Jog Falls)...'}
+                className="w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-full text-xs font-semibold text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-slate-900"
               />
               {searchQuery && (
                 <button
                   onClick={() => setSearchQuery('')}
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700"
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 cursor-pointer"
                 >
                   <X className="w-3.5 h-3.5" />
                 </button>
@@ -204,8 +204,10 @@ export const StaysDirectory: React.FC = () => {
             </div>
 
             {/* Price Range Slider */}
-            <div className="md:col-span-6 flex items-center gap-3 bg-slate-50 p-2 px-4 rounded-full border border-slate-200">
-              <span className="text-xs font-bold text-slate-600 shrink-0">Max: ₹{maxPrice.toLocaleString('en-IN')}/night</span>
+            <div className="md:col-span-6 flex items-center gap-3 bg-slate-50 dark:bg-slate-800 p-2 px-4 rounded-full border border-slate-200 dark:border-slate-700">
+              <span className="text-xs font-bold text-slate-600 dark:text-slate-300 shrink-0">
+                {lang === 'kn' ? 'ಗರಿಷ್ಠ ದರ:' : 'Max:'} ₹{maxPrice.toLocaleString('en-IN')}/{t.perNight ? t.perNight.replace('/', '').trim() : 'night'}
+              </span>
               <input
                 type="range"
                 min="1500"
@@ -220,25 +222,35 @@ export const StaysDirectory: React.FC = () => {
           </div>
 
           {/* Category Filter Chips */}
-          <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-slate-100">
-            <div className="flex flex-wrap items-center gap-1.5 bg-slate-100 p-1 rounded-full border border-slate-200">
-              {['all', 'Scenic Retreat', 'Heritage', 'Premium', 'Budget Comfort'].map((cat) => (
+          <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-slate-100 dark:border-slate-800">
+            <div className="flex flex-wrap items-center gap-1.5 bg-slate-100 dark:bg-slate-800 p-1 rounded-full border border-slate-200 dark:border-slate-700">
+              {[
+                { id: 'all', label: lang === 'kn' ? 'ಎಲ್ಲಾ ಹೋಟೆಲ್‌ಗಳು' : 'All Properties' },
+                { id: 'Scenic Retreat', label: lang === 'kn' ? 'ಪ್ರಕೃತಿ ತಾಣ' : 'Scenic Retreat' },
+                { id: 'Heritage', label: lang === 'kn' ? 'ಪರಂಪರೆ' : 'Heritage' },
+                { id: 'Premium', label: lang === 'kn' ? 'ಪ್ರೀಮಿಯಂ' : 'Premium' },
+                { id: 'Budget Comfort', label: lang === 'kn' ? 'ಬಜೆಟ್ ವಾಸ್ತವ್ಯ' : 'Budget Comfort' },
+              ].map((cat) => (
                 <button
-                  key={cat}
-                  onClick={() => setSelectedCategory(cat)}
-                  className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all ${
-                    selectedCategory === cat
-                      ? 'bg-slate-950 text-white shadow-xs'
-                      : 'text-slate-700 hover:text-slate-950 hover:bg-white'
+                  key={cat.id}
+                  onClick={() => setSelectedCategory(cat.id)}
+                  className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer ${
+                    selectedCategory === cat.id
+                      ? 'bg-slate-950 dark:bg-white text-white dark:text-slate-950 shadow-xs'
+                      : 'text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white hover:bg-white dark:hover:bg-slate-700'
                   }`}
                 >
-                  {cat === 'all' ? 'All Properties' : cat}
+                  {cat.label}
                 </button>
               ))}
             </div>
 
-            <span className="text-xs text-slate-500 font-medium">
-              Showing <strong>{filteredHotels.length}</strong> official properties
+            <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">
+              {lang === 'kn' ? (
+                <>ಲಭ್ಯವಿರುವ <strong>{filteredHotels.length}</strong> ಅಧಿಕೃತ ಹೋಟೆಲ್‌ಗಳು</>
+              ) : (
+                <>Showing <strong>{filteredHotels.length}</strong> official properties</>
+              )}
             </span>
           </div>
 
@@ -249,9 +261,9 @@ export const StaysDirectory: React.FC = () => {
           {filteredHotels.map((hotel) => (
             <div
               key={hotel.id}
-              className="bg-white rounded-[28px] overflow-hidden border border-slate-200 hover:border-slate-400 transition-all flex flex-col justify-between shadow-xs"
+              className="bg-white dark:bg-slate-800/90 rounded-[28px] overflow-hidden border border-slate-200 dark:border-slate-700 hover:border-slate-400 dark:hover:border-slate-500 transition-all flex flex-col justify-between shadow-xs"
             >
-              <div className="relative aspect-[16/10] overflow-hidden bg-slate-100">
+              <div className="relative aspect-[16/10] overflow-hidden bg-slate-100 dark:bg-slate-700">
                 <img
                   src={hotel.image}
                   alt={hotel.name}
@@ -261,7 +273,7 @@ export const StaysDirectory: React.FC = () => {
                 <div className="absolute top-3.5 left-3.5 bg-slate-950/80 backdrop-blur-sm text-white px-3 py-1 rounded-full text-[11px] font-bold">
                   {hotel.category}
                 </div>
-                <div className="absolute bottom-3.5 right-3.5 bg-white/95 px-2.5 py-1 rounded-full text-xs font-bold text-slate-900 flex items-center gap-1 shadow-sm">
+                <div className="absolute bottom-3.5 right-3.5 bg-white/95 dark:bg-slate-900/95 px-2.5 py-1 rounded-full text-xs font-bold text-slate-900 dark:text-white flex items-center gap-1 shadow-sm">
                   <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
                   <span>{hotel.rating}</span>
                   <span className="text-slate-400 font-normal text-[11px]">({hotel.reviewsCount})</span>
@@ -270,35 +282,37 @@ export const StaysDirectory: React.FC = () => {
 
               <div className="p-6 flex-1 flex flex-col justify-between gap-4">
                 <div className="space-y-1.5">
-                  <div className="flex items-center gap-1 text-xs text-slate-500 font-medium">
-                    <MapPin className="w-3.5 h-3.5 text-blue-600" />
+                  <div className="flex items-center gap-1 text-xs text-slate-500 dark:text-slate-400 font-medium">
+                    <MapPin className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
                     <span>{hotel.destination}</span>
                   </div>
 
-                  <h2 className="text-xl font-bold text-slate-950">
+                  <h2 className="text-xl font-bold text-slate-950 dark:text-white">
                     {hotel.name}
                   </h2>
 
-                  <p className="text-xs text-slate-600 line-clamp-2 leading-relaxed">
+                  <p className="text-xs text-slate-600 dark:text-slate-400 line-clamp-2 leading-relaxed">
                     {hotel.description}
                   </p>
 
                   <div className="space-y-1 pt-2">
                     {hotel.highlights.slice(0, 3).map((hl, i) => (
-                      <div key={i} className="text-xs text-slate-700 flex items-center gap-1.5 font-medium">
-                        <Check className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                      <div key={i} className="text-xs text-slate-700 dark:text-slate-300 flex items-center gap-1.5 font-medium">
+                        <Check className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
                         <span className="truncate">{hl}</span>
                       </div>
                     ))}
                   </div>
                 </div>
 
-                <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
+                <div className="pt-4 border-t border-slate-100 dark:border-slate-700 flex items-center justify-between">
                   <div>
-                    <span className="text-[11px] text-slate-500 block font-medium">Direct Citizen Tariff</span>
-                    <span className="text-xl font-bold text-slate-950">
+                    <span className="text-[11px] text-slate-500 dark:text-slate-400 block font-medium">
+                      {t.directTariff || 'Direct Citizen Tariff'}
+                    </span>
+                    <span className="text-xl font-bold text-slate-950 dark:text-white">
                       ₹{hotel.pricePerNight.toLocaleString('en-IN')}
-                      <span className="text-xs font-normal text-slate-500"> / night</span>
+                      <span className="text-xs font-normal text-slate-500 dark:text-slate-400"> {t.perNight || '/ night'}</span>
                     </span>
                   </div>
 
@@ -308,9 +322,9 @@ export const StaysDirectory: React.FC = () => {
                       setSelectedHotel(hotel);
                       setConfirmedId(null);
                     }}
-                    className="px-4 py-2 rounded-full bg-slate-950 hover:bg-black text-white font-bold text-xs shadow-sm transition-all"
+                    className="px-4 py-2 rounded-full bg-slate-950 dark:bg-blue-600 hover:bg-black dark:hover:bg-blue-700 text-white font-bold text-xs shadow-sm transition-all cursor-pointer"
                   >
-                    Reserve Room
+                    {lang === 'kn' ? 'ಬುಕ್ ಮಾಡಿ' : 'Reserve Room'}
                   </button>
                 </div>
               </div>

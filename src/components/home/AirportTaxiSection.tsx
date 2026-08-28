@@ -1,8 +1,22 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Car, ShieldCheck, Check, ArrowRight, Phone } from 'lucide-react';
 import { CABS_DATA } from '../../data/cabsData';
+import { getStoredLanguage } from '../../lib/bookingStore';
+import { TRANSLATIONS } from '../../data/translations';
+import type { Language } from '../../types/travel';
 
 export const AirportTaxiSection: React.FC = () => {
+  const [lang, setLang] = useState<Language>('en');
+
+  useEffect(() => {
+    setLang(getStoredLanguage());
+    const handler = (e: any) => setLang(e.detail);
+    window.addEventListener('kstdc_lang_changed', handler);
+    return () => window.removeEventListener('kstdc_lang_changed', handler);
+  }, []);
+
+  const t = TRANSLATIONS[lang] || TRANSLATIONS.en;
+
   return (
     <section className="py-12 sm:py-18 bg-surface-soft dark:bg-slate-900/40 border-t border-slate-200 dark:border-slate-800 transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
@@ -11,13 +25,13 @@ export const AirportTaxiSection: React.FC = () => {
           <div className="space-y-1">
             <div className="flex items-center gap-2 text-xs font-bold text-emerald-700 dark:text-emerald-400 uppercase tracking-wider">
               <Car className="w-4 h-4" />
-              <span>Official KSTDC Transport</span>
+              <span>{t.cabsTag || 'Official KSTDC Transport'}</span>
             </div>
             <h2 className="text-2xl sm:text-4xl font-bold tracking-tight text-slate-900 dark:text-white">
-              KSTDC Airport Taxi & Chauffeur Fleet
+              {t.cabsTitle || 'KSTDC Airport Taxi & Chauffeur Fleet'}
             </h2>
             <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 max-w-xl">
-              24x7 prepaid airport taxi counters at Bengaluru Airport (BLR) & sanitized outstation chauffeur services with fixed government tariffs.
+              {t.cabsSubtitle || '24x7 prepaid airport taxi counters at Bengaluru Airport (BLR) & sanitized outstation chauffeur services with fixed government tariffs.'}
             </p>
           </div>
 
@@ -25,7 +39,7 @@ export const AirportTaxiSection: React.FC = () => {
             href="/cabs"
             className="inline-flex items-center gap-1.5 text-xs font-bold text-blue-600 dark:text-blue-400 hover:underline self-start md:self-end"
           >
-            <span>View All Fleet & Rates</span>
+            <span>{t.viewAllFleet || 'View All Fleet & Rates'}</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </a>
         </div>
@@ -73,7 +87,9 @@ export const AirportTaxiSection: React.FC = () => {
 
                 <div className="pt-4 border-t border-slate-100 dark:border-slate-700 flex items-center justify-between">
                   <div>
-                    <span className="text-[11px] text-slate-500 dark:text-slate-400 block font-medium">Airport Transfer From</span>
+                    <span className="text-[11px] text-slate-500 dark:text-slate-400 block font-medium">
+                      {t.airportTransferFrom || 'Airport Transfer From'}
+                    </span>
                     <span className="text-xl font-bold text-slate-900 dark:text-white">
                       ₹{cab.airportDropPrice.toLocaleString('en-IN')}
                     </span>
@@ -83,7 +99,7 @@ export const AirportTaxiSection: React.FC = () => {
                     href="/cabs"
                     className="px-5 py-2.5 rounded-full bg-slate-900 dark:bg-blue-600 hover:bg-black dark:hover:bg-blue-700 text-white font-bold text-xs shadow-xs transition-all"
                   >
-                    Book Cab →
+                    {t.bookCabBtn || 'Book Cab →'}
                   </a>
                 </div>
               </div>

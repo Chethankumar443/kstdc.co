@@ -231,7 +231,7 @@ export function getStoredLanguage(): Language {
   if (typeof window === 'undefined') return 'en';
   try {
     const lang = localStorage.getItem(LANG_KEY) as Language;
-    if (lang === 'en' || lang === 'kn' || lang === 'hi') return lang;
+    if (lang === 'en' || lang === 'kn') return lang;
     return 'en';
   } catch {
     return 'en';

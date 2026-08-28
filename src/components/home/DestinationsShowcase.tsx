@@ -18,38 +18,38 @@ export const DestinationsShowcase: React.FC = () => {
   const t = TRANSLATIONS[lang] || TRANSLATIONS.en;
 
   return (
-    <section className="py-12 sm:py-18 bg-canvas">
+    <section className="py-12 sm:py-18 bg-canvas transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
         
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div className="space-y-1">
-            <span className="text-xs uppercase tracking-wider font-bold text-primary-cobalt block">
-              Destination Atlas
+            <span className="text-xs uppercase tracking-wider font-bold text-blue-600 dark:text-blue-400 block">
+              {t.destinationsTag || 'Destination Atlas'}
             </span>
-            <h2 className="text-2xl sm:text-4xl font-bold tracking-tight text-ink-deep">
-              Explore by Destination
+            <h2 className="text-2xl sm:text-4xl font-bold tracking-tight text-slate-900 dark:text-white">
+              {t.destinationsTitle || 'Explore by Destination'}
             </h2>
-            <p className="text-xs sm:text-sm text-steel max-w-xl">
-              Start with the places you want to experience, then browse conducted routes and stays.
+            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 max-w-xl">
+              {t.destinationsSubtitle || 'Start with the places you want to experience, then browse conducted routes and stays.'}
             </p>
           </div>
 
           <a
             href="/destinations"
-            className="inline-flex items-center gap-1.5 text-xs font-bold text-primary-cobalt hover:underline self-start md:self-end"
+            className="inline-flex items-center gap-1.5 text-xs font-bold text-blue-600 dark:text-blue-400 hover:underline self-start md:self-end"
           >
-            <span>View All Destinations</span>
+            <span>{t.viewAllDestinations || 'View All Destinations'}</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </a>
         </div>
 
-        {/* Edge-to-Edge Photo Cards (DESIGN-meta card-feature-photo with 32px corners) */}
+        {/* Edge-to-Edge Photo Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {DESTINATIONS_DATA.map((dest) => (
             <a
               key={dest.id}
               href={`/trips?destination=${encodeURIComponent(dest.name)}`}
-              className="group relative rounded-[28px] overflow-hidden aspect-[4/3] bg-surface-soft shadow-sm hover:shadow-md transition-all flex flex-col justify-end p-6 text-white border border-hairline-soft"
+              className="group relative rounded-[28px] overflow-hidden aspect-[4/3] bg-slate-100 dark:bg-slate-800 shadow-sm hover:shadow-md transition-all flex flex-col justify-end p-6 text-white border border-slate-200 dark:border-slate-700"
             >
               <img
                 src={dest.heroImage}
@@ -68,7 +68,7 @@ export const DestinationsShowcase: React.FC = () => {
                     {dest.region}
                   </span>
                   <span className="text-xs text-white/90 font-semibold">
-                    {dest.tripsCount} Tours
+                    {dest.tripsCount} {lang === 'kn' ? 'ಪ್ರವಾಸಗಳು' : 'Tours'}
                   </span>
                 </div>
 
@@ -81,8 +81,10 @@ export const DestinationsShowcase: React.FC = () => {
                 </p>
 
                 <div className="pt-2 flex items-center justify-between text-xs text-white font-semibold">
-                  <span>Stay: {dest.featuredStay}</span>
-                  <span className="group-hover:translate-x-1 transition-transform">Explore →</span>
+                  <span>{lang === 'kn' ? 'ವಾಸ್ತವ್ಯ:' : 'Stay:'} {dest.featuredStay}</span>
+                  <span className="group-hover:translate-x-1 transition-transform">
+                    {lang === 'kn' ? 'ವೀಕ್ಷಿಸಿ' : 'Explore'} →
+                  </span>
                 </div>
               </div>
             </a>

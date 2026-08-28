@@ -1,4 +1,4 @@
-export type Language = 'en' | 'kn' | 'hi';
+export type Language = 'en' | 'kn';
 
 export type TripCategory = 'nature' | 'heritage' | 'spiritual' | 'beach' | 'adventure' | 'family' | 'weekend';
 

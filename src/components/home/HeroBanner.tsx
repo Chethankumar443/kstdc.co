@@ -12,33 +12,48 @@ import type { Language } from '../../types/travel';
 const HERO_SLIDES = [
   {
     image: '/hero/hero-1.jpeg',
-    title: 'Experience the Best of Karnataka!',
-    subtitle: 'UNESCO World Heritage at Hampi, royal palaces, and ancient temple architecture.',
-    badge: 'Hampi · World Heritage Circuit',
+    titleEn: 'Experience the Best of Karnataka!',
+    titleKn: 'ಕರ್ನಾಟಕದ ಅದ್ಭುತ ವೈಭವವನ್ನು ಅನುಭವಿಸಿ!',
+    subtitleEn: 'UNESCO World Heritage at Hampi, royal palaces, and ancient temple architecture.',
+    subtitleKn: 'ಹಂಪಿಯ ವಿಶ್ವ ಪರಂಪರೆ, ಭವ್ಯ ಅರಮನೆಗಳು ಮತ್ತು ಪುರಾತನ ದೇವಾಲಯಗಳ ಶಿಲ್ಪಕಲೆ.',
+    badgeEn: 'Hampi · World Heritage Circuit',
+    badgeKn: 'ಹಂಪಿ · ವಿಶ್ವ ಪರಂಪರೆ ಪ್ರವಾಸ ವಲಯ',
   },
   {
     image: '/hero/hero-2.jpeg',
-    title: 'Stay at the Heart of Every Destination.',
-    subtitle: 'Hotel Mayura government-run heritage resorts with transparent official rates.',
-    badge: 'Hotel Mayura Hospitality Network',
+    titleEn: 'Stay at the Heart of Every Destination.',
+    titleKn: 'ಪ್ರತಿ ಪ್ರವಾಸಿ ತಾಣದ ಹೃದಯಭಾಗದಲ್ಲೇ ವಾಸ್ತವ್ಯ.',
+    subtitleEn: 'Hotel Mayura government-run heritage resorts with transparent official rates.',
+    subtitleKn: 'ಪಾರದರ್ಶಕ ಅಧಿಕೃತ ದರಗಳೊಂದಿಗೆ ಸರ್ಕಾರಿ ಸ್ವಾಮ್ಯದ ಹೋಟೆಲ್ ಮಯೂರ ಹೆರಿಟೇಜ್ ರೆಸಾರ್ಟ್‌ಗಳು.',
+    badgeEn: 'Hotel Mayura Hospitality Network',
+    badgeKn: 'ಹೋಟೆಲ್ ಮಯೂರ ಆತಿಥ್ಯ ಜಾಲ',
   },
   {
     image: '/hero/hero-3.jpeg',
-    title: 'Curated Journeys, Memorable Experiences!',
-    subtitle: 'Misty Western Ghats, thunderous waterfalls, and scenic coffee estate circuits.',
-    badge: 'Shivanasamudra & Western Ghats',
+    titleEn: 'Curated Journeys, Memorable Experiences!',
+    titleKn: 'ಆಯ್ದ ಪ್ರವಾಸಗಳು, ಅವಿಸ್ಮರಣೀಯ ನೆನಪುಗಳು!',
+    subtitleEn: 'Misty Western Ghats, thunderous waterfalls, and scenic coffee estate circuits.',
+    subtitleKn: 'ಮಂಜಿನ ಪಶ್ಚಿಮ ಘಟ್ಟಗಳು, ಭೋರ್ಗರೆಯುವ ಜಲಪಾತಗಳು ಮತ್ತು ಕಾಫಿ ತೋಟಗಳ ಪ್ರಶಾಂತ ಹಾದಿ.',
+    badgeEn: 'Shivanasamudra & Western Ghats',
+    badgeKn: 'ಶಿವನಸಮುದ್ರ ಮತ್ತು ಪಶ್ಚಿಮ ಘಟ್ಟಗಳು',
   },
   {
     image: '/hero/hero-4.jpeg',
-    title: 'Turn Every Journey Into an Experience.',
-    subtitle: 'Paragliding at Nandi Hills, coastal water sports, and open-top Ambaari city tours.',
-    badge: 'Nandi Hills & Adventure Tourism',
+    titleEn: 'Turn Every Journey Into an Experience.',
+    titleKn: 'ಪ್ರತಿ ಪ್ರಯಾಣವನ್ನು ಸುಂದರ ಅನುಭವವನ್ನಾಗಿ ಪರಿವರ್ತಿಸಿ.',
+    subtitleEn: 'Paragliding at Nandi Hills, coastal water sports, and open-top Ambaari city tours.',
+    subtitleKn: 'ನಂದಿ ಬೆಟ್ಟದಲ್ಲಿ ಪ್ಯಾರಾಗ್ಲೈಡಿಂಗ್, ಕರಾವಳಿ ಜಲ ಕ್ರೀಡೆಗಳು ಮತ್ತು ಮುಕ್ತ ಛಾವಣಿಯ ಅಂಬಾರಿ ಟೂರ್.',
+    badgeEn: 'Nandi Hills & Adventure Tourism',
+    badgeKn: 'ನಂದಿ ಬೆಟ್ಟ ಮತ್ತು ಸಾಹಸ ಪ್ರವಾಸೋದ್ಯಮ',
   },
   {
     image: 'https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&w=1600&q=80',
-    title: 'Your Karnataka Story Starts Here.',
-    subtitle: 'Official conducted bus tours, Hotel Mayura stays, and 24x7 prepaid airport taxis.',
-    badge: 'Government of Karnataka Undertaking',
+    titleEn: 'Your Karnataka Story Starts Here.',
+    titleKn: 'ನಿಮ್ಮ ಕರ್ನಾಟಕ ಪ್ರವಾಸದ ಸುಂದರ ಕಥೆ ಇಲ್ಲಿಂದಲೇ ಆರಂಭ.',
+    subtitleEn: 'Official conducted bus tours, Hotel Mayura stays, and 24x7 prepaid airport taxis.',
+    subtitleKn: 'ಅಧಿಕೃತ ಆಯೋಜಿತ ಬಸ್ ಪ್ರವಾಸಗಳು, ಹೋಟೆಲ್ ಮಯೂರ ವಾಸ್ತವ್ಯ ಮತ್ತು 24x7 ಪ್ರಿಪೇಯ್ಡ್ ಏರ್‌ಪೋರ್ಟ್ ಟ್ಯಾಕ್ಸಿಗಳು.',
+    badgeEn: 'Government of Karnataka Undertaking',
+    badgeKn: 'ಕರ್ನಾಟಕ ಸರ್ಕಾರದ ಅಧಿಕೃತ ಉದ್ಯಮ',
   },
 ];
 
@@ -207,19 +222,24 @@ export const HeroBanner: React.FC = () => {
   };
 
   const guestOptions = [
-    { value: '1', label: '1 Adult · 1 Room' },
-    { value: '2', label: '2 Adults · 1 Room (Deluxe Twin)' },
-    { value: '3', label: '3 Adults · 1 Room (Extra Bed)' },
-    { value: '4', label: 'Family (2 Adults + 2 Kids)' },
+    { value: '1', label: lang === 'kn' ? '1 ವಯಸ್ಕ · 1 ಕೊಠಡಿ' : '1 Adult · 1 Room' },
+    { value: '2', label: lang === 'kn' ? '2 ವಯಸ್ಕರು · 1 ಕೊಠಡಿ (ಡಿಲಕ್ಸ್)' : '2 Adults · 1 Room (Deluxe Twin)' },
+    { value: '3', label: lang === 'kn' ? '3 ವಯಸ್ಕರು · 1 ಕೊಠಡಿ (ಹೆಚ್ಚುವರಿ ಬೆಡ್)' : '3 Adults · 1 Room (Extra Bed)' },
+    { value: '4', label: lang === 'kn' ? 'ಕುಟುಂಬ (2 ವಯಸ್ಕರು + 2 ಮಕ್ಕಳು)' : 'Family (2 Adults + 2 Kids)' },
   ];
 
   const activitySlotOptions = [
-    { value: 'evening', label: 'Evening Palace Illumination (6:30 PM)' },
-    { value: 'night', label: 'Night City Skyline Tour (8:00 PM)' },
-    { value: 'morning', label: 'Morning Heritage Slot (9:30 AM)' },
+    { value: 'evening', label: lang === 'kn' ? 'ಸಂಜೆ ಅರಮನೆ ದೀಪಾಲಂಕಾರ (6:30 PM)' : 'Evening Palace Illumination (6:30 PM)' },
+    { value: 'night', label: lang === 'kn' ? 'ರಾತ್ರಿ ನಗರ ವೀಕ್ಷಣೆ (8:00 PM)' : 'Night City Skyline Tour (8:00 PM)' },
+    { value: 'morning', label: lang === 'kn' ? 'ಬೆಳಗಿನ ಹೆರಿಟೇಜ್ ಸ್ಲಾಟ್ (9:30 AM)' : 'Morning Heritage Slot (9:30 AM)' },
   ];
 
-  const activeSlideData = HERO_SLIDES[currentSlide];
+  const slide = HERO_SLIDES[currentSlide];
+  const activeSlideData = {
+    title: lang === 'kn' ? slide.titleKn : slide.titleEn,
+    subtitle: lang === 'kn' ? slide.subtitleKn : slide.subtitleEn,
+    badge: lang === 'kn' ? slide.badgeKn : slide.badgeEn,
+  };
 
   const filteredDestinations = DESTINATION_SUGGESTIONS.filter((d) =>
     destinationQuery ? d.name.toLowerCase().includes(destinationQuery.toLowerCase()) || d.tag.toLowerCase().includes(destinationQuery.toLowerCase()) : true
@@ -238,16 +258,16 @@ export const HeroBanner: React.FC = () => {
           
           {/* Background Images Slider with Smooth Cross-Fade (Isolated clipping to rounded bounds) */}
           <div className="absolute inset-0 rounded-[28px] sm:rounded-[32px] overflow-hidden pointer-events-none z-0">
-            {HERO_SLIDES.map((slide, idx) => (
+            {HERO_SLIDES.map((s, idx) => (
               <div
-                key={slide.image}
+                key={s.image}
                 className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
                   idx === currentSlide ? 'opacity-100' : 'opacity-0'
                 }`}
               >
                 <img
-                  src={slide.image}
-                  alt={slide.title}
+                  src={s.image}
+                  alt={lang === 'kn' ? s.titleKn : s.titleEn}
                   className="w-full h-full object-cover object-center scale-105 transition-transform duration-10000"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-slate-950/50 to-slate-950/30" />
@@ -281,53 +301,53 @@ export const HeroBanner: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setActiveTab('tours')}
-                className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-xl transition-all shrink-0 ${
+                className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-xl transition-all shrink-0 cursor-pointer ${
                   activeTab === 'tours'
                     ? 'bg-white text-slate-900 shadow-sm'
                     : 'text-white/80 hover:text-white hover:bg-white/10'
                 }`}
               >
                 <Bus className="w-3.5 h-3.5 shrink-0" />
-                <span>Tour Packages</span>
+                <span>{t.tabTours || 'Tour Packages'}</span>
               </button>
 
               <button
                 type="button"
                 onClick={() => setActiveTab('hotels')}
-                className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-xl transition-all shrink-0 ${
+                className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-xl transition-all shrink-0 cursor-pointer ${
                   activeTab === 'hotels'
                     ? 'bg-white text-slate-900 shadow-sm'
                     : 'text-white/80 hover:text-white hover:bg-white/10'
                 }`}
               >
                 <Building2 className="w-3.5 h-3.5 shrink-0" />
-                <span>Mayura Hotels</span>
+                <span>{t.tabHotels || 'Mayura Hotels'}</span>
               </button>
 
               <button
                 type="button"
                 onClick={() => setActiveTab('cabs')}
-                className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-xl transition-all shrink-0 ${
+                className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-xl transition-all shrink-0 cursor-pointer ${
                   activeTab === 'cabs'
                     ? 'bg-white text-slate-900 shadow-sm'
                     : 'text-white/80 hover:text-white hover:bg-white/10'
                 }`}
               >
                 <Car className="w-3.5 h-3.5 shrink-0" />
-                <span>Airport Taxi & Cabs</span>
+                <span>{t.tabCabs || 'Airport Taxi & Cabs'}</span>
               </button>
 
               <button
                 type="button"
                 onClick={() => setActiveTab('activities')}
-                className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-xl transition-all shrink-0 ${
+                className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-xl transition-all shrink-0 cursor-pointer ${
                   activeTab === 'activities'
                     ? 'bg-white text-slate-900 shadow-sm'
                     : 'text-white/80 hover:text-white hover:bg-white/10'
                 }`}
               >
                 <Compass className="w-3.5 h-3.5 shrink-0" />
-                <span>Ambaari & Activities</span>
+                <span>{t.tabActivities || 'Ambaari & Activities'}</span>
               </button>
             </div>
 
@@ -344,7 +364,7 @@ export const HeroBanner: React.FC = () => {
                   <div className="lg:col-span-3 space-y-1 relative" ref={originRef}>
                     <label className="text-[11px] font-bold text-slate-500 dark:text-slate-400 flex items-center gap-1 uppercase tracking-wider">
                       <MapPin className="w-3.5 h-3.5 text-slate-900 dark:text-slate-100" />
-                      Departure Origin
+                      {t.departureOriginLabel || 'Departure Origin'}
                     </label>
                     <input
                       type="text"
@@ -354,14 +374,14 @@ export const HeroBanner: React.FC = () => {
                         setOriginOpen(true);
                       }}
                       onFocus={() => setOriginOpen(true)}
-                      placeholder="e.g. Bengaluru, Mysuru..."
+                      placeholder={t.departureOriginPlaceholder || 'e.g. Bengaluru, Mysuru...'}
                       className="w-full p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white font-semibold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-blue-500"
                     />
 
                     {originOpen && (
                       <div className="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-[0_25px_60px_rgba(0,0,0,0.28)] p-2 z-[100] animate-fade-in max-h-60 overflow-y-auto">
                         <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block px-2.5 py-1">
-                          Official Departure Hubs
+                          {lang === 'kn' ? 'ಅಧಿಕೃತ ಹೊರಡುವ ಸ್ಥಳಗಳು' : 'Official Departure Hubs'}
                         </span>
                         <div className="space-y-1">
                           {ORIGIN_SUGGESTIONS.map((orig) => (
@@ -388,7 +408,7 @@ export const HeroBanner: React.FC = () => {
                   <div className="lg:col-span-4 space-y-1 relative" ref={destRef}>
                     <label className="text-[11px] font-bold text-slate-500 dark:text-slate-400 flex items-center gap-1 uppercase tracking-wider">
                       <Search className="w-3.5 h-3.5 text-slate-900 dark:text-slate-100" />
-                      Destination / Place Search
+                      {t.destinationSearchLabel || 'Destination / Place Search'}
                     </label>
                     <div className="relative">
                       <input
@@ -399,7 +419,7 @@ export const HeroBanner: React.FC = () => {
                           setDestOpen(true);
                         }}
                         onFocus={() => setDestOpen(true)}
-                        placeholder="Enter place (e.g. Coorg, Hampi, Gokarna)..."
+                        placeholder={t.destinationSearchPlaceholder || 'Enter place (e.g. Coorg, Hampi, Gokarna)...'}
                         className="w-full p-2.5 pr-8 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white font-semibold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-blue-500"
                       />
                       {destinationQuery && (
@@ -417,12 +437,12 @@ export const HeroBanner: React.FC = () => {
                       <div className="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-[0_25px_60px_rgba(0,0,0,0.28)] p-2 z-[100] animate-fade-in max-h-72 overflow-y-auto">
                         <div className="flex items-center justify-between px-2.5 py-1.5 border-b border-slate-100 dark:border-slate-800 mb-1.5">
                           <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
-                            Popular Karnataka Circuits
+                            {lang === 'kn' ? 'ಜನಪ್ರಿಯ ಕರ್ನಾಟಕ ಪ್ರವಾಸ ವಲಯಗಳು' : 'Popular Karnataka Circuits'}
                           </span>
                           <button
                             type="button"
                             onClick={() => setDestOpen(false)}
-                            className="text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 p-0.5"
+                            className="text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 p-0.5 cursor-pointer"
                           >
                             <X className="w-3.5 h-3.5" />
                           </button>
@@ -456,37 +476,37 @@ export const HeroBanner: React.FC = () => {
 
                   {/* Duration Pill Switcher */}
                   <div className="lg:col-span-2 space-y-1">
-                    <label className="text-[11px] font-bold text-slate-500 flex items-center gap-1 uppercase tracking-wider">
-                      <Calendar className="w-3.5 h-3.5 text-slate-900" />
-                      Duration
+                    <label className="text-[11px] font-bold text-slate-500 dark:text-slate-400 flex items-center gap-1 uppercase tracking-wider">
+                      <Calendar className="w-3.5 h-3.5 text-slate-900 dark:text-slate-100" />
+                      {t.durationLabel || 'Duration'}
                     </label>
-                    <div className="grid grid-cols-3 gap-1 bg-slate-50 p-1 rounded-xl border border-slate-200">
+                    <div className="grid grid-cols-3 gap-1 bg-slate-50 dark:bg-slate-800 p-1 rounded-xl border border-slate-200 dark:border-slate-700">
                       <button
                         type="button"
                         onClick={() => setDuration('1')}
-                        className={`py-1.5 rounded-lg text-xs font-bold transition-all ${
-                          duration === '1' ? 'bg-slate-900 text-white shadow-xs' : 'text-slate-600 hover:text-slate-900'
+                        className={`py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                          duration === '1' ? 'bg-slate-900 dark:bg-blue-600 text-white shadow-xs' : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
                         }`}
                       >
-                        1 Day
+                        {t.duration1D || '1 Day'}
                       </button>
                       <button
                         type="button"
                         onClick={() => setDuration('2')}
-                        className={`py-1.5 rounded-lg text-xs font-bold transition-all ${
-                          duration === '2' ? 'bg-slate-900 text-white shadow-xs' : 'text-slate-600 hover:text-slate-900'
+                        className={`py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                          duration === '2' ? 'bg-slate-900 dark:bg-blue-600 text-white shadow-xs' : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
                         }`}
                       >
-                        2 Days
+                        {t.duration2D || '2 Days'}
                       </button>
                       <button
                         type="button"
                         onClick={() => setDuration('3')}
-                        className={`py-1.5 rounded-lg text-xs font-bold transition-all ${
-                          duration === '3' ? 'bg-slate-900 text-white shadow-xs' : 'text-slate-600 hover:text-slate-900'
+                        className={`py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                          duration === '3' ? 'bg-slate-900 dark:bg-blue-600 text-white shadow-xs' : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
                         }`}
                       >
-                        3+ D
+                        {t.duration3D || '3+ D'}
                       </button>
                     </div>
                   </div>
@@ -495,9 +515,9 @@ export const HeroBanner: React.FC = () => {
                   <div className="lg:col-span-3 pt-1 sm:pt-4 lg:pt-4">
                     <button
                       type="submit"
-                      className="w-full py-2.5 px-4 rounded-xl bg-slate-900 hover:bg-black text-white font-bold text-xs sm:text-sm shadow-sm transition-all flex items-center justify-center gap-2"
+                      className="w-full py-2.5 px-4 rounded-xl bg-slate-900 dark:bg-blue-600 hover:bg-black dark:hover:bg-blue-700 text-white font-bold text-xs sm:text-sm shadow-sm transition-all flex items-center justify-center gap-2 cursor-pointer"
                     >
-                      <span>Search Tour Packages</span>
+                      <span>{t.searchToursBtn || 'Search Tour Packages'}</span>
                       <ArrowRight className="w-4 h-4" />
                     </button>
                   </div>
@@ -508,8 +528,8 @@ export const HeroBanner: React.FC = () => {
               {activeTab === 'hotels' && (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-3 items-center">
                   <div className="lg:col-span-5 space-y-1 relative" ref={hotelRef}>
-                    <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">
-                      Search Destination or Mayura Property
+                    <label className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">
+                      {t.hotelSearchLabel || 'Search Destination or Mayura Property'}
                     </label>
                     <input
                       type="text"
@@ -519,14 +539,14 @@ export const HeroBanner: React.FC = () => {
                         setHotelOpen(true);
                       }}
                       onFocus={() => setHotelOpen(true)}
-                      placeholder="e.g. Coorg, Hampi, Mysuru, Gokarna..."
-                      className="w-full p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 font-semibold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-slate-900"
+                      placeholder={t.hotelSearchPlaceholder || 'e.g. Coorg, Hampi, Mysuru, Gokarna...'}
+                      className="w-full p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white font-semibold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-blue-500"
                     />
 
                     {hotelOpen && (
-                      <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl border border-slate-200 shadow-[0_25px_60px_rgba(0,0,0,0.28)] p-2 z-[100] animate-fade-in max-h-72 overflow-y-auto">
+                      <div className="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-[0_25px_60px_rgba(0,0,0,0.28)] p-2 z-[100] animate-fade-in max-h-72 overflow-y-auto">
                         <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block px-2.5 py-1">
-                          Hotel Mayura Heritage Chain
+                          {lang === 'kn' ? 'ಹೋಟೆಲ್ ಮಯೂರ ಸರಣಿ' : 'Hotel Mayura Heritage Chain'}
                         </span>
                         <div className="space-y-1">
                           {filteredHotels.map((h) => (
@@ -536,13 +556,13 @@ export const HeroBanner: React.FC = () => {
                                 setHotelDestination(h.name);
                                 setHotelOpen(false);
                               }}
-                              className="p-2.5 rounded-xl text-xs cursor-pointer hover:bg-slate-100 transition-colors flex items-center justify-between"
+                              className="p-2.5 rounded-xl text-xs cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors flex items-center justify-between"
                             >
                               <div>
-                                <span className="font-bold text-slate-900 block truncate">{h.name}</span>
-                                <span className="text-[11px] text-slate-500 block truncate">{h.place}</span>
+                                <span className="font-bold text-slate-900 dark:text-white block truncate">{h.name}</span>
+                                <span className="text-[11px] text-slate-500 dark:text-slate-400 block truncate">{h.place}</span>
                               </div>
-                              <span className="text-[10px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-md shrink-0 ml-2">
+                              <span className="text-[10px] font-bold text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/80 px-2 py-0.5 rounded-md shrink-0 ml-2">
                                 {h.type}
                               </span>
                             </div>
@@ -553,23 +573,23 @@ export const HeroBanner: React.FC = () => {
                   </div>
 
                   <div className="lg:col-span-4 space-y-1">
-                    <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">
-                      Guests & Room Preference
+                    <label className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">
+                      {t.hotelGuestsLabel || 'Guests & Room Preference'}
                     </label>
                     <CustomSelect
                       value={hotelGuests}
                       onChange={setHotelGuests}
                       options={guestOptions}
-                      placeholder="Select Guests"
+                      placeholder={lang === 'kn' ? 'ಅತಿಥಿಗಳನ್ನು ಆಯ್ಕೆಮಾಡಿ' : 'Select Guests'}
                     />
                   </div>
 
                   <div className="lg:col-span-3 pt-1 sm:pt-4 lg:pt-4">
                     <button
                       type="submit"
-                      className="w-full py-2.5 px-4 rounded-xl bg-slate-900 hover:bg-black text-white font-bold text-xs sm:text-sm shadow-sm transition-all flex items-center justify-center gap-2"
+                      className="w-full py-2.5 px-4 rounded-xl bg-slate-900 dark:bg-blue-600 hover:bg-black dark:hover:bg-blue-700 text-white font-bold text-xs sm:text-sm shadow-sm transition-all flex items-center justify-center gap-2 cursor-pointer"
                     >
-                      <span>Check Mayura Stays</span>
+                      <span>{t.checkStaysBtn || 'Check Mayura Stays'}</span>
                       <ArrowRight className="w-4 h-4" />
                     </button>
                   </div>
@@ -580,34 +600,34 @@ export const HeroBanner: React.FC = () => {
               {activeTab === 'cabs' && (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-3 items-center">
                   <div className="lg:col-span-3 space-y-1">
-                    <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">
-                      Service Type
+                    <label className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">
+                      {t.cabTypeLabel || 'Service Type'}
                     </label>
-                    <div className="grid grid-cols-2 gap-1 bg-slate-50 p-1 rounded-xl border border-slate-200">
+                    <div className="grid grid-cols-2 gap-1 bg-slate-50 dark:bg-slate-800 p-1 rounded-xl border border-slate-200 dark:border-slate-700">
                       <button
                         type="button"
                         onClick={() => setCabTripType('airport')}
-                        className={`py-1.5 rounded-lg text-xs font-bold transition-all ${
-                          cabTripType === 'airport' ? 'bg-slate-900 text-white shadow-xs' : 'text-slate-600'
+                        className={`py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                          cabTripType === 'airport' ? 'bg-slate-900 dark:bg-blue-600 text-white shadow-xs' : 'text-slate-600 dark:text-slate-300'
                         }`}
                       >
-                        Airport Taxi
+                        {lang === 'kn' ? 'ಏರ್‌ಪೋರ್ಟ್' : 'Airport Taxi'}
                       </button>
                       <button
                         type="button"
                         onClick={() => setCabTripType('outstation')}
-                        className={`py-1.5 rounded-lg text-xs font-bold transition-all ${
-                          cabTripType === 'outstation' ? 'bg-slate-900 text-white shadow-xs' : 'text-slate-600'
+                        className={`py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                          cabTripType === 'outstation' ? 'bg-slate-900 dark:bg-blue-600 text-white shadow-xs' : 'text-slate-600 dark:text-slate-300'
                         }`}
                       >
-                        Outstation
+                        {lang === 'kn' ? 'ಹೊರ ಊರು' : 'Outstation'}
                       </button>
                     </div>
                   </div>
 
                   <div className="lg:col-span-3 space-y-1 relative" ref={pickupRef}>
-                    <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">
-                      Pickup Location
+                    <label className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">
+                      {t.cabPickupLabel || 'Pickup Location'}
                     </label>
                     <input
                       type="text"
@@ -617,13 +637,13 @@ export const HeroBanner: React.FC = () => {
                         setPickupOpen(true);
                       }}
                       onFocus={() => setPickupOpen(true)}
-                      placeholder="e.g. Kempegowda Airport (BLR)..."
-                      className="w-full p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 font-semibold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-slate-900"
+                      placeholder={t.cabPickupPlaceholder || 'e.g. Kempegowda Airport (BLR)...'}
+                      className="w-full p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white font-semibold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-blue-500"
                     />
                     {pickupOpen && (
-                      <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl border border-slate-200 shadow-[0_25px_60px_rgba(0,0,0,0.28)] p-2 z-[100] animate-fade-in max-h-60 overflow-y-auto">
+                      <div className="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-[0_25px_60px_rgba(0,0,0,0.28)] p-2 z-[100] animate-fade-in max-h-60 overflow-y-auto">
                         <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block px-2.5 py-1">
-                          Popular Pickup Hubs
+                          {lang === 'kn' ? 'ಜನಪ್ರಿಯ ಹತ್ತುವ ಸ್ಥಳಗಳು' : 'Popular Pickup Hubs'}
                         </span>
                         <div className="space-y-1">
                           {CAB_PICKUP_SUGGESTIONS.map((p) => (
@@ -633,7 +653,7 @@ export const HeroBanner: React.FC = () => {
                                 setCabPickup(p);
                                 setPickupOpen(false);
                               }}
-                              className="p-2.5 rounded-xl text-xs font-semibold hover:bg-slate-100 cursor-pointer transition-colors text-slate-800"
+                              className="p-2.5 rounded-xl text-xs font-semibold hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer transition-colors text-slate-800 dark:text-slate-200"
                             >
                               {p}
                             </div>
@@ -644,8 +664,8 @@ export const HeroBanner: React.FC = () => {
                   </div>
 
                   <div className="lg:col-span-3 space-y-1 relative" ref={dropRef}>
-                    <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">
-                      Drop Destination
+                    <label className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">
+                      {t.cabDropLabel || 'Drop Destination'}
                     </label>
                     <input
                       type="text"
@@ -655,13 +675,13 @@ export const HeroBanner: React.FC = () => {
                         setDropOpen(true);
                       }}
                       onFocus={() => setDropOpen(true)}
-                      placeholder="Enter drop locality or city..."
-                      className="w-full p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 font-semibold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-slate-900"
+                      placeholder={t.cabDropPlaceholder || 'Enter drop locality or city...'}
+                      className="w-full p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white font-semibold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-blue-500"
                     />
                     {dropOpen && (
-                      <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl border border-slate-200 shadow-[0_25px_60px_rgba(0,0,0,0.28)] p-2 z-[100] animate-fade-in max-h-60 overflow-y-auto">
+                      <div className="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-[0_25px_60px_rgba(0,0,0,0.28)] p-2 z-[100] animate-fade-in max-h-60 overflow-y-auto">
                         <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block px-2.5 py-1">
-                          Common Drop Localities
+                          {lang === 'kn' ? 'ಪ್ರಮುಖ ತಲುಪುವ ಸ್ಥಳಗಳು' : 'Common Drop Localities'}
                         </span>
                         <div className="space-y-1">
                           {CAB_DROP_SUGGESTIONS.map((d) => (
@@ -671,7 +691,7 @@ export const HeroBanner: React.FC = () => {
                                 setCabDrop(d);
                                 setDropOpen(false);
                               }}
-                              className="p-2.5 rounded-xl text-xs font-semibold hover:bg-slate-100 cursor-pointer transition-colors text-slate-800"
+                              className="p-2.5 rounded-xl text-xs font-semibold hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer transition-colors text-slate-800 dark:text-slate-200"
                             >
                               {d}
                             </div>
@@ -684,9 +704,9 @@ export const HeroBanner: React.FC = () => {
                   <div className="lg:col-span-3 pt-1 sm:pt-4 lg:pt-4">
                     <button
                       type="submit"
-                      className="w-full py-2.5 px-4 rounded-xl bg-slate-900 hover:bg-black text-white font-bold text-xs sm:text-sm shadow-sm transition-all flex items-center justify-center gap-2"
+                      className="w-full py-2.5 px-4 rounded-xl bg-slate-900 dark:bg-blue-600 hover:bg-black dark:hover:bg-blue-700 text-white font-bold text-xs sm:text-sm shadow-sm transition-all flex items-center justify-center gap-2 cursor-pointer"
                     >
-                      <span>Fare & Instant Cab</span>
+                      <span>{t.calculateFareBtn || 'Fare & Instant Cab'}</span>
                       <ArrowRight className="w-4 h-4" />
                     </button>
                   </div>
@@ -697,8 +717,8 @@ export const HeroBanner: React.FC = () => {
               {activeTab === 'activities' && (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-3 items-center">
                   <div className="lg:col-span-5 space-y-1 relative" ref={actRef}>
-                    <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">
-                      Search Activity or City Experience
+                    <label className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">
+                      {t.activityCityLabel || 'Search Activity or City Experience'}
                     </label>
                     <input
                       type="text"
@@ -708,14 +728,14 @@ export const HeroBanner: React.FC = () => {
                         setActivityOpen(true);
                       }}
                       onFocus={() => setActivityOpen(true)}
-                      placeholder="e.g. Ambaari Mysuru, Vidhana Soudha..."
-                      className="w-full p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 font-semibold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-slate-900"
+                      placeholder={lang === 'kn' ? 'ಉದಾ: ಅಂಬಾರಿ ಮೈಸೂರು, ವಿಧಾನ ಸೌಧ...' : 'e.g. Ambaari Mysuru, Vidhana Soudha...'}
+                      className="w-full p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white font-semibold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-blue-500"
                     />
 
                     {activityOpen && (
-                      <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl border border-slate-200 shadow-[0_25px_60px_rgba(0,0,0,0.28)] p-2 z-[100] animate-fade-in max-h-60 overflow-y-auto">
+                      <div className="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-[0_25px_60px_rgba(0,0,0,0.28)] p-2 z-[100] animate-fade-in max-h-60 overflow-y-auto">
                         <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block px-2.5 py-1">
-                          Official Experiences
+                          {lang === 'kn' ? 'ಅಧಿಕೃತ ಅನುಭವಗಳು' : 'Official Experiences'}
                         </span>
                         <div className="space-y-1">
                           {ACTIVITY_SUGGESTIONS.map((act) => (
@@ -725,10 +745,10 @@ export const HeroBanner: React.FC = () => {
                                 setActivitySearch(act.title);
                                 setActivityOpen(false);
                               }}
-                              className="p-2.5 rounded-xl text-xs hover:bg-slate-100 cursor-pointer transition-colors flex items-center justify-between"
+                              className="p-2.5 rounded-xl text-xs hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer transition-colors flex items-center justify-between"
                             >
-                              <span className="font-bold text-slate-900 truncate">{act.title}</span>
-                              <span className="text-[10px] font-semibold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-md shrink-0 ml-2">
+                              <span className="font-bold text-slate-900 dark:text-white truncate">{act.title}</span>
+                              <span className="text-[10px] font-semibold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950 px-2 py-0.5 rounded-md shrink-0 ml-2">
                                 {act.city}
                               </span>
                             </div>
@@ -739,23 +759,23 @@ export const HeroBanner: React.FC = () => {
                   </div>
 
                   <div className="lg:col-span-4 space-y-1">
-                    <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">
-                      Preferred Timing / Slot
+                    <label className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">
+                      {t.activitySlotLabel || 'Preferred Timing / Slot'}
                     </label>
                     <CustomSelect
                       value={activitySlot}
                       onChange={setActivitySlot}
                       options={activitySlotOptions}
-                      placeholder="Select Slot"
+                      placeholder={lang === 'kn' ? 'ಸ್ಲಾಟ್ ಆಯ್ಕೆಮಾಡಿ' : 'Select Slot'}
                     />
                   </div>
 
                   <div className="lg:col-span-3 pt-1 sm:pt-4 lg:pt-4">
                     <button
                       type="submit"
-                      className="w-full py-2.5 px-4 rounded-xl bg-slate-900 hover:bg-black text-white font-bold text-xs sm:text-sm shadow-sm transition-all flex items-center justify-center gap-2"
+                      className="w-full py-2.5 px-4 rounded-xl bg-slate-900 dark:bg-blue-600 hover:bg-black dark:hover:bg-blue-700 text-white font-bold text-xs sm:text-sm shadow-sm transition-all flex items-center justify-center gap-2 cursor-pointer"
                     >
-                      <span>Book Activity Passes</span>
+                      <span>{t.bookPassesBtn || 'Book Activity Passes'}</span>
                       <ArrowRight className="w-4 h-4" />
                     </button>
                   </div>
@@ -771,7 +791,7 @@ export const HeroBanner: React.FC = () => {
         <div className="flex flex-wrap items-center justify-between gap-3 pt-3 px-2 sm:px-4">
           <div className="flex items-center gap-2 text-xs font-semibold text-slate-600 dark:text-slate-400">
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0" />
-            <span className="text-slate-500 dark:text-slate-400 hidden sm:inline">Featured Destination:</span>
+            <span className="text-slate-500 dark:text-slate-400 hidden sm:inline">{t.featuredDestination || 'Featured Destination'}:</span>
             <span className="text-slate-900 dark:text-white font-bold">{activeSlideData.badge}</span>
           </div>
 

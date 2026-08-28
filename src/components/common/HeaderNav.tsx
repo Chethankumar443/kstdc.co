@@ -153,12 +153,12 @@ export const HeaderNav: React.FC<Props> = ({ currentPath: initialPath = '' }) =>
   const isDestinations = activePath === '/destinations' || activePath.startsWith('/destinations/');
 
   const navLinks = [
-    { href: '/', label: 'Home', active: isHome },
-    { href: '/trips', label: 'Tours', active: isTrips },
-    { href: '/stays', label: 'Hotels', active: isStays },
-    { href: '/cabs', label: 'Airport Taxi', active: isCabs },
-    { href: '/activities', label: 'Activities', active: isActivities },
-    { href: '/destinations', label: 'Destinations', active: isDestinations },
+    { href: '/', label: lang === 'kn' ? 'ಮುಖಪುಟ' : 'Home', active: isHome },
+    { href: '/trips', label: t.navTrips || 'Tours', active: isTrips },
+    { href: '/stays', label: t.navStays || 'Hotels', active: isStays },
+    { href: '/cabs', label: t.navCabs || 'Airport Taxi', active: isCabs },
+    { href: '/activities', label: t.navActivities || 'Activities', active: isActivities },
+    { href: '/destinations', label: t.navDestinations || 'Destinations', active: isDestinations },
   ];
 
   return (
@@ -173,8 +173,8 @@ export const HeaderNav: React.FC<Props> = ({ currentPath: initialPath = '' }) =>
             <div className="flex items-center gap-3">
               <div className="flex items-center gap-1.5 text-white font-semibold">
                 <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                <span className="hidden sm:inline">Government of Karnataka Undertaking ·</span>
-                <span>KSTDC Portal</span>
+                <span className="hidden sm:inline">{t.govtUndertaking || 'Government of Karnataka Undertaking'} ·</span>
+                <span>{t.portalTitle || 'KSTDC Portal'}</span>
               </div>
               <span className="hidden md:inline text-slate-700">|</span>
               <a
@@ -183,11 +183,11 @@ export const HeaderNav: React.FC<Props> = ({ currentPath: initialPath = '' }) =>
                 title="Toll-Free Tourist Helpline"
               >
                 <PhoneCall className="w-3 h-3 text-emerald-400" />
-                <span>Toll-Free: <strong>1800 425 3333</strong> / 080-4334 4334</span>
+                <span>{t.tollFreeText || 'Toll-Free'}: <strong>1800 425 3333</strong> / 080-4334 4334</span>
               </a>
             </div>
 
-            {/* Leadership Avatars on Desktop (Like kstdc.co) */}
+            {/* Leadership Avatars on Desktop */}
             <div className="hidden md:flex items-center gap-2">
               <div className="flex -space-x-1.5">
                 <img
@@ -215,7 +215,7 @@ export const HeaderNav: React.FC<Props> = ({ currentPath: initialPath = '' }) =>
                   className="inline-block w-6 h-6 rounded-full ring-2 ring-slate-800 object-cover object-top hover:scale-125 transition-transform z-10 hover:z-20 cursor-pointer"
                 />
               </div>
-              <span className="text-[10px] text-slate-400 font-medium">State Leadership</span>
+              <span className="text-[10px] text-slate-400 font-medium">{t.leadershipLabel || 'State Leadership'}</span>
             </div>
 
             {/* Right Tools: Theme Toggle + Language */}
@@ -242,7 +242,7 @@ export const HeaderNav: React.FC<Props> = ({ currentPath: initialPath = '' }) =>
                 )}
               </button>
 
-              {/* Custom Language Selector Popover (No native select) */}
+              {/* Custom Language Selector Popover (Only English & Kannada) */}
               <div className="relative" ref={langContainerRef}>
                 <button
                   type="button"
@@ -251,7 +251,7 @@ export const HeaderNav: React.FC<Props> = ({ currentPath: initialPath = '' }) =>
                   aria-label="Language Selector"
                 >
                   <Globe className="w-3 h-3 text-slate-400 shrink-0" />
-                  <span>{lang === 'en' ? 'English' : lang === 'kn' ? 'ಕನ್ನಡ' : 'हिन्दी'}</span>
+                  <span className="font-semibold">{lang === 'en' ? 'English' : 'ಕನ್ನಡ'}</span>
                   <span className="text-[9px] text-slate-400">▾</span>
                 </button>
 
@@ -263,8 +263,8 @@ export const HeaderNav: React.FC<Props> = ({ currentPath: initialPath = '' }) =>
                         handleLanguageChange('en');
                         setLangMenuOpen(false);
                       }}
-                      className={`w-full px-2.5 py-1.5 rounded-xl text-left font-medium transition-colors flex items-center justify-between ${
-                        lang === 'en' ? 'bg-blue-600 text-white' : 'text-slate-300 hover:bg-slate-800 hover:text-white'
+                      className={`w-full px-2.5 py-1.5 rounded-xl text-left font-medium transition-colors flex items-center justify-between cursor-pointer ${
+                        lang === 'en' ? 'bg-blue-600 text-white font-bold' : 'text-slate-300 hover:bg-slate-800 hover:text-white'
                       }`}
                     >
                       <span>English</span>
@@ -276,25 +276,12 @@ export const HeaderNav: React.FC<Props> = ({ currentPath: initialPath = '' }) =>
                         handleLanguageChange('kn');
                         setLangMenuOpen(false);
                       }}
-                      className={`w-full px-2.5 py-1.5 rounded-xl text-left font-medium transition-colors flex items-center justify-between ${
-                        lang === 'kn' ? 'bg-blue-600 text-white' : 'text-slate-300 hover:bg-slate-800 hover:text-white'
+                      className={`w-full px-2.5 py-1.5 rounded-xl text-left font-medium transition-colors flex items-center justify-between cursor-pointer ${
+                        lang === 'kn' ? 'bg-blue-600 text-white font-bold' : 'text-slate-300 hover:bg-slate-800 hover:text-white'
                       }`}
                     >
                       <span>ಕನ್ನಡ</span>
                       {lang === 'kn' && <span className="text-[10px]">✓</span>}
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        handleLanguageChange('hi');
-                        setLangMenuOpen(false);
-                      }}
-                      className={`w-full px-2.5 py-1.5 rounded-xl text-left font-medium transition-colors flex items-center justify-between ${
-                        lang === 'hi' ? 'bg-blue-600 text-white' : 'text-slate-300 hover:bg-slate-800 hover:text-white'
-                      }`}
-                    >
-                      <span>हिन्दी</span>
-                      {lang === 'hi' && <span className="text-[10px]">✓</span>}
                     </button>
                   </div>
                 )}
@@ -619,7 +606,7 @@ export const HeaderNav: React.FC<Props> = ({ currentPath: initialPath = '' }) =>
               title="Citizen Travel Wallet & Stored Tickets"
             >
               <Ticket className="w-3.5 h-3.5 text-blue-600" />
-              <span className="hidden sm:inline">My Bookings</span>
+              <span className="hidden sm:inline">{t.navMyBookings || 'My Bookings'}</span>
               {bookingsCount > 0 && (
                 <span className="w-4 h-4 rounded-full bg-blue-600 text-white text-[10px] font-extrabold flex items-center justify-center -mr-1">
                   {bookingsCount}
@@ -630,7 +617,7 @@ export const HeaderNav: React.FC<Props> = ({ currentPath: initialPath = '' }) =>
             {/* Plan My Trip CTA (Clean Executive Government Style) */}
             <button
               onClick={() => setPlannerOpen(true)}
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-slate-950 hover:bg-black text-white font-bold text-xs shadow-sm active:scale-98 transition-all"
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-slate-950 hover:bg-black text-white font-bold text-xs shadow-sm active:scale-98 transition-all cursor-pointer"
             >
               <span>{t.navPlanMyTrip}</span>
             </button>
@@ -658,7 +645,7 @@ export const HeaderNav: React.FC<Props> = ({ currentPath: initialPath = '' }) =>
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search destinations, tours, hotels..."
+                placeholder={lang === 'kn' ? 'ತಾಣಗಳು, ಪ್ರವಾಸಗಳು, ಹೋಟೆಲ್‌ಗಳು...' : 'Search destinations, tours, hotels...'}
                 className="w-full pl-9.5 pr-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl text-xs text-slate-900 dark:text-white font-medium focus:outline-none focus:ring-2 focus:ring-slate-950 dark:focus:ring-blue-500"
               />
             </div>
@@ -682,15 +669,15 @@ export const HeaderNav: React.FC<Props> = ({ currentPath: initialPath = '' }) =>
               ))}
             </nav>
 
-            <div className="pt-2 border-t border-slate-100 flex flex-col gap-2">
+            <div className="pt-2 border-t border-slate-100 dark:border-slate-800 flex flex-col gap-2">
               <a
                 href="/my-bookings"
-                className="w-full py-2.5 px-4 rounded-2xl bg-blue-50 text-blue-900 border border-blue-200 font-bold text-xs flex items-center justify-between"
+                className="w-full py-2.5 px-4 rounded-2xl bg-blue-50 dark:bg-blue-950/80 text-blue-900 dark:text-blue-200 border border-blue-200 dark:border-blue-800 font-bold text-xs flex items-center justify-between"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 <div className="flex items-center gap-2">
-                  <Ticket className="w-4 h-4 text-blue-600" />
-                  <span>Citizen Wallet & Tickets</span>
+                  <Ticket className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                  <span>{t.navMyBookings || 'My Bookings'}</span>
                 </div>
                 {bookingsCount > 0 && (
                   <span className="px-2 py-0.5 rounded-full bg-blue-600 text-white text-[10px] font-bold">
