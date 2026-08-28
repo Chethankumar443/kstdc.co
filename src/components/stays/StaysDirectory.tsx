@@ -166,14 +166,14 @@ export const StaysDirectory: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         
         {/* Header */}
-        <div className="bg-ink-deep p-8 sm:p-12 rounded-[32px] text-white space-y-2">
-          <span className="text-xs uppercase tracking-wider font-bold text-white/70 block">
+        <div className="bg-slate-900 dark:bg-slate-950 p-8 sm:p-12 rounded-[32px] text-white border border-slate-800 shadow-md space-y-2">
+          <span className="text-xs uppercase tracking-wider font-bold text-emerald-400 block">
             Government-Run Hospitality
           </span>
           <h1 className="text-2xl sm:text-4xl font-bold tracking-tight text-white">
             Stay with Hotel Mayura
           </h1>
-          <p className="text-xs sm:text-sm text-white/80 max-w-2xl leading-relaxed">
+          <p className="text-xs sm:text-sm text-slate-300 max-w-2xl leading-relaxed">
             Heritage properties, hilltop view lodges, and coastal retreats situated right next to Karnataka's prime monuments, peaks and waterfalls. Direct citizen pricing with zero commission markups.
           </p>
         </div>

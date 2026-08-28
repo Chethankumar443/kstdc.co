@@ -56,8 +56,8 @@ export const AiTripPlannerModal: React.FC<Props> = ({ isOpen, onClose, initialPr
     >
       <div className="bg-canvas rounded-[32px] max-w-3xl w-full border border-hairline-soft shadow-meta-modal overflow-hidden my-6">
         
-        {/* Header (DESIGN-meta card-promo-strip style) */}
-        <div className="bg-ink-deep p-6 sm:p-8 text-white relative">
+        {/* Header */}
+        <div className="bg-slate-900 dark:bg-slate-950 p-6 sm:p-8 text-white relative">
           <button
             onClick={onClose}
             className="absolute top-6 right-6 text-white/70 hover:text-white p-2 rounded-full hover:bg-white/10 transition-colors"

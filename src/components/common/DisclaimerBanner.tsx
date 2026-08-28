@@ -20,7 +20,7 @@ export const DisclaimerBanner: React.FC = () => {
   const t = TRANSLATIONS[lang] || TRANSLATIONS.en;
 
   return (
-    <aside aria-label="Prototype Disclosure" className="bg-ink-deep text-white text-xs px-4 py-2.5 border-b border-hairline-soft/20">
+    <aside aria-label="Prototype Disclosure" className="bg-slate-950 text-white text-xs px-4 py-2.5 border-b border-slate-800">
       <div className="max-w-7xl mx-auto flex items-center justify-between gap-3">
         <div className="flex items-center gap-2 overflow-hidden text-ellipsis whitespace-nowrap">
           <span className="px-2 py-0.5 rounded-full bg-white/20 text-white text-[10px] font-bold uppercase tracking-wider shrink-0">

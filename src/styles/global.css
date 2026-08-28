@@ -3,7 +3,7 @@
 
 @layer base {
   :root {
-    /* Meta Design System Tokens */
+    /* Meta / Government Portal Design System Tokens */
     --color-primary: #0064e0;
     --color-primary-deep: #0457cb;
     --color-primary-soft: #0091ff;
@@ -12,31 +12,24 @@
     --color-ink-button: #000000;
     --color-on-ink-button: #ffffff;
     
-    --color-fb-blue: #1876f2;
-    --color-meta-link: #385898;
-    --color-oculus-purple: #a121ce;
-    
-    --color-success: #31a24c;
-    --color-success-bg: #24e400;
-    --color-attention: #f2a918;
-    --color-warning: #f7b928;
-    --color-critical: #e41e3f;
-    --color-critical-strong: #f0284a;
+    --color-success: #16a34a;
+    --color-warning: #f59e0b;
+    --color-critical: #e11d48;
     
     --color-canvas: #ffffff;
-    --color-surface-soft: #f1f4f7;
+    --color-surface-soft: #f8fafc;
     --color-surface-card: #ffffff;
     
     --color-ink-deep: #0a1317;
-    --color-ink: #1c1e21;
-    --color-charcoal: #444950;
-    --color-slate: #4b4c4f;
-    --color-steel: #5d6c7b;
-    --color-stone: #8595a4;
-    --color-disabled-text: #bcc0c4;
+    --color-ink: #1e293b;
+    --color-charcoal: #334155;
+    --color-slate: #475569;
+    --color-steel: #64748b;
+    --color-stone: #94a3b8;
+    --color-disabled-text: #cbd5e1;
     
-    --color-hairline: #ced0d4;
-    --color-hairline-soft: #dee3e9;
+    --color-hairline: #e2e8f0;
+    --color-hairline-soft: #f1f5f9;
   }
 
   /* Full-Portal Dark Mode Theme */
@@ -44,105 +37,28 @@
     --color-canvas: #090d16;
     --color-surface-soft: #0f172a;
     --color-surface-card: #131d31;
-    --color-ink-deep: #ffffff;
+    
+    --color-ink-deep: #060a12;
     --color-ink: #f8fafc;
     --color-charcoal: #cbd5e1;
     --color-slate: #94a3b8;
     --color-steel: #94a3b8;
     --color-stone: #64748b;
     --color-disabled-text: #475569;
+    
     --color-hairline: #22324e;
     --color-hairline-soft: #172338;
-    --color-ink-button: #ffffff;
-    --color-on-ink-button: #000000;
     --color-primary: #38bdf8;
     color-scheme: dark;
   }
 
   html.dark body {
-    background-color: #090d16 !important;
-    color: #f8fafc !important;
-  }
-
-  html.dark header {
-    background-color: #0d1424 !important;
-    border-color: #1e2c47 !important;
+    background-color: #090d16;
+    color: #f8fafc;
   }
 
   html.dark main {
-    background-color: #090d16 !important;
-  }
-
-  html.dark section {
-    background-color: transparent;
-  }
-
-  html.dark .bg-canvas {
-    background-color: #090d16 !important;
-  }
-
-  html.dark .bg-white {
-    background-color: #121c32 !important;
-    color: #f8fafc;
-  }
-
-  html.dark .bg-surface-soft,
-  html.dark .bg-slate-50 {
-    background-color: #0d1527 !important;
-    color: #f8fafc;
-  }
-
-  html.dark .bg-slate-100 {
-    background-color: #18243c !important;
-    color: #f8fafc;
-  }
-
-  html.dark .bg-slate-200 {
-    background-color: #1f2f4e !important;
-  }
-
-  html.dark .border-slate-200,
-  html.dark .border-slate-100,
-  html.dark .border-slate-300,
-  html.dark .border-hairline,
-  html.dark .border-hairline-soft {
-    border-color: #22324e !important;
-  }
-
-  html.dark .text-slate-900,
-  html.dark .text-slate-950,
-  html.dark .text-ink-deep {
-    color: #ffffff !important;
-  }
-
-  html.dark .text-slate-800,
-  html.dark .text-ink {
-    color: #f1f5f9 !important;
-  }
-
-  html.dark .text-slate-700,
-  html.dark .text-slate-600,
-  html.dark .text-charcoal,
-  html.dark .text-slate {
-    color: #cbd5e1 !important;
-  }
-
-  html.dark .text-slate-500,
-  html.dark .text-steel,
-  html.dark .text-stone {
-    color: #94a3b8 !important;
-  }
-
-  html.dark input:not([type="checkbox"]):not([type="radio"]),
-  html.dark select,
-  html.dark textarea {
-    background-color: #0c1426 !important;
-    border-color: #22324e !important;
-    color: #ffffff !important;
-  }
-
-  html.dark input::placeholder {
-    color: #64748b !important;
+    background-color: #090d16;
   }
 
   /* High-Contrast Mode */
@@ -150,7 +66,7 @@
     --color-canvas: #000000;
     --color-surface-soft: #121417;
     --color-surface-card: #1c1e21;
-    --color-ink-deep: #ffffff;
+    --color-ink-deep: #000000;
     --color-ink: #f2f4f7;
     --color-charcoal: #dee3e9;
     --color-hairline: #4b4c4f;
@@ -193,10 +109,10 @@
 .bg-canvas { background-color: var(--color-canvas); }
 .bg-surface-soft { background-color: var(--color-surface-soft); }
 .bg-surface { background-color: var(--color-surface-card); }
-.bg-ink-deep { background-color: var(--color-ink-deep); }
+.bg-ink-deep { background-color: var(--color-ink-deep); color: #ffffff; }
 .bg-primary-cobalt { background-color: var(--color-primary); }
 
-.text-ink-deep { color: var(--color-ink-deep); }
+.text-ink-deep { color: var(--color-ink); }
 .text-ink { color: var(--color-ink); }
 .text-charcoal { color: var(--color-charcoal); }
 .text-slate { color: var(--color-slate); }

@@ -66,23 +66,23 @@ export const TripsExplorer: React.FC = () => {
     <div className="py-8 sm:py-14 bg-canvas min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         
-        {/* Page Header Strip (DESIGN-meta card-promo-strip style with 32px rounding) */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 bg-ink-deep p-8 sm:p-10 rounded-[32px] text-white">
+        {/* Page Header Strip */}
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 bg-slate-900 dark:bg-slate-950 p-8 sm:p-10 rounded-[32px] text-white border border-slate-800 shadow-md">
           <div className="space-y-1.5 max-w-xl">
-            <span className="text-xs uppercase tracking-wider font-bold text-white/70 block">
+            <span className="text-xs uppercase tracking-wider font-bold text-emerald-400 block">
               Official Conducted Tours
             </span>
             <h1 className="text-2xl sm:text-4xl font-bold tracking-tight text-white">
               All Curated Tour Packages
             </h1>
-            <p className="text-xs sm:text-sm text-white/80">
+            <p className="text-xs sm:text-sm text-slate-300">
               Filter by time, destination or budget. Complete route transparency with Volvo transport and Hotel Mayura stays.
             </p>
           </div>
 
           <button
             onClick={() => setPlannerOpen(true)}
-            className="self-start md:self-center px-6 py-3 rounded-full bg-white hover:bg-neutral-100 text-black font-bold text-xs shadow-sm transition-all flex items-center gap-2"
+            className="self-start md:self-center px-6 py-3 rounded-full bg-white hover:bg-slate-100 text-slate-950 font-bold text-xs shadow-md transition-all flex items-center gap-2 shrink-0 cursor-pointer"
           >
             <span>{t.navPlanMyTrip}</span>
             <ArrowRight className="w-3.5 h-3.5" />

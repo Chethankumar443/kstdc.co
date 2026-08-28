@@ -232,7 +232,7 @@ export const BookingCheckoutFlow: React.FC<Props> = ({ trip }) => {
                           onClick={() => setSelectedDate(dateStr)}
                           className={`p-3.5 rounded-2xl border text-left transition-all ${
                             isSelected
-                              ? 'bg-ink-deep text-white border-ink-deep shadow-sm'
+                              ? 'bg-slate-900 dark:bg-blue-600 text-white border-slate-900 dark:border-blue-600 shadow-sm'
                               : 'bg-surface-soft border-hairline-soft text-ink hover:border-steel'
                           }`}
                         >
