@@ -72,7 +72,7 @@ export const CustomSelect: React.FC<Props> = ({
 
       {/* Custom Dropdown Popover */}
       {isOpen && (
-        <div className="absolute top-full left-0 right-0 mt-1.5 bg-white rounded-2xl border border-slate-200 shadow-2xl p-1.5 z-50 animate-fade-in max-h-64 overflow-y-auto">
+        <div className="absolute top-full left-0 right-0 mt-1.5 bg-white rounded-2xl border border-slate-200 shadow-[0_20px_50px_rgba(0,0,0,0.25)] p-1.5 z-[100] animate-fade-in max-h-64 overflow-y-auto">
           <ul role="listbox" className="space-y-0.5">
             {options.map((opt) => {
               const isSelected = opt.value === value;

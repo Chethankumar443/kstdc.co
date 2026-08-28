@@ -234,24 +234,26 @@ export const HeroBanner: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Full-Bleed Showcase Frame with Interactive Slider */}
-        <div className="relative rounded-[32px] overflow-hidden min-h-[540px] sm:min-h-[580px] flex flex-col justify-between p-6 sm:p-10 lg:p-12 text-white border border-slate-200 shadow-md transition-all">
+        <div className="relative rounded-[32px] min-h-[540px] sm:min-h-[580px] flex flex-col justify-between p-6 sm:p-10 lg:p-12 text-white border border-slate-200 shadow-md transition-all">
           
-          {/* Background Images Slider with Smooth Cross-Fade */}
-          {HERO_SLIDES.map((slide, idx) => (
-            <div
-              key={slide.image}
-              className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
-                idx === currentSlide ? 'opacity-100 z-0' : 'opacity-0 pointer-events-none'
-              }`}
-            >
-              <img
-                src={slide.image}
-                alt={slide.title}
-                className="w-full h-full object-cover object-center scale-105 transition-transform duration-10000"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-slate-950/50 to-slate-950/30" />
-            </div>
-          ))}
+          {/* Background Images Slider with Smooth Cross-Fade (Isolated clipping to rounded bounds) */}
+          <div className="absolute inset-0 rounded-[32px] overflow-hidden pointer-events-none z-0">
+            {HERO_SLIDES.map((slide, idx) => (
+              <div
+                key={slide.image}
+                className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+                  idx === currentSlide ? 'opacity-100' : 'opacity-0'
+                }`}
+              >
+                <img
+                  src={slide.image}
+                  alt={slide.title}
+                  className="w-full h-full object-cover object-center scale-105 transition-transform duration-10000"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-slate-950/50 to-slate-950/30" />
+              </div>
+            ))}
+          </div>
 
           {/* Top Label & Plan CTA */}
           <div className="relative z-10 flex flex-wrap items-center justify-between gap-3">
@@ -400,25 +402,27 @@ export const HeroBanner: React.FC = () => {
                     />
 
                     {originOpen && (
-                      <div className="absolute top-full left-0 right-0 mt-1.5 bg-white rounded-2xl border border-slate-200 shadow-2xl p-1.5 z-50 animate-fade-in max-h-56 overflow-y-auto">
-                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block px-2 py-1">
+                      <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl border border-slate-200 shadow-[0_25px_60px_rgba(0,0,0,0.28)] p-2 z-[100] animate-fade-in max-h-60 overflow-y-auto">
+                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block px-2.5 py-1">
                           Official Departure Hubs
                         </span>
-                        {ORIGIN_SUGGESTIONS.map((orig) => (
-                          <div
-                            key={orig}
-                            onClick={() => {
-                              setOrigin(orig);
-                              setOriginOpen(false);
-                            }}
-                            className={`p-2 rounded-xl text-xs font-semibold cursor-pointer transition-colors flex items-center justify-between ${
-                              origin === orig ? 'bg-slate-900 text-white' : 'text-slate-800 hover:bg-slate-100'
-                            }`}
-                          >
-                            <span>{orig}</span>
-                            {origin === orig && <Check className="w-3.5 h-3.5 text-white" />}
-                          </div>
-                        ))}
+                        <div className="space-y-1">
+                          {ORIGIN_SUGGESTIONS.map((orig) => (
+                            <div
+                              key={orig}
+                              onClick={() => {
+                                setOrigin(orig);
+                                setOriginOpen(false);
+                              }}
+                              className={`p-2.5 rounded-xl text-xs font-semibold cursor-pointer transition-colors flex items-center justify-between ${
+                                origin === orig ? 'bg-slate-900 text-white' : 'text-slate-800 hover:bg-slate-100'
+                              }`}
+                            >
+                              <span>{orig}</span>
+                              {origin === orig && <Check className="w-3.5 h-3.5 text-white" />}
+                            </div>
+                          ))}
+                        </div>
                       </div>
                     )}
                   </div>
@@ -429,48 +433,61 @@ export const HeroBanner: React.FC = () => {
                       <Search className="w-3.5 h-3.5 text-slate-900" />
                       Destination / Place Search
                     </label>
-                    <input
-                      type="text"
-                      value={destinationQuery}
-                      onChange={(e) => {
-                        setDestinationQuery(e.target.value);
-                        setDestOpen(true);
-                      }}
-                      onFocus={() => setDestOpen(true)}
-                      placeholder="Enter place (e.g. Coorg, Hampi, Gokarna)..."
-                      className="w-full p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 font-semibold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-slate-900"
-                    />
+                    <div className="relative">
+                      <input
+                        type="text"
+                        value={destinationQuery}
+                        onChange={(e) => {
+                          setDestinationQuery(e.target.value);
+                          setDestOpen(true);
+                        }}
+                        onFocus={() => setDestOpen(true)}
+                        placeholder="Enter place (e.g. Coorg, Hampi, Gokarna)..."
+                        className="w-full p-2.5 pr-8 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 font-semibold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-slate-900"
+                      />
+                      {destinationQuery && (
+                        <button
+                          type="button"
+                          onClick={() => setDestinationQuery('')}
+                          className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700"
+                        >
+                          <X className="w-3.5 h-3.5" />
+                        </button>
+                      )}
+                    </div>
 
                     {destOpen && (
-                      <div className="absolute top-full left-0 right-0 mt-1.5 bg-white rounded-2xl border border-slate-200 shadow-2xl p-2 z-50 animate-fade-in max-h-64 overflow-y-auto">
-                        <div className="flex items-center justify-between px-2 py-1 border-b border-slate-100 mb-1">
+                      <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl border border-slate-200 shadow-[0_25px_60px_rgba(0,0,0,0.28)] p-2 z-[100] animate-fade-in max-h-72 overflow-y-auto">
+                        <div className="flex items-center justify-between px-2.5 py-1.5 border-b border-slate-100 mb-1.5">
                           <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
                             Popular Karnataka Circuits
                           </span>
                           <button
                             type="button"
                             onClick={() => setDestOpen(false)}
-                            className="text-slate-400 hover:text-slate-700"
+                            className="text-slate-400 hover:text-slate-700 p-0.5"
                           >
-                            <X className="w-3 h-3" />
+                            <X className="w-3.5 h-3.5" />
                           </button>
                         </div>
-                        {filteredDestinations.map((d) => (
-                          <div
-                            key={d.name}
-                            onClick={() => {
-                              setDestinationQuery(d.name);
-                              setDestOpen(false);
-                            }}
-                            className="p-2 rounded-xl text-xs cursor-pointer hover:bg-slate-100 transition-colors flex items-center gap-2.5"
-                          >
-                            <span className="text-base">{d.icon}</span>
-                            <div className="min-w-0">
-                              <span className="font-bold text-slate-900 block truncate">{d.name}</span>
-                              <span className="text-[10px] text-slate-500 block truncate">{d.tag}</span>
+                        <div className="space-y-1">
+                          {filteredDestinations.map((d) => (
+                            <div
+                              key={d.name}
+                              onClick={() => {
+                                setDestinationQuery(d.name);
+                                setDestOpen(false);
+                              }}
+                              className="p-2.5 rounded-xl text-xs cursor-pointer hover:bg-slate-100 transition-colors flex items-center gap-3"
+                            >
+                              <span className="text-lg shrink-0">{d.icon}</span>
+                              <div className="min-w-0">
+                                <span className="font-bold text-slate-900 block truncate">{d.name}</span>
+                                <span className="text-[11px] text-slate-500 block truncate">{d.tag}</span>
+                              </div>
                             </div>
-                          </div>
-                        ))}
+                          ))}
+                        </div>
                       </div>
                     )}
                   </div>
@@ -545,28 +562,30 @@ export const HeroBanner: React.FC = () => {
                     />
 
                     {hotelOpen && (
-                      <div className="absolute top-full left-0 right-0 mt-1.5 bg-white rounded-2xl border border-slate-200 shadow-2xl p-2 z-50 animate-fade-in max-h-64 overflow-y-auto">
-                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block px-2 py-1">
+                      <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl border border-slate-200 shadow-[0_25px_60px_rgba(0,0,0,0.28)] p-2 z-[100] animate-fade-in max-h-72 overflow-y-auto">
+                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block px-2.5 py-1">
                           Hotel Mayura Heritage Chain
                         </span>
-                        {filteredHotels.map((h) => (
-                          <div
-                            key={h.name}
-                            onClick={() => {
-                              setHotelDestination(h.name);
-                              setHotelOpen(false);
-                            }}
-                            className="p-2 rounded-xl text-xs cursor-pointer hover:bg-slate-100 transition-colors flex items-center justify-between"
-                          >
-                            <div>
-                              <span className="font-bold text-slate-900 block truncate">{h.name}</span>
-                              <span className="text-[10px] text-slate-500 block truncate">{h.place}</span>
+                        <div className="space-y-1">
+                          {filteredHotels.map((h) => (
+                            <div
+                              key={h.name}
+                              onClick={() => {
+                                setHotelDestination(h.name);
+                                setHotelOpen(false);
+                              }}
+                              className="p-2.5 rounded-xl text-xs cursor-pointer hover:bg-slate-100 transition-colors flex items-center justify-between"
+                            >
+                              <div>
+                                <span className="font-bold text-slate-900 block truncate">{h.name}</span>
+                                <span className="text-[11px] text-slate-500 block truncate">{h.place}</span>
+                              </div>
+                              <span className="text-[10px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-md shrink-0 ml-2">
+                                {h.type}
+                              </span>
                             </div>
-                            <span className="text-[10px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-md">
-                              {h.type}
-                            </span>
-                          </div>
-                        ))}
+                          ))}
+                        </div>
                       </div>
                     )}
                   </div>
@@ -640,19 +659,24 @@ export const HeroBanner: React.FC = () => {
                       className="w-full p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 font-semibold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-slate-900"
                     />
                     {pickupOpen && (
-                      <div className="absolute top-full left-0 right-0 mt-1.5 bg-white rounded-2xl border border-slate-200 shadow-2xl p-1.5 z-50 animate-fade-in max-h-56 overflow-y-auto">
-                        {CAB_PICKUP_SUGGESTIONS.map((p) => (
-                          <div
-                            key={p}
-                            onClick={() => {
-                              setCabPickup(p);
-                              setPickupOpen(false);
-                            }}
-                            className="p-2 rounded-xl text-xs font-semibold hover:bg-slate-100 cursor-pointer transition-colors text-slate-800"
-                          >
-                            {p}
-                          </div>
-                        ))}
+                      <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl border border-slate-200 shadow-[0_25px_60px_rgba(0,0,0,0.28)] p-2 z-[100] animate-fade-in max-h-60 overflow-y-auto">
+                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block px-2.5 py-1">
+                          Popular Pickup Hubs
+                        </span>
+                        <div className="space-y-1">
+                          {CAB_PICKUP_SUGGESTIONS.map((p) => (
+                            <div
+                              key={p}
+                              onClick={() => {
+                                setCabPickup(p);
+                                setPickupOpen(false);
+                              }}
+                              className="p-2.5 rounded-xl text-xs font-semibold hover:bg-slate-100 cursor-pointer transition-colors text-slate-800"
+                            >
+                              {p}
+                            </div>
+                          ))}
+                        </div>
                       </div>
                     )}
                   </div>
@@ -673,19 +697,24 @@ export const HeroBanner: React.FC = () => {
                       className="w-full p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 font-semibold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-slate-900"
                     />
                     {dropOpen && (
-                      <div className="absolute top-full left-0 right-0 mt-1.5 bg-white rounded-2xl border border-slate-200 shadow-2xl p-1.5 z-50 animate-fade-in max-h-56 overflow-y-auto">
-                        {CAB_DROP_SUGGESTIONS.map((d) => (
-                          <div
-                            key={d}
-                            onClick={() => {
-                              setCabDrop(d);
-                              setDropOpen(false);
-                            }}
-                            className="p-2 rounded-xl text-xs font-semibold hover:bg-slate-100 cursor-pointer transition-colors text-slate-800"
-                          >
-                            {d}
-                          </div>
-                        ))}
+                      <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl border border-slate-200 shadow-[0_25px_60px_rgba(0,0,0,0.28)] p-2 z-[100] animate-fade-in max-h-60 overflow-y-auto">
+                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block px-2.5 py-1">
+                          Common Drop Localities
+                        </span>
+                        <div className="space-y-1">
+                          {CAB_DROP_SUGGESTIONS.map((d) => (
+                            <div
+                              key={d}
+                              onClick={() => {
+                                setCabDrop(d);
+                                setDropOpen(false);
+                              }}
+                              className="p-2.5 rounded-xl text-xs font-semibold hover:bg-slate-100 cursor-pointer transition-colors text-slate-800"
+                            >
+                              {d}
+                            </div>
+                          ))}
+                        </div>
                       </div>
                     )}
                   </div>
@@ -722,22 +751,27 @@ export const HeroBanner: React.FC = () => {
                     />
 
                     {activityOpen && (
-                      <div className="absolute top-full left-0 right-0 mt-1.5 bg-white rounded-2xl border border-slate-200 shadow-2xl p-2 z-50 animate-fade-in max-h-56 overflow-y-auto">
-                        {ACTIVITY_SUGGESTIONS.map((act) => (
-                          <div
-                            key={act.title}
-                            onClick={() => {
-                              setActivitySearch(act.title);
-                              setActivityOpen(false);
-                            }}
-                            className="p-2 rounded-xl text-xs hover:bg-slate-100 cursor-pointer transition-colors flex items-center justify-between"
-                          >
-                            <span className="font-bold text-slate-900 truncate">{act.title}</span>
-                            <span className="text-[10px] font-semibold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-md shrink-0 ml-2">
-                              {act.city}
-                            </span>
-                          </div>
-                        ))}
+                      <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl border border-slate-200 shadow-[0_25px_60px_rgba(0,0,0,0.28)] p-2 z-[100] animate-fade-in max-h-60 overflow-y-auto">
+                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block px-2.5 py-1">
+                          Official Experiences
+                        </span>
+                        <div className="space-y-1">
+                          {ACTIVITY_SUGGESTIONS.map((act) => (
+                            <div
+                              key={act.title}
+                              onClick={() => {
+                                setActivitySearch(act.title);
+                                setActivityOpen(false);
+                              }}
+                              className="p-2.5 rounded-xl text-xs hover:bg-slate-100 cursor-pointer transition-colors flex items-center justify-between"
+                            >
+                              <span className="font-bold text-slate-900 truncate">{act.title}</span>
+                              <span className="text-[10px] font-semibold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-md shrink-0 ml-2">
+                                {act.city}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
                       </div>
                     )}
                   </div>
