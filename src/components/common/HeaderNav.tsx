@@ -23,6 +23,7 @@ export const HeaderNav: React.FC<Props> = ({ currentPath: initialPath = '' }) =>
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [plannerOpen, setPlannerOpen] = useState(false);
   const [isHighContrast, setIsHighContrast] = useState(false);
+  const [isLowBandwidth, setIsLowBandwidth] = useState(false);
   const [fontScale, setFontScale] = useState<'normal' | 'lg' | 'xl'>('normal');
   const [activePath, setActivePath] = useState(initialPath || (typeof window !== 'undefined' ? window.location.pathname : '/'));
   const [bookingsCount, setBookingsCount] = useState(0);
@@ -36,7 +37,8 @@ export const HeaderNav: React.FC<Props> = ({ currentPath: initialPath = '' }) =>
   useEffect(() => {
     setLang(getStoredLanguage());
     if (typeof window !== 'undefined') {
-      setActivePath(window.location.pathname);
+      const cleanP = window.location.pathname.replace(/\/$/, '') || '/';
+      setActivePath(cleanP);
       const updateCount = () => {
         setBookingsCount(getStoredBookings().length);
       };
@@ -146,13 +148,14 @@ export const HeaderNav: React.FC<Props> = ({ currentPath: initialPath = '' }) =>
     searchCabResults.length +
     searchActResults.length;
 
+  const normalizedPath = activePath.replace(/\/$/, '') || '/';
   const navLinks = [
-    { href: '/', label: 'Home', active: activePath === '/' || activePath === '' },
-    { href: '/trips', label: 'Tours', active: activePath.startsWith('/trips') || activePath.startsWith('/book') },
-    { href: '/stays', label: 'Hotels', active: activePath.startsWith('/stays') },
-    { href: '/cabs', label: 'Airport Taxi', active: activePath.startsWith('/cabs') },
-    { href: '/activities', label: 'Activities', active: activePath.startsWith('/activities') },
-    { href: '/destinations', label: 'Destinations', active: activePath.startsWith('/destinations') },
+    { href: '/', label: 'Home', active: normalizedPath === '/' },
+    { href: '/trips', label: 'Tours', active: normalizedPath === '/trips' || normalizedPath.startsWith('/trips/') || normalizedPath.startsWith('/book') },
+    { href: '/stays', label: 'Hotels', active: normalizedPath === '/stays' || normalizedPath.startsWith('/stays/') },
+    { href: '/cabs', label: 'Airport Taxi', active: normalizedPath === '/cabs' || normalizedPath.startsWith('/cabs/') },
+    { href: '/activities', label: 'Activities', active: normalizedPath === '/activities' || normalizedPath.startsWith('/activities/') },
+    { href: '/destinations', label: 'Destinations', active: normalizedPath === '/destinations' || normalizedPath.startsWith('/destinations/') },
   ];
 
   return (
