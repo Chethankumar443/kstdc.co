@@ -7,7 +7,7 @@ import { HOTELS_DATA } from '../../data/hotelsData';
 import { getStoredLanguage, saveBooking } from '../../lib/bookingStore';
 import { TRANSLATIONS } from '../../data/translations';
 import { CustomSelect } from '../common/CustomSelect';
-import type { Language, MayuraHotel, BookingRecord } from '../../types/travel';
+import type { Language, MayuraHotel, BookingRecord, PassengerDetail } from '../../types/travel';
 
 export const StaysDirectory: React.FC = () => {
   const [lang, setLang] = useState<Language>('en');
@@ -21,6 +21,11 @@ export const StaysDirectory: React.FC = () => {
   const [checkOutDate, setCheckOutDate] = useState('2026-08-31');
   const [guestsCount, setGuestsCount] = useState(2);
   const [roomsCount, setRoomsCount] = useState(1);
+  const [contactName, setContactName] = useState('Vikram Somanna');
+  const [contactPhone, setContactPhone] = useState('+91 94801 88990');
+  const [contactEmail, setContactEmail] = useState('vikram.somanna@gmail.com');
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [confirmedId, setConfirmedId] = useState<string | null>(null);
   const [guestList, setGuestList] = useState<string[]>(['Vikram Somanna', 'Ananya Somanna']);
 
   // Sync guestList with guestsCount
