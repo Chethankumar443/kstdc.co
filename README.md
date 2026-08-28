@@ -1,13 +1,23 @@
 # KSTDC — Karnataka Tourism Citizen Experience 🌿
 
+[![Live Demo](https://img.shields.io/badge/Live_Demo-kstdc--co--apex--os.vercel.app-0064E0?style=for-the-badge&logo=vercel&logoColor=white)](https://kstdc-co-apex-os.vercel.app)
 [![Astro](https://img.shields.io/badge/Astro-5.0+-BC52EE.svg?style=flat&logo=astro&logoColor=white)](https://astro.build)
 [![React](https://img.shields.io/badge/React-19.0+-61DAFB.svg?style=flat&logo=react&logoColor=black)](https://react.dev)
 [![TailwindCSS](https://img.shields.io/badge/TailwindCSS-v4.0-38B2AC.svg?style=flat&logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-3178C6.svg?style=flat&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
+> **🚀 Live Application**: [https://kstdc-co-apex-os.vercel.app](https://kstdc-co-apex-os.vercel.app)  
 > **Build What Moves India · Public Digital Service Reimagining**  
 > An executive, citizen-first digital tourism and hospitality portal reimagining the **Karnataka State Tourism Development Corporation (KSTDC)** with modern web architecture, multi-passenger manifest booking, instant government tax invoices, and zero-compromise accessibility.
+
+---
+
+## 🌐 Live Prototype & Deployment
+
+- 🔗 **Production Deployment**: [https://kstdc-co-apex-os.vercel.app](https://kstdc-co-apex-os.vercel.app)
+- ⚡ **Framework**: Astro 5 (Static Site Generation + React 19 Islands)
+- 🔒 **SSL & Edge CDN**: Verified Vercel Global Edge Network
 
 ---
 
