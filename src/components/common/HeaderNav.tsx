@@ -405,12 +405,12 @@ export const HeaderNav: React.FC<Props> = ({ currentPath: initialPath = '' }) =>
                     <span className="text-xs text-slate-500 font-medium block">Quick Suggestions:</span>
                     <div className="flex flex-wrap gap-1.5">
                       {[
-                        { label: '🌲 Coorg Mist Tour', query: 'Coorg' },
-                        { label: '🏛️ Hampi Heritage', query: 'Hampi' },
-                        { label: '👑 Mysuru Royal Express', query: 'Mysuru' },
-                        { label: '🏖️ Gokarna Beach', query: 'Gokarna' },
-                        { label: '🚖 Airport Taxi BLR', query: 'Airport' },
-                        { label: '🚌 Ambaari Double Decker', query: 'Ambaari' },
+                        { label: 'Coorg Mist Tour', query: 'Coorg' },
+                        { label: 'Hampi Heritage', query: 'Hampi' },
+                        { label: 'Mysuru Royal Express', query: 'Mysuru' },
+                        { label: 'Gokarna Beach', query: 'Gokarna' },
+                        { label: 'Airport Taxi BLR', query: 'Airport' },
+                        { label: 'Ambaari Double Decker', query: 'Ambaari' },
                       ].map((item) => (
                         <button
                           key={item.query}

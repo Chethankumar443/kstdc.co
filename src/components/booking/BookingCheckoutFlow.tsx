@@ -577,10 +577,17 @@ export const BookingCheckoutFlow: React.FC<Props> = ({ trip }) => {
                 {/* Booking Recap */}
                 <div className="p-4 rounded-2xl bg-surface-soft border border-hairline-soft flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
                   <div className="space-y-1">
-                    <span className="font-bold text-ink-deep text-sm block">{trip.title}</span>
-                    <span className="text-steel">
-                      📅 {new Date(selectedDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })} · 📍 {selectedPickup.name} ({selectedPickup.time})
-                    </span>
+                    <div className="text-steel flex flex-wrap items-center gap-2 pt-0.5">
+                      <div className="flex items-center gap-1">
+                        <Calendar className="w-3.5 h-3.5 text-primary-cobalt" />
+                        <span>{new Date(selectedDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+                      </div>
+                      <span>•</span>
+                      <div className="flex items-center gap-1">
+                        <MapPin className="w-3.5 h-3.5 text-primary-cobalt" />
+                        <span>{selectedPickup.name} ({selectedPickup.time})</span>
+                      </div>
+                    </div>
                   </div>
                   <div className="text-right">
                     <span className="font-bold text-ink-deep block">

@@ -52,16 +52,16 @@ const ORIGIN_SUGGESTIONS = [
 ];
 
 const DESTINATION_SUGGESTIONS = [
-  { name: 'Coorg (Madikeri)', tag: 'Misty Hills & Coffee Estates', icon: '🌲' },
-  { name: 'Hampi (UNESCO Heritage)', tag: 'Vijayanagara Empire Ruins', icon: '🏛️' },
-  { name: 'Mysuru (Royal Heritage)', tag: 'Palace Illumination & Silk', icon: '👑' },
-  { name: 'Gokarna & Murudeshwar', tag: 'Coastal Beaches & Temples', icon: '🏖️' },
-  { name: 'Chikmagalur & Mullayanagiri', tag: 'Highest Peak & Waterfalls', icon: '⛰️' },
-  { name: 'Nandi Hills & Vineyards', tag: 'Sunrise Fortress Tour', icon: '🌄' },
-  { name: 'Jog Falls & Western Ghats', tag: 'India’s Iconic Waterfall', icon: '🌊' },
-  { name: 'Bandipur & Kabini Wildlife', tag: 'Tiger Safari Reserve', icon: '🐅' },
-  { name: 'Belur & Halebeedu', tag: 'Hoysala Architecture', icon: '🛕' },
-  { name: 'Badami, Aihole & Pattadakal', tag: 'Chalukya Rock-Cut Caves', icon: '🗿' },
+  { name: 'Coorg (Madikeri)', tag: 'Misty Hills & Coffee Estates', category: 'Hills' },
+  { name: 'Hampi (UNESCO Heritage)', tag: 'Vijayanagara Empire Ruins', category: 'Heritage' },
+  { name: 'Mysuru (Royal Heritage)', tag: 'Palace Illumination & Silk', category: 'Heritage' },
+  { name: 'Gokarna & Murudeshwar', tag: 'Coastal Beaches & Temples', category: 'Coastal' },
+  { name: 'Chikmagalur & Mullayanagiri', tag: 'Highest Peak & Waterfalls', category: 'Adventure' },
+  { name: 'Nandi Hills & Vineyards', tag: 'Sunrise Fortress Tour', category: 'Weekend' },
+  { name: 'Jog Falls & Western Ghats', tag: 'India’s Iconic Waterfall', category: 'Nature' },
+  { name: 'Bandipur & Kabini Wildlife', tag: 'Tiger Safari Reserve', category: 'Wildlife' },
+  { name: 'Belur & Halebeedu', tag: 'Hoysala Architecture', category: 'Architecture' },
+  { name: 'Badami, Aihole & Pattadakal', tag: 'Chalukya Rock-Cut Caves', category: 'Caves' },
 ];
 
 const HOTEL_SUGGESTIONS = [
@@ -478,13 +478,18 @@ export const HeroBanner: React.FC = () => {
                                 setDestinationQuery(d.name);
                                 setDestOpen(false);
                               }}
-                              className="p-2.5 rounded-xl text-xs cursor-pointer hover:bg-slate-100 transition-colors flex items-center gap-3"
+                              className="p-2.5 rounded-xl text-xs cursor-pointer hover:bg-slate-100 transition-colors flex items-center justify-between gap-3"
                             >
-                              <span className="text-lg shrink-0">{d.icon}</span>
-                              <div className="min-w-0">
-                                <span className="font-bold text-slate-900 block truncate">{d.name}</span>
-                                <span className="text-[11px] text-slate-500 block truncate">{d.tag}</span>
+                              <div className="flex items-center gap-2.5 min-w-0">
+                                <MapPin className="w-3.5 h-3.5 text-slate-500 shrink-0" />
+                                <div className="min-w-0">
+                                  <span className="font-bold text-slate-900 block truncate">{d.name}</span>
+                                  <span className="text-[11px] text-slate-500 block truncate">{d.tag}</span>
+                                </div>
                               </div>
+                              <span className="text-[10px] font-bold text-slate-600 bg-slate-100 px-2 py-0.5 rounded-md shrink-0">
+                                {d.category}
+                              </span>
                             </div>
                           ))}
                         </div>

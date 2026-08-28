@@ -151,7 +151,7 @@ export const DestinationsExplorer: React.FC = () => {
                   <div className="flex flex-wrap gap-1.5">
                     {dest.experiences.map((exp, i) => (
                       <span key={i} className="text-[11px] px-3 py-1 rounded-full bg-slate-100 text-slate-700 border border-slate-200 font-medium">
-                        ✦ {exp}
+                        {exp}
                       </span>
                     ))}
                   </div>
