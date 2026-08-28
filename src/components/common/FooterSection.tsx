@@ -17,7 +17,7 @@ export const FooterSection: React.FC = () => {
   const t = TRANSLATIONS[lang] || TRANSLATIONS.en;
 
   return (
-    <footer style={{ backgroundColor: '#5D636E' }} className="text-slate-100 border-t border-slate-600/40 pt-14 pb-12 transition-colors">
+    <footer className="bg-[#5D636E] dark:bg-[#060a12] text-slate-100 border-t border-slate-600/40 dark:border-slate-800 pt-14 pb-12 transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         
         {/* Top 5-Column Grid */}

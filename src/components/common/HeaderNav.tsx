@@ -163,7 +163,7 @@ export const HeaderNav: React.FC<Props> = ({ currentPath: initialPath = '' }) =>
 
   return (
     <>
-      <header className="sticky top-0 z-40 bg-white border-b border-slate-200 shadow-xs transition-colors">
+      <header className="sticky top-0 z-40 bg-white dark:bg-[#0c1322] border-b border-slate-200 dark:border-slate-800 shadow-xs transition-colors">
         
         {/* TOP MICRO UTILITY & ACCESSIBILITY BAR */}
         <div className="bg-slate-950 text-slate-300 text-[11px] font-medium border-b border-slate-800 py-1.5 px-4 sm:px-6 lg:px-8">
@@ -188,12 +188,24 @@ export const HeaderNav: React.FC<Props> = ({ currentPath: initialPath = '' }) =>
             </div>
 
             {/* Leadership Avatars on Desktop (Like kstdc.co) */}
-            <div className="hidden xl:flex items-center gap-2 pl-4 border-l border-slate-800">
-              <div className="flex items-center -space-x-1.5 overflow-hidden">
+            <div className="hidden md:flex items-center gap-2">
+              <div className="flex -space-x-1.5">
+                <img
+                  src="/leadership/siddaramaiah.jpeg"
+                  alt="Sri Siddaramaiah - Hon'ble Chief Minister"
+                  title="Sri Siddaramaiah (Hon'ble Chief Minister of Karnataka)"
+                  className="inline-block w-6 h-6 rounded-full ring-2 ring-slate-800 object-cover object-top hover:scale-125 transition-transform z-10 hover:z-20 cursor-pointer"
+                />
                 <img
                   src="/leadership/dk-shivakumar.jpeg"
-                  alt="Sri D. K. Shivakumar - Hon'ble Dy Chief Minister"
-                  title="Sri D. K. Shivakumar (Hon'ble Dy Chief Minister)"
+                  alt="Sri D. K. Shivakumar - Hon'ble Deputy Chief Minister"
+                  title="Sri D. K. Shivakumar (Hon'ble Deputy Chief Minister)"
+                  className="inline-block w-6 h-6 rounded-full ring-2 ring-slate-800 object-cover object-top hover:scale-125 transition-transform z-10 hover:z-20 cursor-pointer"
+                />
+                <img
+                  src="/leadership/h-k-patil.jpeg"
+                  alt="Sri H. K. Patil - Hon'ble Minister for Tourism"
+                  title="Sri H. K. Patil (Hon'ble Minister for Tourism)"
                   className="inline-block w-6 h-6 rounded-full ring-2 ring-slate-800 object-cover object-top hover:scale-125 transition-transform z-10 hover:z-20 cursor-pointer"
                 />
                 <img
@@ -202,23 +214,11 @@ export const HeaderNav: React.FC<Props> = ({ currentPath: initialPath = '' }) =>
                   title="Dr. G. Parameshwara (Hon'ble Home Minister)"
                   className="inline-block w-6 h-6 rounded-full ring-2 ring-slate-800 object-cover object-top hover:scale-125 transition-transform z-10 hover:z-20 cursor-pointer"
                 />
-                <img
-                  src="/leadership/kj-george.jpeg"
-                  alt="Sri K. J. George - Hon'ble Energy Minister"
-                  title="Sri K. J. George (Hon'ble Energy Minister)"
-                  className="inline-block w-6 h-6 rounded-full ring-2 ring-slate-800 object-cover object-top hover:scale-125 transition-transform z-10 hover:z-20 cursor-pointer"
-                />
-                <img
-                  src="/leadership/chairman-kstdc.jpeg"
-                  alt="Chairman, KSTDC"
-                  title="Chairman, Karnataka State Tourism Development Corporation"
-                  className="inline-block w-6 h-6 rounded-full ring-2 ring-slate-800 object-cover object-top hover:scale-125 transition-transform z-10 hover:z-20 cursor-pointer"
-                />
               </div>
               <span className="text-[10px] text-slate-400 font-medium">State Leadership</span>
             </div>
 
-            {/* Right Tools: Accessibility + Language */}
+            {/* Right Tools: Theme Toggle + Language */}
             <div className="flex items-center gap-2.5 ml-auto">
               
               {/* Single-Click Dark / Light Mode Theme Toggle Button */}
@@ -256,7 +256,7 @@ export const HeaderNav: React.FC<Props> = ({ currentPath: initialPath = '' }) =>
                 </button>
 
                 {langMenuOpen && (
-                  <div className="absolute right-0 top-full mt-1.5 w-32 bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl p-1.5 z-50 animate-fade-in text-xs space-y-0.5">
+                  <div className="absolute right-0 top-full mt-2 w-32 bg-slate-900 rounded-2xl border border-slate-800 shadow-xl p-1.5 z-50 animate-fade-in text-xs">
                     <button
                       type="button"
                       onClick={() => {
@@ -315,7 +315,7 @@ export const HeaderNav: React.FC<Props> = ({ currentPath: initialPath = '' }) =>
               alt="Official KSTDC Karnataka Logo"
               className="w-9 h-9 sm:w-10 sm:h-10 object-contain group-hover:scale-105 transition-transform"
             />
-            <div className="h-7 w-px bg-slate-200 hidden sm:block" />
+            <div className="h-7 w-px bg-slate-200 dark:bg-slate-800 hidden sm:block" />
             <img
               src="/karnataka-tourism-logo.png"
               alt="Karnataka Department of Tourism Logo"
@@ -323,27 +323,27 @@ export const HeaderNav: React.FC<Props> = ({ currentPath: initialPath = '' }) =>
             />
             <div className="flex flex-col">
               <div className="flex items-center gap-1.5">
-                <span className="font-bold text-base sm:text-lg tracking-tight text-slate-950">KSTDC</span>
-                <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-blue-50 text-blue-800 border border-blue-200">
+                <span className="font-bold text-base sm:text-lg tracking-tight text-slate-950 dark:text-white">KSTDC</span>
+                <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-blue-50 dark:bg-blue-950/80 text-blue-800 dark:text-blue-300 border border-blue-200 dark:border-blue-800">
                   Karnataka
                 </span>
               </div>
-              <span className="text-[10px] sm:text-[11px] text-slate-500 font-medium hidden sm:inline -mt-0.5">
+              <span className="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 font-medium hidden sm:inline -mt-0.5">
                 Karnataka State Tourism Development Corporation
               </span>
             </div>
           </a>
 
           {/* Desktop Navigation Links with Active Indicator */}
-          <nav className="hidden lg:flex items-center gap-1 bg-slate-100/90 p-1.5 rounded-full border border-slate-200/80">
+          <nav className="hidden lg:flex items-center gap-1 bg-slate-100/90 dark:bg-slate-800/90 p-1.5 rounded-full border border-slate-200/80 dark:border-slate-700">
             {navLinks.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
                 className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all duration-150 ${
                   link.active
-                    ? 'bg-slate-950 text-white shadow-xs font-bold'
-                    : 'text-slate-700 hover:text-slate-950 hover:bg-white'
+                    ? 'bg-slate-950 dark:bg-white text-white dark:text-slate-950 shadow-xs font-bold'
+                    : 'text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white hover:bg-white dark:hover:bg-slate-700'
                 }`}
               >
                 {link.label}
@@ -355,7 +355,7 @@ export const HeaderNav: React.FC<Props> = ({ currentPath: initialPath = '' }) =>
           <div className="relative hidden md:block flex-1 max-w-xs lg:max-w-sm" ref={searchContainerRef}>
             <div
               onClick={() => setSearchOpen(true)}
-              className="flex items-center w-full bg-slate-100 hover:bg-slate-200/70 border border-slate-200 rounded-full px-3.5 py-2 text-xs text-slate-500 cursor-pointer transition-all focus-within:ring-2 focus-within:ring-slate-950 focus-within:bg-white"
+              className="flex items-center w-full bg-slate-100 dark:bg-slate-800 hover:bg-slate-200/70 dark:hover:bg-slate-700/70 border border-slate-200 dark:border-slate-700 rounded-full px-3.5 py-2 text-xs text-slate-500 dark:text-slate-300 cursor-pointer transition-all focus-within:ring-2 focus-within:ring-slate-950 dark:focus-within:ring-white focus-within:bg-white dark:focus-within:bg-slate-900"
             >
               <Search className="w-3.5 h-3.5 text-slate-400 shrink-0 mr-2" />
               <input
@@ -366,9 +366,8 @@ export const HeaderNav: React.FC<Props> = ({ currentPath: initialPath = '' }) =>
                   setSearchQuery(e.target.value);
                   setSearchOpen(true);
                 }}
-                onFocus={() => setSearchOpen(true)}
                 placeholder="Search destinations, tours, hotels..."
-                className="bg-transparent text-slate-900 placeholder:text-slate-400 focus:outline-none w-full text-xs font-medium"
+                className="bg-transparent text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none w-full text-xs font-medium"
               />
               {searchQuery && (
                 <button
@@ -639,7 +638,7 @@ export const HeaderNav: React.FC<Props> = ({ currentPath: initialPath = '' }) =>
             {/* Mobile Menu Toggle Button */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden p-2 rounded-full bg-slate-100 border border-slate-200 text-slate-900 hover:bg-slate-200 transition-colors"
+              className="lg:hidden p-2 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
               aria-label="Toggle Menu"
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -650,7 +649,7 @@ export const HeaderNav: React.FC<Props> = ({ currentPath: initialPath = '' }) =>
 
         {/* MOBILE NAVIGATION DRAWER */}
         {mobileMenuOpen && (
-          <div className="lg:hidden bg-white border-b border-slate-200 p-5 space-y-4 shadow-xl animate-fade-in">
+          <div className="lg:hidden bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 p-5 space-y-4 shadow-xl animate-fade-in">
             
             {/* Mobile Search Input Bar */}
             <div className="relative">
@@ -660,7 +659,7 @@ export const HeaderNav: React.FC<Props> = ({ currentPath: initialPath = '' }) =>
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search destinations, tours, hotels..."
-                className="w-full pl-9.5 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-xs text-slate-900 font-medium focus:outline-none focus:ring-2 focus:ring-slate-950"
+                className="w-full pl-9.5 pr-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl text-xs text-slate-900 dark:text-white font-medium focus:outline-none focus:ring-2 focus:ring-slate-950 dark:focus:ring-blue-500"
               />
             </div>
 
@@ -672,8 +671,8 @@ export const HeaderNav: React.FC<Props> = ({ currentPath: initialPath = '' }) =>
                   href={link.href}
                   className={`p-3 rounded-2xl transition-colors flex items-center justify-between ${
                     link.active
-                      ? 'bg-slate-950 text-white'
-                      : 'bg-slate-50 hover:bg-slate-100 text-slate-900 border border-slate-100'
+                      ? 'bg-slate-950 dark:bg-white text-white dark:text-slate-950'
+                      : 'bg-slate-50 dark:bg-slate-800/80 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-900 dark:text-slate-100 border border-slate-100 dark:border-slate-700'
                   }`}
                   onClick={() => setMobileMenuOpen(false)}
                 >

@@ -255,26 +255,11 @@ export const HeroBanner: React.FC = () => {
             ))}
           </div>
 
-          {/* Top Label & Minimal Slide Indicator */}
+          {/* Top Government Badge */}
           <div className="relative z-10 flex items-center justify-between gap-3">
             <div className="inline-flex items-center gap-2 px-3 sm:px-3.5 py-1 rounded-full bg-black/40 backdrop-blur-md text-white text-[11px] sm:text-xs font-semibold border border-white/20">
               <ShieldCheck className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
               <span className="truncate">{activeSlideData.badge}</span>
-            </div>
-
-            {/* Sleek Minimalist Slide Dots (No bulky buttons/borders) */}
-            <div className="flex items-center gap-1.5 bg-black/30 backdrop-blur-md px-2.5 py-1.5 rounded-full border border-white/15">
-              {HERO_SLIDES.map((_, i) => (
-                <button
-                  key={i}
-                  type="button"
-                  onClick={() => setCurrentSlide(i)}
-                  className={`h-1.5 rounded-full transition-all duration-300 ${
-                    i === currentSlide ? 'w-5 sm:w-6 bg-white shadow-xs' : 'w-1.5 bg-white/40 hover:bg-white/70'
-                  }`}
-                  aria-label={`Go to slide ${i + 1}`}
-                />
-              ))}
             </div>
           </div>
 
@@ -780,6 +765,52 @@ export const HeroBanner: React.FC = () => {
 
           </div>
 
+        </div>
+
+        {/* Slide Switcher & Destination Highlights (Positioned Under / Below the Image) */}
+        <div className="flex flex-wrap items-center justify-between gap-3 pt-3 px-2 sm:px-4">
+          <div className="flex items-center gap-2 text-xs font-semibold text-slate-600 dark:text-slate-400">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0" />
+            <span className="text-slate-500 dark:text-slate-400 hidden sm:inline">Featured Destination:</span>
+            <span className="text-slate-900 dark:text-white font-bold">{activeSlideData.badge}</span>
+          </div>
+
+          {/* Clean Under-Image Slide Buttons & Progress Dots */}
+          <div className="flex items-center gap-2 ml-auto">
+            <button
+              type="button"
+              onClick={prevSlide}
+              className="p-1.5 rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200/60 dark:border-slate-700 transition-colors cursor-pointer"
+              aria-label="Previous slide"
+            >
+              <ChevronLeft className="w-4 h-4" />
+            </button>
+
+            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200/60 dark:border-slate-700">
+              {HERO_SLIDES.map((_, i) => (
+                <button
+                  key={i}
+                  type="button"
+                  onClick={() => setCurrentSlide(i)}
+                  className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
+                    i === currentSlide
+                      ? 'w-6 bg-slate-900 dark:bg-white shadow-xs'
+                      : 'w-1.5 bg-slate-300 dark:bg-slate-600 hover:bg-slate-400'
+                  }`}
+                  aria-label={`Go to slide ${i + 1}`}
+                />
+              ))}
+            </div>
+
+            <button
+              type="button"
+              onClick={nextSlide}
+              className="p-1.5 rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200/60 dark:border-slate-700 transition-colors cursor-pointer"
+              aria-label="Next slide"
+            >
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          </div>
         </div>
 
       </div>

@@ -1,8 +1,9 @@
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
 
 @layer base {
   :root {
-    /* Meta Design System Tokens from DESIGN-meta.md */
+    /* Meta Design System Tokens */
     --color-primary: #0064e0;
     --color-primary-deep: #0457cb;
     --color-primary-soft: #0091ff;
@@ -38,70 +39,110 @@
     --color-hairline-soft: #dee3e9;
   }
 
-  /* Dark Mode Theme */
+  /* Full-Portal Dark Mode Theme */
   html.dark {
     --color-canvas: #090d16;
     --color-surface-soft: #0f172a;
-    --color-surface-card: #141e33;
-    --color-ink-deep: #f8fafc;
-    --color-ink: #f1f5f9;
+    --color-surface-card: #131d31;
+    --color-ink-deep: #ffffff;
+    --color-ink: #f8fafc;
     --color-charcoal: #cbd5e1;
     --color-slate: #94a3b8;
     --color-steel: #94a3b8;
     --color-stone: #64748b;
     --color-disabled-text: #475569;
-    --color-hairline: #2d3b55;
-    --color-hairline-soft: #1a253c;
+    --color-hairline: #22324e;
+    --color-hairline-soft: #172338;
     --color-ink-button: #ffffff;
     --color-on-ink-button: #000000;
+    --color-primary: #38bdf8;
+    color-scheme: dark;
   }
 
   html.dark body {
-    background-color: #090d16;
-    color: #f1f5f9;
+    background-color: #090d16 !important;
+    color: #f8fafc !important;
   }
 
   html.dark header {
-    background-color: #0e1526;
-    border-color: #1e2c47;
+    background-color: #0d1424 !important;
+    border-color: #1e2c47 !important;
+  }
+
+  html.dark main {
+    background-color: #090d16 !important;
+  }
+
+  html.dark section {
+    background-color: transparent;
+  }
+
+  html.dark .bg-canvas {
+    background-color: #090d16 !important;
   }
 
   html.dark .bg-white {
-    background-color: #131d31;
+    background-color: #121c32 !important;
     color: #f8fafc;
   }
 
+  html.dark .bg-surface-soft,
   html.dark .bg-slate-50 {
-    background-color: #0d1527;
+    background-color: #0d1527 !important;
     color: #f8fafc;
   }
 
   html.dark .bg-slate-100 {
-    background-color: #18233a;
+    background-color: #18243c !important;
     color: #f8fafc;
+  }
+
+  html.dark .bg-slate-200 {
+    background-color: #1f2f4e !important;
   }
 
   html.dark .border-slate-200,
-  html.dark .border-slate-100 {
-    border-color: #243452;
+  html.dark .border-slate-100,
+  html.dark .border-slate-300,
+  html.dark .border-hairline,
+  html.dark .border-hairline-soft {
+    border-color: #22324e !important;
   }
 
   html.dark .text-slate-900,
-  html.dark .text-slate-950 {
-    color: #f8fafc;
+  html.dark .text-slate-950,
+  html.dark .text-ink-deep {
+    color: #ffffff !important;
   }
 
-  html.dark .text-slate-800 {
-    color: #f1f5f9;
+  html.dark .text-slate-800,
+  html.dark .text-ink {
+    color: #f1f5f9 !important;
   }
 
   html.dark .text-slate-700,
-  html.dark .text-slate-600 {
-    color: #cbd5e1;
+  html.dark .text-slate-600,
+  html.dark .text-charcoal,
+  html.dark .text-slate {
+    color: #cbd5e1 !important;
   }
 
-  html.dark .text-slate-500 {
-    color: #94a3b8;
+  html.dark .text-slate-500,
+  html.dark .text-steel,
+  html.dark .text-stone {
+    color: #94a3b8 !important;
+  }
+
+  html.dark input:not([type="checkbox"]):not([type="radio"]),
+  html.dark select,
+  html.dark textarea {
+    background-color: #0c1426 !important;
+    border-color: #22324e !important;
+    color: #ffffff !important;
+  }
+
+  html.dark input::placeholder {
+    color: #64748b !important;
   }
 
   /* High-Contrast Mode */
