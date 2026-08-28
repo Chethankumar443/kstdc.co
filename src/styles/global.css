@@ -38,6 +38,72 @@
     --color-hairline-soft: #dee3e9;
   }
 
+  /* Dark Mode Theme */
+  html.dark {
+    --color-canvas: #090d16;
+    --color-surface-soft: #0f172a;
+    --color-surface-card: #141e33;
+    --color-ink-deep: #f8fafc;
+    --color-ink: #f1f5f9;
+    --color-charcoal: #cbd5e1;
+    --color-slate: #94a3b8;
+    --color-steel: #94a3b8;
+    --color-stone: #64748b;
+    --color-disabled-text: #475569;
+    --color-hairline: #2d3b55;
+    --color-hairline-soft: #1a253c;
+    --color-ink-button: #ffffff;
+    --color-on-ink-button: #000000;
+  }
+
+  html.dark body {
+    background-color: #090d16;
+    color: #f1f5f9;
+  }
+
+  html.dark header {
+    background-color: #0e1526;
+    border-color: #1e2c47;
+  }
+
+  html.dark .bg-white {
+    background-color: #131d31;
+    color: #f8fafc;
+  }
+
+  html.dark .bg-slate-50 {
+    background-color: #0d1527;
+    color: #f8fafc;
+  }
+
+  html.dark .bg-slate-100 {
+    background-color: #18233a;
+    color: #f8fafc;
+  }
+
+  html.dark .border-slate-200,
+  html.dark .border-slate-100 {
+    border-color: #243452;
+  }
+
+  html.dark .text-slate-900,
+  html.dark .text-slate-950 {
+    color: #f8fafc;
+  }
+
+  html.dark .text-slate-800 {
+    color: #f1f5f9;
+  }
+
+  html.dark .text-slate-700,
+  html.dark .text-slate-600 {
+    color: #cbd5e1;
+  }
+
+  html.dark .text-slate-500 {
+    color: #94a3b8;
+  }
+
   /* High-Contrast Mode */
   html.high-contrast {
     --color-canvas: #000000;

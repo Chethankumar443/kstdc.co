@@ -230,14 +230,14 @@ export const HeroBanner: React.FC = () => {
   );
 
   return (
-    <section className="relative pt-4 pb-10 sm:pb-14 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="relative pt-3 sm:pt-4 pb-8 sm:pb-14 bg-canvas transition-colors">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
         
         {/* Full-Bleed Showcase Frame with Interactive Slider */}
-        <div className="relative rounded-[32px] min-h-[540px] sm:min-h-[580px] flex flex-col justify-between p-6 sm:p-10 lg:p-12 text-white border border-slate-200 shadow-md transition-all">
+        <div className="relative rounded-[28px] sm:rounded-[32px] min-h-[500px] sm:min-h-[560px] flex flex-col justify-between p-4 sm:p-8 lg:p-12 text-white border border-slate-200/60 dark:border-slate-800 shadow-md transition-all">
           
           {/* Background Images Slider with Smooth Cross-Fade (Isolated clipping to rounded bounds) */}
-          <div className="absolute inset-0 rounded-[32px] overflow-hidden pointer-events-none z-0">
+          <div className="absolute inset-0 rounded-[28px] sm:rounded-[32px] overflow-hidden pointer-events-none z-0">
             {HERO_SLIDES.map((slide, idx) => (
               <div
                 key={slide.image}
@@ -255,63 +255,35 @@ export const HeroBanner: React.FC = () => {
             ))}
           </div>
 
-          {/* Top Label & Plan CTA */}
-          <div className="relative z-10 flex flex-wrap items-center justify-between gap-3">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/15 backdrop-blur-md text-white text-xs font-semibold border border-white/20">
-              <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-              <span>{activeSlideData.badge}</span>
+          {/* Top Label & Minimal Slide Indicator */}
+          <div className="relative z-10 flex items-center justify-between gap-3">
+            <div className="inline-flex items-center gap-2 px-3 sm:px-3.5 py-1 rounded-full bg-black/40 backdrop-blur-md text-white text-[11px] sm:text-xs font-semibold border border-white/20">
+              <ShieldCheck className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+              <span className="truncate">{activeSlideData.badge}</span>
             </div>
 
-            <div className="flex items-center gap-2">
-              {/* Slider Controls */}
-              <div className="flex items-center gap-1 bg-black/40 backdrop-blur-md px-2 py-1 rounded-full border border-white/20">
+            {/* Sleek Minimalist Slide Dots (No bulky buttons/borders) */}
+            <div className="flex items-center gap-1.5 bg-black/30 backdrop-blur-md px-2.5 py-1.5 rounded-full border border-white/15">
+              {HERO_SLIDES.map((_, i) => (
                 <button
+                  key={i}
                   type="button"
-                  onClick={prevSlide}
-                  className="p-1 rounded-full text-white/80 hover:text-white hover:bg-white/20 transition-colors"
-                  aria-label="Previous slide"
-                >
-                  <ChevronLeft className="w-4 h-4" />
-                </button>
-                <div className="flex items-center gap-1 px-1">
-                  {HERO_SLIDES.map((_, i) => (
-                    <button
-                      key={i}
-                      type="button"
-                      onClick={() => setCurrentSlide(i)}
-                      className={`h-1.5 rounded-full transition-all ${
-                        i === currentSlide ? 'w-5 bg-white' : 'w-1.5 bg-white/40'
-                      }`}
-                      aria-label={`Go to slide ${i + 1}`}
-                    />
-                  ))}
-                </div>
-                <button
-                  type="button"
-                  onClick={nextSlide}
-                  className="p-1 rounded-full text-white/80 hover:text-white hover:bg-white/20 transition-colors"
-                  aria-label="Next slide"
-                >
-                  <ChevronRight className="w-4 h-4" />
-                </button>
-              </div>
-
-              <button
-                onClick={() => setPlannerOpen(true)}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white hover:bg-slate-100 text-slate-900 font-bold text-xs shadow-sm transition-all"
-              >
-                <span>{t.navPlanMyTrip}</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </button>
+                  onClick={() => setCurrentSlide(i)}
+                  className={`h-1.5 rounded-full transition-all duration-300 ${
+                    i === currentSlide ? 'w-5 sm:w-6 bg-white shadow-xs' : 'w-1.5 bg-white/40 hover:bg-white/70'
+                  }`}
+                  aria-label={`Go to slide ${i + 1}`}
+                />
+              ))}
             </div>
           </div>
 
           {/* Editorial Headline & Statement (Animated with Active Slide) */}
-          <div className="relative z-10 max-w-2xl my-auto py-6 space-y-3">
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-[1.12] drop-shadow-sm transition-all">
+          <div className="relative z-10 max-w-2xl my-auto py-4 sm:py-6 space-y-2 sm:space-y-3">
+            <h1 className="text-2xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white leading-[1.15] drop-shadow-sm transition-all">
               {activeSlideData.title}
             </h1>
-            <p className="text-sm sm:text-base text-white/90 leading-relaxed max-w-xl font-normal drop-shadow-xs">
+            <p className="text-xs sm:text-sm lg:text-base text-white/90 leading-relaxed max-w-xl font-normal drop-shadow-xs">
               {activeSlideData.subtitle}
             </p>
           </div>
@@ -319,57 +291,57 @@ export const HeroBanner: React.FC = () => {
           {/* Multi-Service Booking Selector Bar with Custom Menus */}
           <div className="relative z-10 mt-2">
             
-            {/* Service Tabs */}
-            <div className="flex flex-wrap gap-1 bg-black/50 backdrop-blur-md p-1.5 rounded-t-2xl border-t border-x border-white/20 w-fit text-xs font-bold">
+            {/* Service Tabs (Responsive horizontal scroll on mobile) */}
+            <div className="flex gap-1 bg-black/50 backdrop-blur-md p-1 sm:p-1.5 rounded-t-2xl border-t border-x border-white/20 w-full sm:w-fit text-[11px] sm:text-xs font-bold overflow-x-auto no-scrollbar">
               <button
                 type="button"
                 onClick={() => setActiveTab('tours')}
-                className={`flex items-center gap-2 px-4 py-2 rounded-xl transition-all ${
+                className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-xl transition-all shrink-0 ${
                   activeTab === 'tours'
                     ? 'bg-white text-slate-900 shadow-sm'
                     : 'text-white/80 hover:text-white hover:bg-white/10'
                 }`}
               >
-                <Bus className="w-3.5 h-3.5" />
+                <Bus className="w-3.5 h-3.5 shrink-0" />
                 <span>Tour Packages</span>
               </button>
 
               <button
                 type="button"
                 onClick={() => setActiveTab('hotels')}
-                className={`flex items-center gap-2 px-4 py-2 rounded-xl transition-all ${
+                className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-xl transition-all shrink-0 ${
                   activeTab === 'hotels'
                     ? 'bg-white text-slate-900 shadow-sm'
                     : 'text-white/80 hover:text-white hover:bg-white/10'
                 }`}
               >
-                <Building2 className="w-3.5 h-3.5" />
+                <Building2 className="w-3.5 h-3.5 shrink-0" />
                 <span>Mayura Hotels</span>
               </button>
 
               <button
                 type="button"
                 onClick={() => setActiveTab('cabs')}
-                className={`flex items-center gap-2 px-4 py-2 rounded-xl transition-all ${
+                className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-xl transition-all shrink-0 ${
                   activeTab === 'cabs'
                     ? 'bg-white text-slate-900 shadow-sm'
                     : 'text-white/80 hover:text-white hover:bg-white/10'
                 }`}
               >
-                <Car className="w-3.5 h-3.5" />
+                <Car className="w-3.5 h-3.5 shrink-0" />
                 <span>Airport Taxi & Cabs</span>
               </button>
 
               <button
                 type="button"
                 onClick={() => setActiveTab('activities')}
-                className={`flex items-center gap-2 px-4 py-2 rounded-xl transition-all ${
+                className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-xl transition-all shrink-0 ${
                   activeTab === 'activities'
                     ? 'bg-white text-slate-900 shadow-sm'
                     : 'text-white/80 hover:text-white hover:bg-white/10'
                 }`}
               >
-                <Compass className="w-3.5 h-3.5" />
+                <Compass className="w-3.5 h-3.5 shrink-0" />
                 <span>Ambaari & Activities</span>
               </button>
             </div>
@@ -377,7 +349,7 @@ export const HeroBanner: React.FC = () => {
             {/* Input Form Panel with Custom Dropdown Menus */}
             <form
               onSubmit={handleSearchSubmit}
-              className="bg-white p-4 sm:p-5 rounded-b-2xl rounded-tr-2xl sm:rounded-tr-2xl border border-white/40 shadow-xl text-slate-900"
+              className="bg-white dark:bg-slate-900 p-3.5 sm:p-5 rounded-b-2xl rounded-tr-2xl sm:rounded-tr-2xl border border-white/40 dark:border-slate-800 shadow-xl text-slate-900 dark:text-slate-100 transition-colors"
             >
               {/* TAB 1: TOURS WITH CUSTOM POPUP SUGGESTIONS */}
               {activeTab === 'tours' && (
@@ -385,8 +357,8 @@ export const HeroBanner: React.FC = () => {
                   
                   {/* Departure Origin */}
                   <div className="lg:col-span-3 space-y-1 relative" ref={originRef}>
-                    <label className="text-[11px] font-bold text-slate-500 flex items-center gap-1 uppercase tracking-wider">
-                      <MapPin className="w-3.5 h-3.5 text-slate-900" />
+                    <label className="text-[11px] font-bold text-slate-500 dark:text-slate-400 flex items-center gap-1 uppercase tracking-wider">
+                      <MapPin className="w-3.5 h-3.5 text-slate-900 dark:text-slate-100" />
                       Departure Origin
                     </label>
                     <input
@@ -398,11 +370,11 @@ export const HeroBanner: React.FC = () => {
                       }}
                       onFocus={() => setOriginOpen(true)}
                       placeholder="e.g. Bengaluru, Mysuru..."
-                      className="w-full p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 font-semibold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-slate-900"
+                      className="w-full p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white font-semibold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-blue-500"
                     />
 
                     {originOpen && (
-                      <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl border border-slate-200 shadow-[0_25px_60px_rgba(0,0,0,0.28)] p-2 z-[100] animate-fade-in max-h-60 overflow-y-auto">
+                      <div className="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-[0_25px_60px_rgba(0,0,0,0.28)] p-2 z-[100] animate-fade-in max-h-60 overflow-y-auto">
                         <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block px-2.5 py-1">
                           Official Departure Hubs
                         </span>
@@ -415,7 +387,7 @@ export const HeroBanner: React.FC = () => {
                                 setOriginOpen(false);
                               }}
                               className={`p-2.5 rounded-xl text-xs font-semibold cursor-pointer transition-colors flex items-center justify-between ${
-                                origin === orig ? 'bg-slate-900 text-white' : 'text-slate-800 hover:bg-slate-100'
+                                origin === orig ? 'bg-slate-900 dark:bg-blue-600 text-white' : 'text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800'
                               }`}
                             >
                               <span>{orig}</span>
@@ -429,8 +401,8 @@ export const HeroBanner: React.FC = () => {
 
                   {/* Destination Search with Custom Suggestions */}
                   <div className="lg:col-span-4 space-y-1 relative" ref={destRef}>
-                    <label className="text-[11px] font-bold text-slate-500 flex items-center gap-1 uppercase tracking-wider">
-                      <Search className="w-3.5 h-3.5 text-slate-900" />
+                    <label className="text-[11px] font-bold text-slate-500 dark:text-slate-400 flex items-center gap-1 uppercase tracking-wider">
+                      <Search className="w-3.5 h-3.5 text-slate-900 dark:text-slate-100" />
                       Destination / Place Search
                     </label>
                     <div className="relative">
@@ -443,13 +415,13 @@ export const HeroBanner: React.FC = () => {
                         }}
                         onFocus={() => setDestOpen(true)}
                         placeholder="Enter place (e.g. Coorg, Hampi, Gokarna)..."
-                        className="w-full p-2.5 pr-8 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 font-semibold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-slate-900"
+                        className="w-full p-2.5 pr-8 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white font-semibold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-blue-500"
                       />
                       {destinationQuery && (
                         <button
                           type="button"
                           onClick={() => setDestinationQuery('')}
-                          className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700"
+                          className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200"
                         >
                           <X className="w-3.5 h-3.5" />
                         </button>
@@ -457,15 +429,15 @@ export const HeroBanner: React.FC = () => {
                     </div>
 
                     {destOpen && (
-                      <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl border border-slate-200 shadow-[0_25px_60px_rgba(0,0,0,0.28)] p-2 z-[100] animate-fade-in max-h-72 overflow-y-auto">
-                        <div className="flex items-center justify-between px-2.5 py-1.5 border-b border-slate-100 mb-1.5">
+                      <div className="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-[0_25px_60px_rgba(0,0,0,0.28)] p-2 z-[100] animate-fade-in max-h-72 overflow-y-auto">
+                        <div className="flex items-center justify-between px-2.5 py-1.5 border-b border-slate-100 dark:border-slate-800 mb-1.5">
                           <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
                             Popular Karnataka Circuits
                           </span>
                           <button
                             type="button"
                             onClick={() => setDestOpen(false)}
-                            className="text-slate-400 hover:text-slate-700 p-0.5"
+                            className="text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 p-0.5"
                           >
                             <X className="w-3.5 h-3.5" />
                           </button>
@@ -478,16 +450,16 @@ export const HeroBanner: React.FC = () => {
                                 setDestinationQuery(d.name);
                                 setDestOpen(false);
                               }}
-                              className="p-2.5 rounded-xl text-xs cursor-pointer hover:bg-slate-100 transition-colors flex items-center justify-between gap-3"
+                              className="p-2.5 rounded-xl text-xs cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors flex items-center justify-between gap-3"
                             >
                               <div className="flex items-center gap-2.5 min-w-0">
                                 <MapPin className="w-3.5 h-3.5 text-slate-500 shrink-0" />
                                 <div className="min-w-0">
-                                  <span className="font-bold text-slate-900 block truncate">{d.name}</span>
-                                  <span className="text-[11px] text-slate-500 block truncate">{d.tag}</span>
+                                  <span className="font-bold text-slate-900 dark:text-white block truncate">{d.name}</span>
+                                  <span className="text-[11px] text-slate-500 dark:text-slate-400 block truncate">{d.tag}</span>
                                 </div>
                               </div>
-                              <span className="text-[10px] font-bold text-slate-600 bg-slate-100 px-2 py-0.5 rounded-md shrink-0">
+                              <span className="text-[10px] font-bold text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-md shrink-0">
                                 {d.category}
                               </span>
                             </div>

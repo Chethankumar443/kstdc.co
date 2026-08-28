@@ -31,6 +31,16 @@ const {
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
+    <script is:inline>
+      try {
+        const theme = localStorage.getItem('kstdc_theme');
+        if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+      } catch (e) {}
+    </script>
   </head>
   <body class="min-h-screen flex flex-col bg-canvas text-ink antialiased selection:bg-slate-200">
     <HeaderNav client:load currentPath={Astro.url.pathname} />

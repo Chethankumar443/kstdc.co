@@ -53,26 +53,26 @@ export const CustomSelect: React.FC<Props> = ({
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full flex items-center justify-between gap-2 p-2.5 rounded-xl bg-slate-50 hover:bg-slate-100/80 border border-slate-200 text-slate-900 font-semibold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-slate-900 transition-all text-left"
+        className="w-full flex items-center justify-between gap-2 p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 hover:bg-slate-100/80 dark:hover:bg-slate-700/80 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white font-semibold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-blue-500 transition-all text-left"
         aria-haspopup="listbox"
         aria-expanded={isOpen}
       >
         <div className="flex items-center gap-2 min-w-0 truncate">
-          {icon && <span className="shrink-0 text-slate-500">{icon}</span>}
+          {icon && <span className="shrink-0 text-slate-500 dark:text-slate-400">{icon}</span>}
           <span className="truncate">
             {selectedOption ? selectedOption.label : placeholder}
           </span>
         </div>
         <ChevronDown
-          className={`w-4 h-4 text-slate-500 shrink-0 transition-transform duration-200 ${
-            isOpen ? 'rotate-180 text-slate-900' : ''
+          className={`w-4 h-4 text-slate-500 dark:text-slate-400 shrink-0 transition-transform duration-200 ${
+            isOpen ? 'rotate-180 text-slate-900 dark:text-white' : ''
           }`}
         />
       </button>
 
       {/* Custom Dropdown Popover */}
       {isOpen && (
-        <div className="absolute top-full left-0 right-0 mt-1.5 bg-white rounded-2xl border border-slate-200 shadow-[0_20px_50px_rgba(0,0,0,0.25)] p-1.5 z-[100] animate-fade-in max-h-64 overflow-y-auto">
+        <div className="absolute top-full left-0 right-0 mt-1.5 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-[0_20px_50px_rgba(0,0,0,0.25)] p-1.5 z-[100] animate-fade-in max-h-64 overflow-y-auto">
           <ul role="listbox" className="space-y-0.5">
             {options.map((opt) => {
               const isSelected = opt.value === value;
@@ -87,8 +87,8 @@ export const CustomSelect: React.FC<Props> = ({
                   }}
                   className={`flex items-center justify-between p-2 rounded-xl text-xs sm:text-sm font-semibold cursor-pointer transition-colors ${
                     isSelected
-                      ? 'bg-slate-900 text-white'
-                      : 'text-slate-800 hover:bg-slate-100'
+                      ? 'bg-slate-900 dark:bg-blue-600 text-white'
+                      : 'text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800'
                   }`}
                 >
                   <div className="min-w-0 truncate">

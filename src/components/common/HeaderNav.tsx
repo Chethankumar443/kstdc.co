@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import {
-  Globe, Menu, X, Eye, Zap, Search, PhoneCall,
+  Globe, Menu, X, Search, PhoneCall, Moon, Sun,
   Ticket, Bus, Building2, Car, Compass, ArrowRight
 } from 'lucide-react';
 import { getStoredLanguage, setStoredLanguage, getStoredBookings } from '../../lib/bookingStore';
@@ -29,9 +29,7 @@ export const HeaderNav: React.FC<Props> = ({ currentPath: initialPath = '' }) =>
   const langContainerRef = useRef<HTMLDivElement>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [plannerOpen, setPlannerOpen] = useState(false);
-  const [isHighContrast, setIsHighContrast] = useState(false);
-  const [isLowBandwidth, setIsLowBandwidth] = useState(false);
-  const [fontScale, setFontScale] = useState<'normal' | 'lg' | 'xl'>('normal');
+  const [isDarkMode, setIsDarkMode] = useState(false);
   const [activePath, setActivePath] = useState(() => normalizePath(initialPath));
   const [bookingsCount, setBookingsCount] = useState(0);
 
@@ -99,38 +97,28 @@ export const HeaderNav: React.FC<Props> = ({ currentPath: initialPath = '' }) =>
     setLangMenuOpen(false);
   };
 
-  const toggleHighContrast = () => {
-    const next = !isHighContrast;
-    setIsHighContrast(next);
-    if (next) {
-      document.documentElement.classList.add('high-contrast');
-    } else {
-      document.documentElement.classList.remove('high-contrast');
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const savedTheme = localStorage.getItem('kstdc_theme');
+      const isDark = savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      setIsDarkMode(isDark);
+      if (isDark) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
     }
-  };
+  }, []);
 
-  const toggleLowBandwidth = () => {
-    const next = !isLowBandwidth;
-    setIsLowBandwidth(next);
-    if (next) {
-      document.documentElement.classList.add('low-bandwidth');
+  const toggleTheme = () => {
+    const nextDark = !isDarkMode;
+    setIsDarkMode(nextDark);
+    if (nextDark) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('kstdc_theme', 'dark');
     } else {
-      document.documentElement.classList.remove('low-bandwidth');
-    }
-  };
-
-  const cycleFontScale = () => {
-    if (fontScale === 'normal') {
-      setFontScale('lg');
-      document.documentElement.classList.add('font-scale-lg');
-      document.documentElement.classList.remove('font-scale-xl');
-    } else if (fontScale === 'lg') {
-      setFontScale('xl');
-      document.documentElement.classList.remove('font-scale-lg');
-      document.documentElement.classList.add('font-scale-xl');
-    } else {
-      setFontScale('normal');
-      document.documentElement.classList.remove('font-scale-lg', 'font-scale-xl');
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('kstdc_theme', 'light');
     }
   };
 
@@ -233,29 +221,26 @@ export const HeaderNav: React.FC<Props> = ({ currentPath: initialPath = '' }) =>
             {/* Right Tools: Accessibility + Language */}
             <div className="flex items-center gap-2.5 ml-auto">
               
-              {/* Accessibility Micro-controls (Without Zap icon) */}
-              <div className="flex items-center gap-1 bg-slate-900 px-1.5 py-0.5 rounded-full border border-slate-800">
-                <button
-                  type="button"
-                  onClick={toggleHighContrast}
-                  title="Toggle High Contrast Mode"
-                  className={`p-1 rounded-full transition-colors ${
-                    isHighContrast ? 'bg-white text-slate-950 font-bold' : 'text-slate-300 hover:text-white'
-                  }`}
-                  aria-label="High Contrast"
-                >
-                  <Eye className="w-3 h-3" />
-                </button>
-                <button
-                  type="button"
-                  onClick={cycleFontScale}
-                  title="Text Size Zoom (A / A+ / A++)"
-                  className="px-1.5 py-0.5 rounded-full text-[10px] font-bold text-slate-300 hover:text-white transition-colors"
-                  aria-label="Font Zoom"
-                >
-                  {fontScale === 'normal' ? 'A' : fontScale === 'lg' ? 'A+' : 'A++'}
-                </button>
-              </div>
+              {/* Single-Click Dark / Light Mode Theme Toggle Button */}
+              <button
+                type="button"
+                onClick={toggleTheme}
+                title={isDarkMode ? 'Switch to Light Theme' : 'Switch to Dark Theme'}
+                className="flex items-center gap-1.5 bg-slate-900 hover:bg-slate-800 border border-slate-800 rounded-full px-2.5 py-1 text-[11px] font-medium text-white transition-colors cursor-pointer"
+                aria-label="Toggle Dark/Light Mode"
+              >
+                {isDarkMode ? (
+                  <>
+                    <Sun className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                    <span className="hidden xs:inline text-[11px] font-medium">Light</span>
+                  </>
+                ) : (
+                  <>
+                    <Moon className="w-3.5 h-3.5 text-blue-300 shrink-0" />
+                    <span className="hidden xs:inline text-[11px] font-medium">Dark</span>
+                  </>
+                )}
+              </button>
 
               {/* Custom Language Selector Popover (No native select) */}
               <div className="relative" ref={langContainerRef}>
