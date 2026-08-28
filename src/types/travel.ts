@@ -111,9 +111,20 @@ export interface Destination {
   description: string;
 }
 
+export interface PassengerDetail {
+  id: string;
+  name: string;
+  age: number | string;
+  gender: 'Male' | 'Female' | 'Other';
+  type: 'Adult' | 'Senior' | 'Child';
+  seatNumber?: string;
+  idProofNumber?: string;
+}
+
 export interface BookingRecord {
   bookingId: string;
   createdAt: string;
+  serviceType?: 'tour' | 'cab' | 'activity' | 'hotel';
   tripId: string;
   tripTitle: string;
   tripSlug: string;
@@ -128,6 +139,7 @@ export interface BookingRecord {
     children: number;
     seniors: number;
   };
+  passengers?: PassengerDetail[];
   contact: {
     name: string;
     email: string;
@@ -142,6 +154,8 @@ export interface BookingRecord {
     totalAmount: number;
   };
   status: 'Confirmed' | 'Completed' | 'Upcoming';
-  paymentMethod: 'UPI' | 'Card' | 'NetBanking';
+  paymentMethod: 'UPI' | 'Card' | 'NetBanking' | 'Counter Cash';
   qrCodeMockUrl?: string;
+  extraDetails?: Record<string, string>;
 }
+

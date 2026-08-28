@@ -55,6 +55,9 @@ export const DestinationsShowcase: React.FC = () => {
                 src={dest.heroImage}
                 alt={dest.name}
                 loading="lazy"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = '/hero/hero-1.jpeg';
+                }}
                 className="absolute inset-0 w-full h-full object-cover group-hover:scale-103 transition-transform duration-500 z-0"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent z-0" />

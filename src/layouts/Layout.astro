@@ -33,7 +33,7 @@ const {
     />
   </head>
   <body class="min-h-screen flex flex-col bg-canvas text-ink antialiased selection:bg-slate-200">
-    <HeaderNav client:load />
+    <HeaderNav client:load currentPath={Astro.url.pathname} />
     <main class="flex-1">
       <slot />
     </main>

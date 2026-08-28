@@ -23,7 +23,7 @@ export const TripsExplorer: React.FC = () => {
       const params = new URLSearchParams(window.location.search);
       const cat = params.get('category');
       const dur = params.get('duration');
-      const dest = params.get('destination');
+      const dest = params.get('destination') || params.get('search') || params.get('q');
       if (cat) setSelectedCategory(cat);
       if (dur) setSelectedDuration(dur);
       if (dest) setSearchQuery(dest);
@@ -206,6 +206,9 @@ export const TripsExplorer: React.FC = () => {
                     src={trip.heroImage}
                     alt={trip.title}
                     loading="lazy"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = '/hero/hero-1.jpeg';
+                    }}
                     className="w-full h-full object-cover"
                   />
                   {trip.badge && (

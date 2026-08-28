@@ -1,102 +1,324 @@
-import React, { useState, useEffect } from 'react';
-import { Bus, Building2, Car, Compass, MapPin, Calendar, Users, ArrowRight, Clock, ShieldCheck } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import {
+  Bus, Building2, Car, Compass, MapPin, Calendar, ArrowRight,
+  ShieldCheck, Search, ChevronLeft, ChevronRight, Check, X
+} from 'lucide-react';
 import { getStoredLanguage } from '../../lib/bookingStore';
 import { TRANSLATIONS } from '../../data/translations';
 import { AiTripPlannerModal } from './AiTripPlannerModal';
-import type { Language, TripCategory } from '../../types/travel';
+import { CustomSelect } from '../common/CustomSelect';
+import type { Language } from '../../types/travel';
+
+const HERO_SLIDES = [
+  {
+    image: '/hero/hero-1.jpeg',
+    title: 'Experience the Best of Karnataka!',
+    subtitle: 'UNESCO World Heritage at Hampi, royal palaces, and ancient temple architecture.',
+    badge: 'Hampi · World Heritage Circuit',
+  },
+  {
+    image: '/hero/hero-2.jpeg',
+    title: 'Stay at the Heart of Every Destination.',
+    subtitle: 'Hotel Mayura government-run heritage resorts with transparent official rates.',
+    badge: 'Hotel Mayura Hospitality Network',
+  },
+  {
+    image: '/hero/hero-3.jpeg',
+    title: 'Curated Journeys, Memorable Experiences!',
+    subtitle: 'Misty Western Ghats, thunderous waterfalls, and scenic coffee estate circuits.',
+    badge: 'Shivanasamudra & Western Ghats',
+  },
+  {
+    image: '/hero/hero-4.jpeg',
+    title: 'Turn Every Journey Into an Experience.',
+    subtitle: 'Paragliding at Nandi Hills, coastal water sports, and open-top Ambaari city tours.',
+    badge: 'Nandi Hills & Adventure Tourism',
+  },
+  {
+    image: 'https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&w=1600&q=80',
+    title: 'Your Karnataka Story Starts Here.',
+    subtitle: 'Official conducted bus tours, Hotel Mayura stays, and 24x7 prepaid airport taxis.',
+    badge: 'Government of Karnataka Undertaking',
+  },
+];
+
+const ORIGIN_SUGGESTIONS = [
+  'Bengaluru (Majestic / Yeshwanthpur)',
+  'Mysuru (KSTDC Office, JLB Road)',
+  'Mangaluru Central',
+  'Hubballi Junction',
+  'Belagavi City Centre',
+  'Shivamogga (Gateway to Jog)',
+];
+
+const DESTINATION_SUGGESTIONS = [
+  { name: 'Coorg (Madikeri)', tag: 'Misty Hills & Coffee Estates', icon: '🌲' },
+  { name: 'Hampi (UNESCO Heritage)', tag: 'Vijayanagara Empire Ruins', icon: '🏛️' },
+  { name: 'Mysuru (Royal Heritage)', tag: 'Palace Illumination & Silk', icon: '👑' },
+  { name: 'Gokarna & Murudeshwar', tag: 'Coastal Beaches & Temples', icon: '🏖️' },
+  { name: 'Chikmagalur & Mullayanagiri', tag: 'Highest Peak & Waterfalls', icon: '⛰️' },
+  { name: 'Nandi Hills & Vineyards', tag: 'Sunrise Fortress Tour', icon: '🌄' },
+  { name: 'Jog Falls & Western Ghats', tag: 'India’s Iconic Waterfall', icon: '🌊' },
+  { name: 'Bandipur & Kabini Wildlife', tag: 'Tiger Safari Reserve', icon: '🐅' },
+  { name: 'Belur & Halebeedu', tag: 'Hoysala Architecture', icon: '🛕' },
+  { name: 'Badami, Aihole & Pattadakal', tag: 'Chalukya Rock-Cut Caves', icon: '🗿' },
+];
+
+const HOTEL_SUGGESTIONS = [
+  { name: 'Hotel Mayura Valley View', place: 'Madikeri, Coorg', type: 'Scenic Retreat' },
+  { name: 'Hotel Mayura Bhuvaneshwari', place: 'Kamalapur, Hampi', type: 'Heritage Resort' },
+  { name: 'Hotel Mayura Hoysala', place: 'JLB Road, Mysuru', type: 'City Heritage' },
+  { name: 'Hotel Mayura Samudra', place: 'Om Beach Road, Gokarna', type: 'Beachside Stay' },
+  { name: 'Hotel Mayura Gerusoppa', place: 'Jog Falls, Sagara', type: 'Waterfall View' },
+  { name: 'Hotel Mayura Pine Top', place: 'Nandi Hills Peak', type: 'Hilltop Resort' },
+  { name: 'Hotel Mayura Biligiri', place: 'BR Hills Wildlife', type: 'Jungle Lodge' },
+];
+
+const CAB_PICKUP_SUGGESTIONS = [
+  'Kempegowda International Airport (BLR T1/T2)',
+  'Indiranagar / MG Road (Central Bengaluru)',
+  'Whitefield / ITPL / Marathahalli',
+  'Electronic City Phase 1 & 2',
+  'Koramangala / HSR Layout',
+  'Majestic KSR Railway Station',
+  'Yeshwanthpur Railway Station',
+];
+
+const CAB_DROP_SUGGESTIONS = [
+  'Central Bengaluru (MG Road / Cubbon Park)',
+  'Whitefield / ITPL Tech Park',
+  'Electronic City Phase 1 & 2',
+  'Indiranagar 100 Feet Road',
+  'Mysuru City (Outstation Drop)',
+  'Nandi Hills Day Trip',
+];
+
+const ACTIVITY_SUGGESTIONS = [
+  { title: 'Ambaari Open-Top Double Decker Bus', city: 'Mysuru', type: 'Night Illumination' },
+  { title: 'Vidhana Soudha Guided Tour', city: 'Bengaluru', type: 'Official State Architecture' },
+  { title: 'Hampi Royal Enclosure Heritage Walk', city: 'Hampi', type: 'UNESCO Certified Guide' },
+  { title: 'Bengaluru Hop-On Hop-Off City Tour', city: 'Bengaluru', type: 'All-Day Sightseeing' },
+];
 
 export const HeroBanner: React.FC = () => {
   const [lang, setLang] = useState<Language>('en');
+  const [currentSlide, setCurrentSlide] = useState(0);
   const [activeTab, setActiveTab] = useState<'tours' | 'hotels' | 'cabs' | 'activities'>('tours');
   
-  // Tours fields
-  const [origin, setOrigin] = useState('Bengaluru');
-  const [duration, setDuration] = useState('2');
-  const [category, setCategory] = useState<TripCategory>('nature');
+  // Tours manual search fields
+  const [origin, setOrigin] = useState('Bengaluru (Majestic / Yeshwanthpur)');
+  const [originOpen, setOriginOpen] = useState(false);
+  const originRef = useRef<HTMLDivElement>(null);
+
+  const [destinationQuery, setDestinationQuery] = useState('');
+  const [destOpen, setDestOpen] = useState(false);
+  const destRef = useRef<HTMLDivElement>(null);
+
+  const [duration, setDuration] = useState('all');
   
-  // Hotel fields
-  const [hotelDestination, setHotelDestination] = useState('Coorg (Madikeri)');
+  // Hotel manual search fields
+  const [hotelDestination, setHotelDestination] = useState('');
+  const [hotelOpen, setHotelOpen] = useState(false);
+  const hotelRef = useRef<HTMLDivElement>(null);
+
   const [hotelGuests, setHotelGuests] = useState('2');
   
-  // Cab fields
+  // Cab manual search fields
   const [cabTripType, setCabTripType] = useState<'airport' | 'outstation'>('airport');
-  const [cabPickup, setCabPickup] = useState('Kempegowda International Airport (BLR)');
+  const [cabPickup, setCabPickup] = useState('Kempegowda International Airport (BLR T1/T2)');
+  const [pickupOpen, setPickupOpen] = useState(false);
+  const pickupRef = useRef<HTMLDivElement>(null);
+
+  const [cabDrop, setCabDrop] = useState('');
+  const [dropOpen, setDropOpen] = useState(false);
+  const dropRef = useRef<HTMLDivElement>(null);
   
-  // Activity fields
-  const [activityCity, setActivityCity] = useState('Mysuru');
+  // Activity manual search fields
+  const [activitySearch, setActivitySearch] = useState('');
+  const [activityOpen, setActivityOpen] = useState(false);
+  const actRef = useRef<HTMLDivElement>(null);
+
+  const [activitySlot, setActivitySlot] = useState('evening');
 
   const [plannerOpen, setPlannerOpen] = useState(false);
+
+  // Auto-play slider timer
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % HERO_SLIDES.length);
+    }, 6000);
+    return () => clearInterval(timer);
+  }, []);
 
   useEffect(() => {
     setLang(getStoredLanguage());
     const handler = (e: any) => setLang(e.detail);
     window.addEventListener('kstdc_lang_changed', handler);
-    return () => window.removeEventListener('kstdc_lang_changed', handler);
+
+    const clickOutside = (e: MouseEvent) => {
+      if (originRef.current && !originRef.current.contains(e.target as Node)) setOriginOpen(false);
+      if (destRef.current && !destRef.current.contains(e.target as Node)) setDestOpen(false);
+      if (hotelRef.current && !hotelRef.current.contains(e.target as Node)) setHotelOpen(false);
+      if (pickupRef.current && !pickupRef.current.contains(e.target as Node)) setPickupOpen(false);
+      if (dropRef.current && !dropRef.current.contains(e.target as Node)) setDropOpen(false);
+      if (actRef.current && !actRef.current.contains(e.target as Node)) setActivityOpen(false);
+    };
+
+    document.addEventListener('mousedown', clickOutside);
+
+    return () => {
+      window.removeEventListener('kstdc_lang_changed', handler);
+      document.removeEventListener('mousedown', clickOutside);
+    };
   }, []);
 
   const t = TRANSLATIONS[lang] || TRANSLATIONS.en;
 
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % HERO_SLIDES.length);
+  };
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + HERO_SLIDES.length) % HERO_SLIDES.length);
+  };
+
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (activeTab === 'tours') {
-      const q = new URLSearchParams({ origin, duration, category }).toString();
-      window.location.href = `/trips?${q}`;
+      const q = new URLSearchParams();
+      if (origin.trim()) q.set('origin', origin);
+      if (destinationQuery.trim()) q.set('destination', destinationQuery);
+      if (duration !== 'all') q.set('duration', duration);
+      window.location.href = `/trips?${q.toString()}`;
     } else if (activeTab === 'hotels') {
-      window.location.href = `/stays`;
+      const q = new URLSearchParams();
+      if (hotelDestination.trim()) q.set('search', hotelDestination);
+      window.location.href = `/stays?${q.toString()}`;
     } else if (activeTab === 'cabs') {
-      window.location.href = `/cabs`;
+      const q = new URLSearchParams();
+      if (cabPickup.trim()) q.set('pickup', cabPickup);
+      if (cabDrop.trim()) q.set('drop', cabDrop);
+      window.location.href = `/cabs?${q.toString()}`;
     } else {
-      window.location.href = `/activities`;
+      const q = new URLSearchParams();
+      if (activitySearch.trim()) q.set('search', activitySearch);
+      window.location.href = `/activities?${q.toString()}`;
     }
   };
 
+  const guestOptions = [
+    { value: '1', label: '1 Adult · 1 Room' },
+    { value: '2', label: '2 Adults · 1 Room (Deluxe Twin)' },
+    { value: '3', label: '3 Adults · 1 Room (Extra Bed)' },
+    { value: '4', label: 'Family (2 Adults + 2 Kids)' },
+  ];
+
+  const activitySlotOptions = [
+    { value: 'evening', label: 'Evening Palace Illumination (6:30 PM)' },
+    { value: 'night', label: 'Night City Skyline Tour (8:00 PM)' },
+    { value: 'morning', label: 'Morning Heritage Slot (9:30 AM)' },
+  ];
+
+  const activeSlideData = HERO_SLIDES[currentSlide];
+
+  const filteredDestinations = DESTINATION_SUGGESTIONS.filter((d) =>
+    destinationQuery ? d.name.toLowerCase().includes(destinationQuery.toLowerCase()) || d.tag.toLowerCase().includes(destinationQuery.toLowerCase()) : true
+  );
+
+  const filteredHotels = HOTEL_SUGGESTIONS.filter((h) =>
+    hotelDestination ? h.name.toLowerCase().includes(hotelDestination.toLowerCase()) || h.place.toLowerCase().includes(hotelDestination.toLowerCase()) : true
+  );
+
   return (
-    <section className="relative pt-6 pb-12 sm:pb-16 bg-white">
+    <section className="relative pt-4 pb-10 sm:pb-14 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Full-Bleed Showcase Frame */}
-        <div className="relative rounded-[32px] overflow-hidden min-h-[520px] sm:min-h-[580px] flex flex-col justify-between p-6 sm:p-12 lg:p-14 text-white border border-slate-200 shadow-sm">
+        {/* Full-Bleed Showcase Frame with Interactive Slider */}
+        <div className="relative rounded-[32px] overflow-hidden min-h-[540px] sm:min-h-[580px] flex flex-col justify-between p-6 sm:p-10 lg:p-12 text-white border border-slate-200 shadow-md transition-all">
           
-          {/* Background Image */}
-          <img
-            src="https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&w=1600&q=80"
-            alt="Scenic Karnataka Western Ghats"
-            className="absolute inset-0 w-full h-full object-cover object-center z-0"
-          />
-          {/* Dark Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/40 to-slate-950/20 z-0" />
+          {/* Background Images Slider with Smooth Cross-Fade */}
+          {HERO_SLIDES.map((slide, idx) => (
+            <div
+              key={slide.image}
+              className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+                idx === currentSlide ? 'opacity-100 z-0' : 'opacity-0 pointer-events-none'
+              }`}
+            >
+              <img
+                src={slide.image}
+                alt={slide.title}
+                className="w-full h-full object-cover object-center scale-105 transition-transform duration-10000"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-slate-950/50 to-slate-950/30" />
+            </div>
+          ))}
 
-          {/* Top Label & Verification Badge */}
+          {/* Top Label & Plan CTA */}
           <div className="relative z-10 flex flex-wrap items-center justify-between gap-3">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/15 backdrop-blur-md text-white text-xs font-semibold">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/15 backdrop-blur-md text-white text-xs font-semibold border border-white/20">
               <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-              <span>Government of Karnataka Undertaking</span>
+              <span>{activeSlideData.badge}</span>
             </div>
 
-            <button
-              onClick={() => setPlannerOpen(true)}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white hover:bg-slate-100 text-slate-900 font-bold text-xs shadow-sm transition-all"
-            >
-              <span>{t.navPlanMyTrip}</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </button>
+            <div className="flex items-center gap-2">
+              {/* Slider Controls */}
+              <div className="flex items-center gap-1 bg-black/40 backdrop-blur-md px-2 py-1 rounded-full border border-white/20">
+                <button
+                  type="button"
+                  onClick={prevSlide}
+                  className="p-1 rounded-full text-white/80 hover:text-white hover:bg-white/20 transition-colors"
+                  aria-label="Previous slide"
+                >
+                  <ChevronLeft className="w-4 h-4" />
+                </button>
+                <div className="flex items-center gap-1 px-1">
+                  {HERO_SLIDES.map((_, i) => (
+                    <button
+                      key={i}
+                      type="button"
+                      onClick={() => setCurrentSlide(i)}
+                      className={`h-1.5 rounded-full transition-all ${
+                        i === currentSlide ? 'w-5 bg-white' : 'w-1.5 bg-white/40'
+                      }`}
+                      aria-label={`Go to slide ${i + 1}`}
+                    />
+                  ))}
+                </div>
+                <button
+                  type="button"
+                  onClick={nextSlide}
+                  className="p-1 rounded-full text-white/80 hover:text-white hover:bg-white/20 transition-colors"
+                  aria-label="Next slide"
+                >
+                  <ChevronRight className="w-4 h-4" />
+                </button>
+              </div>
+
+              <button
+                onClick={() => setPlannerOpen(true)}
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white hover:bg-slate-100 text-slate-900 font-bold text-xs shadow-sm transition-all"
+              >
+                <span>{t.navPlanMyTrip}</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </button>
+            </div>
           </div>
 
-          {/* Editorial Headline & Statement */}
+          {/* Editorial Headline & Statement (Animated with Active Slide) */}
           <div className="relative z-10 max-w-2xl my-auto py-6 space-y-3">
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-[1.12]">
-              {t.heroHeadline}
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-[1.12] drop-shadow-sm transition-all">
+              {activeSlideData.title}
             </h1>
-            <p className="text-sm sm:text-base text-white/90 leading-relaxed max-w-xl font-normal">
-              Official conducted bus tours, Hotel Mayura stays, airport taxi transfers, and heritage city experiences.
+            <p className="text-sm sm:text-base text-white/90 leading-relaxed max-w-xl font-normal drop-shadow-xs">
+              {activeSlideData.subtitle}
             </p>
           </div>
 
-          {/* Multi-Service Booking Selector Bar (Matching kstdc.co official services) */}
-          <div className="relative z-10 mt-4">
+          {/* Multi-Service Booking Selector Bar with Custom Menus */}
+          <div className="relative z-10 mt-2">
             
             {/* Service Tabs */}
-            <div className="flex flex-wrap gap-1 bg-black/40 backdrop-blur-md p-1.5 rounded-t-2xl border-t border-x border-white/20 w-fit text-xs font-bold">
+            <div className="flex flex-wrap gap-1 bg-black/50 backdrop-blur-md p-1.5 rounded-t-2xl border-t border-x border-white/20 w-fit text-xs font-bold">
               <button
                 type="button"
                 onClick={() => setActiveTab('tours')}
@@ -150,32 +372,111 @@ export const HeroBanner: React.FC = () => {
               </button>
             </div>
 
-            {/* Input Form Panel */}
+            {/* Input Form Panel with Custom Dropdown Menus */}
             <form
               onSubmit={handleSearchSubmit}
-              className="bg-white p-4 sm:p-5 rounded-b-2xl rounded-tr-2xl sm:rounded-tr-2xl border border-white/40 shadow-lg text-slate-900"
+              className="bg-white p-4 sm:p-5 rounded-b-2xl rounded-tr-2xl sm:rounded-tr-2xl border border-white/40 shadow-xl text-slate-900"
             >
-              {/* TAB 1: TOURS */}
+              {/* TAB 1: TOURS WITH CUSTOM POPUP SUGGESTIONS */}
               {activeTab === 'tours' && (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-3 items-center">
-                  <div className="lg:col-span-3 space-y-1">
+                  
+                  {/* Departure Origin */}
+                  <div className="lg:col-span-3 space-y-1 relative" ref={originRef}>
                     <label className="text-[11px] font-bold text-slate-500 flex items-center gap-1 uppercase tracking-wider">
                       <MapPin className="w-3.5 h-3.5 text-slate-900" />
                       Departure Origin
                     </label>
-                    <select
+                    <input
+                      type="text"
                       value={origin}
-                      onChange={(e) => setOrigin(e.target.value)}
-                      className="w-full p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 font-semibold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-slate-900 cursor-pointer"
-                    >
-                      <option value="Bengaluru">Bengaluru (Majestic / Yeshwanthpur)</option>
-                      <option value="Mysuru">Mysuru (KSTDC Office)</option>
-                      <option value="Mangaluru">Mangaluru</option>
-                      <option value="Hubballi">Hubballi</option>
-                    </select>
+                      onChange={(e) => {
+                        setOrigin(e.target.value);
+                        setOriginOpen(true);
+                      }}
+                      onFocus={() => setOriginOpen(true)}
+                      placeholder="e.g. Bengaluru, Mysuru..."
+                      className="w-full p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 font-semibold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-slate-900"
+                    />
+
+                    {originOpen && (
+                      <div className="absolute top-full left-0 right-0 mt-1.5 bg-white rounded-2xl border border-slate-200 shadow-2xl p-1.5 z-50 animate-fade-in max-h-56 overflow-y-auto">
+                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block px-2 py-1">
+                          Official Departure Hubs
+                        </span>
+                        {ORIGIN_SUGGESTIONS.map((orig) => (
+                          <div
+                            key={orig}
+                            onClick={() => {
+                              setOrigin(orig);
+                              setOriginOpen(false);
+                            }}
+                            className={`p-2 rounded-xl text-xs font-semibold cursor-pointer transition-colors flex items-center justify-between ${
+                              origin === orig ? 'bg-slate-900 text-white' : 'text-slate-800 hover:bg-slate-100'
+                            }`}
+                          >
+                            <span>{orig}</span>
+                            {origin === orig && <Check className="w-3.5 h-3.5 text-white" />}
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
 
-                  <div className="lg:col-span-3 space-y-1">
+                  {/* Destination Search with Custom Suggestions */}
+                  <div className="lg:col-span-4 space-y-1 relative" ref={destRef}>
+                    <label className="text-[11px] font-bold text-slate-500 flex items-center gap-1 uppercase tracking-wider">
+                      <Search className="w-3.5 h-3.5 text-slate-900" />
+                      Destination / Place Search
+                    </label>
+                    <input
+                      type="text"
+                      value={destinationQuery}
+                      onChange={(e) => {
+                        setDestinationQuery(e.target.value);
+                        setDestOpen(true);
+                      }}
+                      onFocus={() => setDestOpen(true)}
+                      placeholder="Enter place (e.g. Coorg, Hampi, Gokarna)..."
+                      className="w-full p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 font-semibold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-slate-900"
+                    />
+
+                    {destOpen && (
+                      <div className="absolute top-full left-0 right-0 mt-1.5 bg-white rounded-2xl border border-slate-200 shadow-2xl p-2 z-50 animate-fade-in max-h-64 overflow-y-auto">
+                        <div className="flex items-center justify-between px-2 py-1 border-b border-slate-100 mb-1">
+                          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                            Popular Karnataka Circuits
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => setDestOpen(false)}
+                            className="text-slate-400 hover:text-slate-700"
+                          >
+                            <X className="w-3 h-3" />
+                          </button>
+                        </div>
+                        {filteredDestinations.map((d) => (
+                          <div
+                            key={d.name}
+                            onClick={() => {
+                              setDestinationQuery(d.name);
+                              setDestOpen(false);
+                            }}
+                            className="p-2 rounded-xl text-xs cursor-pointer hover:bg-slate-100 transition-colors flex items-center gap-2.5"
+                          >
+                            <span className="text-base">{d.icon}</span>
+                            <div className="min-w-0">
+                              <span className="font-bold text-slate-900 block truncate">{d.name}</span>
+                              <span className="text-[10px] text-slate-500 block truncate">{d.tag}</span>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Duration Pill Switcher */}
+                  <div className="lg:col-span-2 space-y-1">
                     <label className="text-[11px] font-bold text-slate-500 flex items-center gap-1 uppercase tracking-wider">
                       <Calendar className="w-3.5 h-3.5 text-slate-900" />
                       Duration
@@ -206,28 +507,12 @@ export const HeroBanner: React.FC = () => {
                           duration === '3' ? 'bg-slate-900 text-white shadow-xs' : 'text-slate-600 hover:text-slate-900'
                         }`}
                       >
-                        3+ Days
+                        3+ D
                       </button>
                     </div>
                   </div>
 
-                  <div className="lg:col-span-3 space-y-1">
-                    <label className="text-[11px] font-bold text-slate-500 flex items-center gap-1 uppercase tracking-wider">
-                      <Compass className="w-3.5 h-3.5 text-slate-900" />
-                      Tour Category
-                    </label>
-                    <select
-                      value={category}
-                      onChange={(e) => setCategory(e.target.value as TripCategory)}
-                      className="w-full p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 font-semibold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-slate-900 cursor-pointer"
-                    >
-                      <option value="nature">Western Ghats Nature & Hills</option>
-                      <option value="heritage">UNESCO & Royal Heritage</option>
-                      <option value="beach">Coastal Karnataka & Beaches</option>
-                      <option value="spiritual">Spiritual Circuits</option>
-                    </select>
-                  </div>
-
+                  {/* Search CTA */}
                   <div className="lg:col-span-3 pt-1 sm:pt-4 lg:pt-4">
                     <button
                       type="submit"
@@ -240,40 +525,62 @@ export const HeroBanner: React.FC = () => {
                 </div>
               )}
 
-              {/* TAB 2: HOTELS */}
+              {/* TAB 2: HOTELS WITH CUSTOM POPUP & CUSTOM SELECT */}
               {activeTab === 'hotels' && (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-3 items-center">
-                  <div className="lg:col-span-5 space-y-1">
+                  <div className="lg:col-span-5 space-y-1 relative" ref={hotelRef}>
                     <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">
-                      Choose Destination / Mayura Property
+                      Search Destination or Mayura Property
                     </label>
-                    <select
+                    <input
+                      type="text"
                       value={hotelDestination}
-                      onChange={(e) => setHotelDestination(e.target.value)}
-                      className="w-full p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 font-semibold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-slate-900 cursor-pointer"
-                    >
-                      <option value="Coorg (Madikeri)">Hotel Mayura Valley View — Madikeri (Coorg)</option>
-                      <option value="Hampi">Hotel Mayura Bhuvaneshwari — Hampi (UNESCO)</option>
-                      <option value="Mysuru">Hotel Mayura Hoysala — Mysuru</option>
-                      <option value="Gokarna">Hotel Mayura Samudra — Gokarna Beach</option>
-                      <option value="Jog Falls">Hotel Mayura Gerusoppa — Jog Falls</option>
-                    </select>
+                      onChange={(e) => {
+                        setHotelDestination(e.target.value);
+                        setHotelOpen(true);
+                      }}
+                      onFocus={() => setHotelOpen(true)}
+                      placeholder="e.g. Coorg, Hampi, Mysuru, Gokarna..."
+                      className="w-full p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 font-semibold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-slate-900"
+                    />
+
+                    {hotelOpen && (
+                      <div className="absolute top-full left-0 right-0 mt-1.5 bg-white rounded-2xl border border-slate-200 shadow-2xl p-2 z-50 animate-fade-in max-h-64 overflow-y-auto">
+                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block px-2 py-1">
+                          Hotel Mayura Heritage Chain
+                        </span>
+                        {filteredHotels.map((h) => (
+                          <div
+                            key={h.name}
+                            onClick={() => {
+                              setHotelDestination(h.name);
+                              setHotelOpen(false);
+                            }}
+                            className="p-2 rounded-xl text-xs cursor-pointer hover:bg-slate-100 transition-colors flex items-center justify-between"
+                          >
+                            <div>
+                              <span className="font-bold text-slate-900 block truncate">{h.name}</span>
+                              <span className="text-[10px] text-slate-500 block truncate">{h.place}</span>
+                            </div>
+                            <span className="text-[10px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-md">
+                              {h.type}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
 
                   <div className="lg:col-span-4 space-y-1">
                     <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">
-                      Guests & Rooms
+                      Guests & Room Preference
                     </label>
-                    <select
+                    <CustomSelect
                       value={hotelGuests}
-                      onChange={(e) => setHotelGuests(e.target.value)}
-                      className="w-full p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 font-semibold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-slate-900 cursor-pointer"
-                    >
-                      <option value="1">1 Adult · 1 Room</option>
-                      <option value="2">2 Adults · 1 Room (Deluxe Twin)</option>
-                      <option value="3">3 Adults · 1 Room (Extra Bed)</option>
-                      <option value="4">Family (2 Adults + 2 Kids)</option>
-                    </select>
+                      onChange={setHotelGuests}
+                      options={guestOptions}
+                      placeholder="Select Guests"
+                    />
                   </div>
 
                   <div className="lg:col-span-3 pt-1 sm:pt-4 lg:pt-4">
@@ -288,7 +595,7 @@ export const HeroBanner: React.FC = () => {
                 </div>
               )}
 
-              {/* TAB 3: AIRPORT TAXI & CABS */}
+              {/* TAB 3: AIRPORT TAXI & CABS WITH CUSTOM POPUPS */}
               {activeTab === 'cabs' && (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-3 items-center">
                   <div className="lg:col-span-3 space-y-1">
@@ -317,15 +624,133 @@ export const HeroBanner: React.FC = () => {
                     </div>
                   </div>
 
-                  <div className="lg:col-span-6 space-y-1">
+                  <div className="lg:col-span-3 space-y-1 relative" ref={pickupRef}>
                     <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">
-                      Pickup / Drop Point
+                      Pickup Location
                     </label>
                     <input
                       type="text"
                       value={cabPickup}
-                      onChange={(e) => setCabPickup(e.target.value)}
+                      onChange={(e) => {
+                        setCabPickup(e.target.value);
+                        setPickupOpen(true);
+                      }}
+                      onFocus={() => setPickupOpen(true)}
+                      placeholder="e.g. Kempegowda Airport (BLR)..."
                       className="w-full p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 font-semibold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-slate-900"
+                    />
+                    {pickupOpen && (
+                      <div className="absolute top-full left-0 right-0 mt-1.5 bg-white rounded-2xl border border-slate-200 shadow-2xl p-1.5 z-50 animate-fade-in max-h-56 overflow-y-auto">
+                        {CAB_PICKUP_SUGGESTIONS.map((p) => (
+                          <div
+                            key={p}
+                            onClick={() => {
+                              setCabPickup(p);
+                              setPickupOpen(false);
+                            }}
+                            className="p-2 rounded-xl text-xs font-semibold hover:bg-slate-100 cursor-pointer transition-colors text-slate-800"
+                          >
+                            {p}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="lg:col-span-3 space-y-1 relative" ref={dropRef}>
+                    <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">
+                      Drop Destination
+                    </label>
+                    <input
+                      type="text"
+                      value={cabDrop}
+                      onChange={(e) => {
+                        setCabDrop(e.target.value);
+                        setDropOpen(true);
+                      }}
+                      onFocus={() => setDropOpen(true)}
+                      placeholder="Enter drop locality or city..."
+                      className="w-full p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 font-semibold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-slate-900"
+                    />
+                    {dropOpen && (
+                      <div className="absolute top-full left-0 right-0 mt-1.5 bg-white rounded-2xl border border-slate-200 shadow-2xl p-1.5 z-50 animate-fade-in max-h-56 overflow-y-auto">
+                        {CAB_DROP_SUGGESTIONS.map((d) => (
+                          <div
+                            key={d}
+                            onClick={() => {
+                              setCabDrop(d);
+                              setDropOpen(false);
+                            }}
+                            className="p-2 rounded-xl text-xs font-semibold hover:bg-slate-100 cursor-pointer transition-colors text-slate-800"
+                          >
+                            {d}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="lg:col-span-3 pt-1 sm:pt-4 lg:pt-4">
+                    <button
+                      type="submit"
+                      className="w-full py-2.5 px-4 rounded-xl bg-slate-900 hover:bg-black text-white font-bold text-xs sm:text-sm shadow-sm transition-all flex items-center justify-center gap-2"
+                    >
+                      <span>Fare & Instant Cab</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* TAB 4: AMBAARI & ACTIVITIES WITH CUSTOM MENUS */}
+              {activeTab === 'activities' && (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-3 items-center">
+                  <div className="lg:col-span-5 space-y-1 relative" ref={actRef}>
+                    <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">
+                      Search Activity or City Experience
+                    </label>
+                    <input
+                      type="text"
+                      value={activitySearch}
+                      onChange={(e) => {
+                        setActivitySearch(e.target.value);
+                        setActivityOpen(true);
+                      }}
+                      onFocus={() => setActivityOpen(true)}
+                      placeholder="e.g. Ambaari Mysuru, Vidhana Soudha..."
+                      className="w-full p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 font-semibold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-slate-900"
+                    />
+
+                    {activityOpen && (
+                      <div className="absolute top-full left-0 right-0 mt-1.5 bg-white rounded-2xl border border-slate-200 shadow-2xl p-2 z-50 animate-fade-in max-h-56 overflow-y-auto">
+                        {ACTIVITY_SUGGESTIONS.map((act) => (
+                          <div
+                            key={act.title}
+                            onClick={() => {
+                              setActivitySearch(act.title);
+                              setActivityOpen(false);
+                            }}
+                            className="p-2 rounded-xl text-xs hover:bg-slate-100 cursor-pointer transition-colors flex items-center justify-between"
+                          >
+                            <span className="font-bold text-slate-900 truncate">{act.title}</span>
+                            <span className="text-[10px] font-semibold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-md shrink-0 ml-2">
+                              {act.city}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="lg:col-span-4 space-y-1">
+                    <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">
+                      Preferred Timing / Slot
+                    </label>
+                    <CustomSelect
+                      value={activitySlot}
+                      onChange={setActivitySlot}
+                      options={activitySlotOptions}
+                      placeholder="Select Slot"
                     />
                   </div>
 
@@ -334,60 +759,21 @@ export const HeroBanner: React.FC = () => {
                       type="submit"
                       className="w-full py-2.5 px-4 rounded-xl bg-slate-900 hover:bg-black text-white font-bold text-xs sm:text-sm shadow-sm transition-all flex items-center justify-center gap-2"
                     >
-                      <span>Book KSTDC Cab</span>
+                      <span>Book Activity Passes</span>
                       <ArrowRight className="w-4 h-4" />
                     </button>
                   </div>
                 </div>
               )}
-
-              {/* TAB 4: ACTIVITIES */}
-              {activeTab === 'activities' && (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-3 items-center">
-                  <div className="lg:col-span-5 space-y-1">
-                    <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">
-                      Select City Experience
-                    </label>
-                    <select
-                      value={activityCity}
-                      onChange={(e) => setActivityCity(e.target.value)}
-                      className="w-full p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 font-semibold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-slate-900 cursor-pointer"
-                    >
-                      <option value="Mysuru">Ambaari Open-Top Double Decker Tour (Mysuru)</option>
-                      <option value="Bengaluru">Guided Heritage Tour of Vidhana Soudha (Bengaluru)</option>
-                      <option value="Jog Falls">Sharavathi Backwaters & Water Sports (Jog Falls)</option>
-                    </select>
-                  </div>
-
-                  <div className="lg:col-span-4 space-y-1">
-                    <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">
-                      Slot Timing
-                    </label>
-                    <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-700 flex items-center gap-1.5">
-                      <Clock className="w-3.5 h-3.5 text-slate-900" />
-                      <span>Evening 06:30 PM, 08:00 PM & 09:30 PM</span>
-                    </div>
-                  </div>
-
-                  <div className="lg:col-span-3 pt-1 sm:pt-4 lg:pt-4">
-                    <button
-                      type="submit"
-                      className="w-full py-2.5 px-4 rounded-xl bg-slate-900 hover:bg-black text-white font-bold text-xs sm:text-sm shadow-sm transition-all flex items-center justify-center gap-2"
-                    >
-                      <span>Explore Activities</span>
-                      <ArrowRight className="w-4 h-4" />
-                    </button>
-                  </div>
-                </div>
-              )}
-
             </form>
+
           </div>
 
         </div>
 
       </div>
 
+      {/* AI Trip Planner Modal */}
       {plannerOpen && (
         <AiTripPlannerModal isOpen={plannerOpen} onClose={() => setPlannerOpen(false)} />
       )}

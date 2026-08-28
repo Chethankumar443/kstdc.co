@@ -100,6 +100,9 @@ export const TripDetailPage: React.FC<Props> = ({ trip }) => {
               <img
                 src={trip.heroImage}
                 alt={trip.title}
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = '/hero/hero-1.jpeg';
+                }}
                 className="w-full h-full object-cover"
               />
               <div className="absolute top-4 left-4 bg-black/80 backdrop-blur-sm text-white px-3 py-1 rounded-full text-xs font-bold">
@@ -112,6 +115,9 @@ export const TripDetailPage: React.FC<Props> = ({ trip }) => {
                   key={i}
                   src={img}
                   alt={`${trip.title} gallery ${i}`}
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = i === 0 ? '/hero/hero-2.jpeg' : '/hero/hero-3.jpeg';
+                  }}
                   className="w-full h-full object-cover rounded-2xl"
                 />
               ))}

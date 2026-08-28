@@ -76,6 +76,9 @@ export const TrendingTrips: React.FC = () => {
                   src={trip.heroImage}
                   alt={trip.title}
                   loading="lazy"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = '/hero/hero-1.jpeg';
+                  }}
                   className="w-full h-full object-cover"
                 />
                 

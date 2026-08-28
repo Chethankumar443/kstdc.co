@@ -55,6 +55,9 @@ export const MayuraStaysStrip: React.FC = () => {
                   src={hotel.image}
                   alt={hotel.name}
                   loading="lazy"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = '/hero/hero-2.jpeg';
+                  }}
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute top-3.5 left-3.5 bg-black/80 backdrop-blur-sm text-white px-3 py-1 rounded-full text-[11px] font-bold">
