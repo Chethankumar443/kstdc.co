@@ -72,6 +72,10 @@ export const CabsBookingEngine: React.FC = () => {
       vehicleType: `${selectedCab.name} (${selectedCab.type})`,
       hotelName: 'Official KSTDC 24x7 Airport Fleet',
       travellers: { adults: 2, children: 0, seniors: 0 },
+      passengers: [
+        { id: 'tax-p1', name: passengerName, age: 32, gender: 'Male', type: 'Adult', seatNumber: 'Passenger 1 (Lead)' },
+        { id: 'tax-p2', name: 'Co-Passenger', age: 30, gender: 'Female', type: 'Adult', seatNumber: 'Passenger 2' },
+      ],
       contact: {
         name: passengerName,
         email: passengerEmail,
