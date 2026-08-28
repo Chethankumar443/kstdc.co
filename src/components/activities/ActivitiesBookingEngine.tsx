@@ -61,7 +61,7 @@ export const ActivitiesBookingEngine: React.FC = () => {
       vehicleType: selectedActivity.id === 'act-ambaari-mysore' ? 'Ambaari Open-Roof Double-Decker Coach' : 'Certified Guided Walking Tour',
       hotelName: 'Official KSTDC City Experiences',
       travellers: { adults, children, seniors },
-      passengers: Array.from({ length: totalSeats }).map((_, idx) => ({
+      passengers: Array.from({ length: adults + seniors + children }).map((_, idx) => ({
         id: `amb-seat-${idx + 1}`,
         name: idx === 0 ? contactName : `Guest ${idx + 1}`,
         age: 30,

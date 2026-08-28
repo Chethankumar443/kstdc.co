@@ -116,7 +116,7 @@ export interface PassengerDetail {
   name: string;
   age: number | string;
   gender: 'Male' | 'Female' | 'Other';
-  type: 'Adult' | 'Senior' | 'Child';
+  type: 'Adult' | 'Senior' | 'Senior (60+)' | 'Child' | 'Child (5-12)';
   seatNumber?: string;
   idProofNumber?: string;
 }
@@ -154,7 +154,7 @@ export interface BookingRecord {
     totalAmount: number;
   };
   status: 'Confirmed' | 'Completed' | 'Upcoming';
-  paymentMethod: 'UPI' | 'Card' | 'NetBanking' | 'Counter Cash';
+  paymentMethod: 'UPI' | 'Card' | 'NetBanking' | 'Counter Cash' | 'Prepaid FastTag / Counter Pay';
   qrCodeMockUrl?: string;
   extraDetails?: Record<string, string>;
 }

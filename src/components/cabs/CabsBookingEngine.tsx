@@ -245,7 +245,7 @@ export const CabsBookingEngine: React.FC = () => {
                       {isSelected && <span className="w-2 h-2 rounded-full bg-emerald-500" />}
                     </div>
                     <div className="text-lg font-bold text-slate-950">{cab.name}</div>
-                    <div className="text-xs text-slate-500 mt-1">{cab.capacity} · {cab.luggage} Luggage · AC Multi-Airbag</div>
+                    <div className="text-xs text-slate-500 mt-1">{cab.seating} · {cab.luggage} Luggage · AC Multi-Airbag</div>
                     <div className="mt-4 pt-3 border-t border-slate-100 flex items-baseline justify-between">
                       <span className="text-xs text-slate-500">Fixed Rate</span>
                       <span className="text-xl font-black text-slate-950">₹{fare.toLocaleString('en-IN')}</span>
