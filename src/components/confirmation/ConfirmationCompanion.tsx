@@ -1,23 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import {
-  CheckCircle2, MapPin, Calendar, Clock, Download, Share2,
-  Volume2, ExternalLink, Printer, ShieldCheck, FileText, QrCode
+  CheckCircle2, Calendar, Download, Share2,
+  Volume2, Printer, ShieldCheck
 } from 'lucide-react';
-import { getBookingById, getStoredBookings, getStoredLanguage } from '../../lib/bookingStore';
-import { TRANSLATIONS } from '../../data/translations';
-import type { BookingRecord, Language } from '../../types/travel';
+import { getBookingById, getStoredBookings } from '../../lib/bookingStore';
+import type { BookingRecord } from '../../types/travel';
 
 interface Props {
   bookingId: string;
 }
 
 export const ConfirmationCompanion: React.FC<Props> = ({ bookingId }) => {
-  const [lang, setLang] = useState<Language>('en');
   const [booking, setBooking] = useState<BookingRecord | null>(null);
 
   useEffect(() => {
-    setLang(getStoredLanguage());
-    
     let targetId = bookingId;
     if (typeof window !== 'undefined') {
       const urlParams = new URLSearchParams(window.location.search);
@@ -83,8 +79,6 @@ export const ConfirmationCompanion: React.FC<Props> = ({ bookingId }) => {
 
     setBooking(b);
   }, [bookingId]);
-
-  const t = TRANSLATIONS[lang] || TRANSLATIONS.en;
 
   const playPhrase = (phraseText: string) => {
     if ('speechSynthesis' in window) {
@@ -253,7 +247,6 @@ export const ConfirmationCompanion: React.FC<Props> = ({ bookingId }) => {
 </body>
 </html>`;
 
-    // Download HTML file directly
     const blob = new Blob([invoiceHtml], { type: 'text/html;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -264,7 +257,6 @@ export const ConfirmationCompanion: React.FC<Props> = ({ bookingId }) => {
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
 
-    // Also trigger browser print dialog for PDF saving
     setTimeout(() => {
       window.print();
     }, 400);
@@ -303,8 +295,8 @@ END:VCALENDAR`;
   if (!booking) {
     return (
       <div className="py-20 text-center space-y-4">
-        <h2 className="text-xl font-bold text-ink">Booking Reference {bookingId}</h2>
-        <p className="text-xs text-steel">Loading your travel companion details...</p>
+        <h2 className="text-xl font-bold text-slate-900 dark:text-white">Booking Reference {bookingId}</h2>
+        <p className="text-xs text-slate-500 dark:text-slate-400">Loading your travel companion details...</p>
       </div>
     );
   }
@@ -328,7 +320,7 @@ END:VCALENDAR`;
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         
         {/* Reassuring Confirmation Hero */}
-        <div className="bg-slate-950 p-8 sm:p-12 rounded-[32px] text-white text-center space-y-5 shadow-lg">
+        <div className="bg-slate-950 p-8 sm:p-12 rounded-[32px] text-white text-center space-y-5 shadow-lg border border-slate-800">
           
           <div className="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-white/10 backdrop-blur-md text-white text-xs font-semibold">
             <CheckCircle2 className="w-4 h-4 text-emerald-400" />
@@ -337,7 +329,7 @@ END:VCALENDAR`;
 
           <div className="space-y-2">
             <h1 className="text-3xl sm:text-5xl font-bold tracking-tight text-white">
-              {t.confirmationTitle}
+              Booking Confirmed!
             </h1>
             <p className="text-xs sm:text-sm text-white/80 max-w-lg mx-auto leading-relaxed">
               Your official KSTDC boarding pass and government tax invoice have been generated and sent to <strong>{booking.contact.email}</strong>.
@@ -348,7 +340,7 @@ END:VCALENDAR`;
           <div className="p-4 rounded-2xl bg-white/10 border border-white/15 max-w-sm mx-auto flex items-center justify-between text-left">
             <div>
               <span className="text-[10px] text-white/70 uppercase tracking-wider block font-bold">
-                {t.bookingRef}
+                Booking Reference
               </span>
               <span className="text-lg font-mono font-bold text-white">
                 {booking.bookingId}
@@ -363,7 +355,7 @@ END:VCALENDAR`;
           <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
             <button
               onClick={handleDownloadInvoice}
-              className="px-6 py-3 rounded-full bg-white hover:bg-slate-100 text-slate-950 font-bold text-xs shadow-sm transition-all flex items-center gap-2"
+              className="px-6 py-3 rounded-full bg-white hover:bg-slate-100 text-slate-950 font-bold text-xs shadow-sm transition-all flex items-center gap-2 cursor-pointer"
             >
               <Download className="w-4 h-4 text-blue-600" />
               <span>Download Official Tax Invoice & Pass</span>
@@ -371,101 +363,101 @@ END:VCALENDAR`;
 
             <button
               onClick={handleCalendarDownload}
-              className="px-6 py-3 rounded-full bg-transparent hover:bg-white/10 text-white font-bold text-xs border border-white/30 transition-all flex items-center gap-2"
+              className="px-6 py-3 rounded-full bg-transparent hover:bg-white/10 text-white font-bold text-xs border border-white/30 transition-all flex items-center gap-2 cursor-pointer"
             >
               <Calendar className="w-4 h-4" />
-              <span>{t.addToCalendarBtn}</span>
+              <span>Add to Calendar</span>
             </button>
 
             <button
               onClick={handleWhatsAppShare}
-              className="px-6 py-3 rounded-full bg-transparent hover:bg-white/10 text-white font-bold text-xs border border-white/30 transition-all flex items-center gap-2"
+              className="px-6 py-3 rounded-full bg-transparent hover:bg-white/10 text-white font-bold text-xs border border-white/30 transition-all flex items-center gap-2 cursor-pointer"
             >
               <Share2 className="w-4 h-4" />
-              <span>{t.whatsappShareBtn}</span>
+              <span>Share on WhatsApp</span>
             </button>
           </div>
 
         </div>
 
         {/* OFFICIAL GOVERNMENT TAX INVOICE & BOARDING PASS CARD */}
-        <div className="bg-white rounded-[32px] border-2 border-slate-200 p-6 sm:p-10 shadow-md space-y-8 text-slate-900">
+        <div className="bg-white dark:bg-slate-900 rounded-[32px] border border-slate-200 dark:border-slate-800 p-6 sm:p-10 shadow-md space-y-8 text-slate-900 dark:text-white">
           
-          {/* Header Strip with KSTDC & Karnataka Tourism Logos */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b-2 border-slate-900 pb-6">
+          {/* Header Strip */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b-2 border-slate-900 dark:border-slate-700 pb-6">
             <div className="flex items-center gap-3">
               <img
                 src="/kstdc-logo.png"
                 alt="KSTDC Logo"
                 className="w-12 h-12 object-contain"
               />
-              <div className="h-10 w-px bg-slate-300 hidden sm:block" />
+              <div className="h-10 w-px bg-slate-300 dark:bg-slate-700 hidden sm:block" />
               <img
                 src="/karnataka-tourism-logo.png"
                 alt="Department of Tourism"
                 className="h-10 object-contain hidden xs:block"
               />
               <div>
-                <h2 className="text-xl font-black tracking-tight text-slate-950">KSTDC</h2>
-                <span className="text-[11px] font-semibold text-slate-600 block">Karnataka State Tourism Development Corporation</span>
+                <h2 className="text-xl font-black tracking-tight text-slate-950 dark:text-white">KSTDC</h2>
+                <span className="text-[11px] font-semibold text-slate-600 dark:text-slate-400 block">Karnataka State Tourism Development Corporation</span>
               </div>
             </div>
 
             <div className="text-left sm:text-right space-y-1">
-              <span className="text-xs font-bold uppercase tracking-wider text-slate-900 block">
+              <span className="text-xs font-bold uppercase tracking-wider text-slate-900 dark:text-white block">
                 Official Tax Invoice & Boarding Slip
               </span>
-              <span className="text-[11px] text-slate-500 block">
+              <span className="text-[11px] text-slate-500 dark:text-slate-400 block">
                 GSTIN: <strong>29AAACK0123M1Z8</strong> · Code: 29
               </span>
             </div>
           </div>
 
           {/* Metadata Grid */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 p-4 rounded-2xl bg-slate-50 border border-slate-200 text-xs">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 p-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs">
             <div>
-              <span className="text-slate-500 block text-[11px]">Booking Reference</span>
-              <span className="font-mono font-bold text-slate-950 text-sm">{booking.bookingId}</span>
+              <span className="text-slate-500 dark:text-slate-400 block text-[11px]">Booking Reference</span>
+              <span className="font-mono font-bold text-slate-950 dark:text-white text-sm">{booking.bookingId}</span>
             </div>
             <div>
-              <span className="text-slate-500 block text-[11px]">Date & Time of Issue</span>
-              <span className="font-bold text-slate-950">
+              <span className="text-slate-500 dark:text-slate-400 block text-[11px]">Date & Time of Issue</span>
+              <span className="font-bold text-slate-950 dark:text-white">
                 {new Date(booking.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
               </span>
             </div>
             <div>
-              <span className="text-slate-500 block text-[11px]">Payment Mode</span>
-              <span className="font-bold text-emerald-700">{booking.paymentMethod} (PAID IN FULL)</span>
+              <span className="text-slate-500 dark:text-slate-400 block text-[11px]">Payment Mode</span>
+              <span className="font-bold text-emerald-600 dark:text-emerald-400">{booking.paymentMethod} (PAID IN FULL)</span>
             </div>
             <div>
-              <span className="text-slate-500 block text-[11px]">Coach Class</span>
-              <span className="font-bold text-slate-950">{booking.vehicleType}</span>
+              <span className="text-slate-500 dark:text-slate-400 block text-[11px]">Coach Class</span>
+              <span className="font-bold text-slate-950 dark:text-white">{booking.vehicleType}</span>
             </div>
           </div>
 
           {/* Tour & Boarding Details */}
           <div className="space-y-3">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-700">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
               Service & Boarding Itinerary
             </h3>
-            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
+            <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
               <div>
-                <span className="text-slate-500 block text-[11px]">Tour / Circuit</span>
-                <span className="font-bold text-slate-950">{booking.tripTitle}</span>
+                <span className="text-slate-500 dark:text-slate-400 block text-[11px]">Tour / Circuit</span>
+                <span className="font-bold text-slate-950 dark:text-white">{booking.tripTitle}</span>
               </div>
               <div>
-                <span className="text-slate-500 block text-[11px]">Departure Date & Time</span>
-                <span className="font-bold text-blue-700">
+                <span className="text-slate-500 dark:text-slate-400 block text-[11px]">Departure Date & Time</span>
+                <span className="font-bold text-blue-600 dark:text-blue-400">
                   {new Date(booking.departureDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })} ({booking.pickupTime})
                 </span>
               </div>
               <div>
-                <span className="text-slate-500 block text-[11px]">Pickup Location</span>
-                <span className="font-bold text-slate-950">{booking.pickupPoint}</span>
+                <span className="text-slate-500 dark:text-slate-400 block text-[11px]">Pickup Location</span>
+                <span className="font-bold text-slate-950 dark:text-white">{booking.pickupPoint}</span>
               </div>
               <div>
-                <span className="text-slate-500 block text-[11px]">Hotel Accommodation</span>
-                <span className="font-bold text-slate-950">{booking.hotelName} ({booking.roomType})</span>
+                <span className="text-slate-500 dark:text-slate-400 block text-[11px]">Hotel Accommodation</span>
+                <span className="font-bold text-slate-950 dark:text-white">{booking.hotelName} ({booking.roomType})</span>
               </div>
             </div>
           </div>
@@ -473,15 +465,15 @@ END:VCALENDAR`;
           {/* PASSENGER MANIFEST TABLE */}
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-slate-700">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
                 Official Passenger Manifest ({passengerList.length} Travellers)
               </h3>
-              <span className="text-[11px] text-slate-500 font-medium">Valid Photo ID Required at Boarding</span>
+              <span className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">Valid Photo ID Required at Boarding</span>
             </div>
 
-            <div className="overflow-x-auto rounded-2xl border border-slate-200">
+            <div className="overflow-x-auto rounded-2xl border border-slate-200 dark:border-slate-700">
               <table className="w-full text-left text-xs border-collapse">
-                <thead className="bg-slate-100 text-slate-700 font-bold border-b border-slate-200">
+                <thead className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold border-b border-slate-200 dark:border-slate-700">
                   <tr>
                     <th className="p-3">#</th>
                     <th className="p-3">Passenger Name</th>
@@ -491,19 +483,19 @@ END:VCALENDAR`;
                     <th className="p-3">Allocated Seat</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100">
+                <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
                   {passengerList.map((p, i) => (
-                    <tr key={i} className="hover:bg-slate-50">
-                      <td className="p-3 font-semibold text-slate-500">{i + 1}</td>
-                      <td className="p-3 font-bold text-slate-950">{p.name || booking.contact.name}</td>
-                      <td className="p-3 text-slate-700">{p.age} yrs</td>
-                      <td className="p-3 text-slate-700">{p.gender}</td>
+                    <tr key={i} className="hover:bg-slate-50 dark:hover:bg-slate-800/50">
+                      <td className="p-3 font-semibold text-slate-500 dark:text-slate-400">{i + 1}</td>
+                      <td className="p-3 font-bold text-slate-950 dark:text-white">{p.name || booking.contact.name}</td>
+                      <td className="p-3 text-slate-700 dark:text-slate-300">{p.age} yrs</td>
+                      <td className="p-3 text-slate-700 dark:text-slate-300">{p.gender}</td>
                       <td className="p-3">
-                        <span className="px-2 py-0.5 rounded-full bg-blue-50 text-blue-800 text-[10px] font-bold">
+                        <span className="px-2 py-0.5 rounded-full bg-blue-50 dark:bg-blue-950 text-blue-800 dark:text-blue-300 text-[10px] font-bold">
                           {p.type}
                         </span>
                       </td>
-                      <td className="p-3 font-mono font-bold text-slate-950">{p.seatNumber || `Seat #${12 + i}`}</td>
+                      <td className="p-3 font-mono font-bold text-slate-950 dark:text-white">{p.seatNumber || `Seat #${12 + i}`}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -512,41 +504,41 @@ END:VCALENDAR`;
           </div>
 
           {/* ITEMIZED TAX & TARIFF STATEMENT */}
-          <div className="flex flex-col sm:flex-row justify-between items-start gap-6 pt-4 border-t border-slate-200">
-            <div className="space-y-2 max-w-sm text-xs text-slate-500">
-              <div className="flex items-center gap-1.5 text-slate-900 font-bold">
-                <ShieldCheck className="w-4 h-4 text-emerald-600" />
+          <div className="flex flex-col sm:flex-row justify-between items-start gap-6 pt-4 border-t border-slate-200 dark:border-slate-700">
+            <div className="space-y-2 max-w-sm text-xs text-slate-500 dark:text-slate-400">
+              <div className="flex items-center gap-1.5 text-slate-900 dark:text-white font-bold">
+                <ShieldCheck className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
                 <span>Authorized Government Billing</span>
               </div>
               <p>SAC Code: 9964 (Passenger Transport) / 9963 (Accommodation). Tariff inclusive of state tolls, passenger road taxes, and AC coach luxury supplement.</p>
             </div>
 
             <div className="w-full sm:w-80 space-y-2 text-xs">
-              <div className="flex justify-between text-slate-700">
-                <span>Base Fare ({booking.travellers.adults} Adults{booking.travellers.children ? `, ${booking.travellers.children} Kids` : ''}{booking.travellers.seniors ? `, ${booking.travellers.seniors} Seniors` : ''}):</span>
-                <span className="font-semibold text-slate-950">₹{booking.pricing.basePrice.toLocaleString('en-IN')}</span>
+              <div className="flex justify-between text-slate-700 dark:text-slate-300">
+                <span>Base Fare ({booking.travellers.adults} Adults{booking.travellers.children ? `, ${booking.travellers.children} Kids` : ''}${booking.travellers.seniors ? `, ${booking.travellers.seniors} Seniors` : ''}):</span>
+                <span className="font-semibold text-slate-950 dark:text-white">₹{booking.pricing.basePrice.toLocaleString('en-IN')}</span>
               </div>
 
               {booking.pricing.seniorDiscount > 0 && (
-                <div className="flex justify-between text-emerald-700 font-semibold">
+                <div className="flex justify-between text-emerald-600 dark:text-emerald-400 font-semibold">
                   <span>Senior Citizen Concession (5%):</span>
                   <span>−₹{booking.pricing.seniorDiscount.toLocaleString('en-IN')}</span>
                 </div>
               )}
 
-              <div className="flex justify-between text-slate-500 pt-1 border-t border-slate-100">
+              <div className="flex justify-between text-slate-500 dark:text-slate-400 pt-1 border-t border-slate-100 dark:border-slate-800">
                 <span>Central GST (CGST @ 2.5%):</span>
                 <span>₹{cgst.toLocaleString('en-IN')}</span>
               </div>
 
-              <div className="flex justify-between text-slate-500">
+              <div className="flex justify-between text-slate-500 dark:text-slate-400">
                 <span>State GST (SGST @ 2.5%):</span>
                 <span>₹{sgst.toLocaleString('en-IN')}</span>
               </div>
 
-              <div className="flex justify-between items-baseline pt-2 border-t-2 border-slate-900 text-slate-950">
+              <div className="flex justify-between items-baseline pt-2 border-t-2 border-slate-900 dark:border-white text-slate-950 dark:text-white">
                 <span className="font-bold text-sm">Total Paid Amount:</span>
-                <span className="text-xl font-black text-slate-950">
+                <span className="text-xl font-bold text-slate-950 dark:text-white">
                   ₹{booking.pricing.totalAmount.toLocaleString('en-IN')}
                 </span>
               </div>
@@ -554,12 +546,12 @@ END:VCALENDAR`;
           </div>
 
           {/* Quick Print CTA */}
-          <div className="flex items-center justify-between pt-4 border-t border-slate-100">
-            <span className="text-xs text-slate-500">Karnataka State Tourism Development Corporation · Khanija Bhavan, Bengaluru</span>
+          <div className="flex items-center justify-between pt-4 border-t border-slate-100 dark:border-slate-800">
+            <span className="text-xs text-slate-500 dark:text-slate-400">Karnataka State Tourism Development Corporation · Khanija Bhavan, Bengaluru</span>
             <button
               type="button"
               onClick={handleDownloadInvoice}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-slate-950 hover:bg-black text-white font-bold text-xs transition-colors"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-slate-950 dark:bg-blue-600 hover:bg-black dark:hover:bg-blue-700 text-white font-bold text-xs transition-colors cursor-pointer"
             >
               <Printer className="w-3.5 h-3.5" />
               <span>Print / Download Tax Invoice</span>
@@ -572,53 +564,53 @@ END:VCALENDAR`;
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           
           {/* Weather & Packing Advisory */}
-          <div className="bg-canvas p-6 rounded-[28px] border border-hairline-soft shadow-sm space-y-3">
-            <span className="text-xs font-bold text-primary-cobalt uppercase tracking-wider block">
+          <div className="bg-white dark:bg-slate-900 p-6 rounded-[28px] border border-slate-200 dark:border-slate-800 shadow-sm space-y-3">
+            <span className="text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider block">
               Destination Guidance
             </span>
-            <h3 className="text-lg font-bold text-ink-deep">
+            <h3 className="text-lg font-bold text-slate-900 dark:text-white">
               {booking.destination} (Cool & Breezy)
             </h3>
-            <p className="text-xs text-steel leading-relaxed">
+            <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
               Pleasant daytime temperatures with cool morning and evening breezes. Light shawls recommended.
             </p>
-            <div className="space-y-2 pt-1 text-xs text-charcoal">
+            <div className="space-y-2 pt-1 text-xs text-slate-700 dark:text-slate-300">
               <div className="flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-primary-cobalt" />
+                <span className="w-1.5 h-1.5 rounded-full bg-blue-600 dark:bg-blue-400" />
                 <span>Carry a light jacket or sweater for morning halts</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-primary-cobalt" />
+                <span className="w-1.5 h-1.5 rounded-full bg-blue-600 dark:bg-blue-400" />
                 <span>Comfortable footwear for estate walks and viewpoints</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-primary-cobalt" />
+                <span className="w-1.5 h-1.5 rounded-full bg-blue-600 dark:bg-blue-400" />
                 <span>Original government photo ID required at coach boarding</span>
               </div>
             </div>
           </div>
 
           {/* Local Kannada Travel Phrases */}
-          <div className="bg-canvas p-6 rounded-[28px] border border-hairline-soft shadow-sm space-y-3">
-            <span className="text-xs font-bold text-steel uppercase tracking-wider block">
-              {t.audioGuideTitle}
+          <div className="bg-white dark:bg-slate-900 p-6 rounded-[28px] border border-slate-200 dark:border-slate-800 shadow-sm space-y-3">
+            <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">
+              Audio Guide & Language Companion
             </span>
-            <h3 className="text-lg font-bold text-ink-deep">
+            <h3 className="text-lg font-bold text-slate-900 dark:text-white">
               Helpful Local Phrases
             </h3>
             <div className="space-y-1.5">
               {kannadaPhrases.map((phrase, i) => (
                 <div
                   key={i}
-                  className="p-2.5 rounded-xl bg-surface-soft border border-hairline-soft flex items-center justify-between text-xs"
+                  className="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-between text-xs"
                 >
                   <div>
-                    <span className="font-bold text-ink-deep block">{phrase.kannada}</span>
-                    <span className="text-[11px] text-steel">{phrase.english}</span>
+                    <span className="font-bold text-slate-900 dark:text-white block">{phrase.kannada}</span>
+                    <span className="text-[11px] text-slate-500 dark:text-slate-400">{phrase.english}</span>
                   </div>
                   <button
                     onClick={() => playPhrase(phrase.kannada.split('(')[0])}
-                    className="p-1.5 rounded-full bg-canvas hover:bg-neutral-200 text-ink-deep transition-colors"
+                    className="p-1.5 rounded-full bg-white dark:bg-slate-700 hover:bg-slate-100 dark:hover:bg-slate-600 text-slate-900 dark:text-white transition-colors cursor-pointer"
                     title="Pronounce"
                   >
                     <Volume2 className="w-3.5 h-3.5" />

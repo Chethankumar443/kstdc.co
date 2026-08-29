@@ -1,41 +1,27 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Award, Bus, Building2, BadgePercent } from 'lucide-react';
-import { getStoredLanguage } from '../../lib/bookingStore';
-import { TRANSLATIONS } from '../../data/translations';
-import type { Language } from '../../types/travel';
 
 export const WhyKstdcTrust: React.FC = () => {
-  const [lang, setLang] = useState<Language>('en');
-
-  useEffect(() => {
-    setLang(getStoredLanguage());
-    const handler = (e: any) => setLang(e.detail);
-    window.addEventListener('kstdc_lang_changed', handler);
-    return () => window.removeEventListener('kstdc_lang_changed', handler);
-  }, []);
-
-  const t = TRANSLATIONS[lang] || TRANSLATIONS.en;
-
   const trustPillars = [
     {
       icon: <Award className="w-6 h-6 text-blue-600 dark:text-blue-400" />,
-      title: t.trust1Title || 'State-Certified Guides',
-      description: t.trust1Desc || 'Official archaeological and cultural guides accompanying all heritage and circuit tours.',
+      title: 'State-Certified Guides',
+      description: 'Official archaeological and cultural guides accompanying all heritage and circuit tours.',
     },
     {
       icon: <Bus className="w-6 h-6 text-blue-600 dark:text-blue-400" />,
-      title: t.trust2Title || 'Volvo AC Luxury Fleet',
-      description: t.trust2Desc || 'Sanitized pushback Volvo multi-axle coaches operated by vetted state drivers.',
+      title: 'Volvo AC Luxury Fleet',
+      description: 'Sanitized pushback Volvo multi-axle coaches operated by vetted state drivers.',
     },
     {
       icon: <Building2 className="w-6 h-6 text-blue-600 dark:text-blue-400" />,
-      title: t.trust3Title || 'Official Mayura Stays',
-      description: t.trust3Desc || 'Guaranteed government-owned hillside and heritage properties at prime locations.',
+      title: 'Official Mayura Stays',
+      description: 'Guaranteed government-owned hillside and heritage properties at prime locations.',
     },
     {
       icon: <BadgePercent className="w-6 h-6 text-blue-600 dark:text-blue-400" />,
-      title: t.trust4Title || 'Transparent Pricing',
-      description: t.trust4Desc || 'Zero hidden platform surcharges or dynamic price surges. What you see is what you pay.',
+      title: 'Transparent Pricing',
+      description: 'Zero hidden platform surcharges or dynamic price surges. What you see is what you pay.',
     },
   ];
 
@@ -45,13 +31,13 @@ export const WhyKstdcTrust: React.FC = () => {
         
         <div className="text-center max-w-xl mx-auto space-y-2">
           <span className="text-xs uppercase tracking-wider font-bold text-blue-600 dark:text-blue-400 block">
-            {t.trustTag || 'Public Service Assurance'}
+            Public Service Assurance
           </span>
           <h2 className="text-2xl sm:text-4xl font-bold tracking-tight text-slate-900 dark:text-white">
-            {t.trustTitle || 'Why Book with KSTDC?'}
+            Why Book with KSTDC?
           </h2>
           <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400">
-            {t.trustSubtitle || 'The safety and predictability of state-conducted tourism combined with modern travel standards.'}
+            The safety and predictability of state-conducted tourism combined with modern travel standards.
           </p>
         </div>
 
@@ -76,7 +62,7 @@ export const WhyKstdcTrust: React.FC = () => {
               </div>
 
               <span className="text-[11px] font-bold text-blue-600 dark:text-blue-400 block pt-1">
-                {lang === 'kn' ? 'ದೃಢೀಕೃತ ಸಾರ್ವಜನಿಕ ಗುಣಮಟ್ಟ' : 'Verified Public Standard'}
+                Verified Public Standard
               </span>
             </div>
           ))}

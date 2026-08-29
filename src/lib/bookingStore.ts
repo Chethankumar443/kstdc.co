@@ -228,18 +228,9 @@ export function injectSampleDemoBookings(): void {
 }
 
 export function getStoredLanguage(): Language {
-  if (typeof window === 'undefined') return 'en';
-  try {
-    const lang = localStorage.getItem(LANG_KEY) as Language;
-    if (lang === 'en' || lang === 'kn') return lang;
-    return 'en';
-  } catch {
-    return 'en';
-  }
+  return 'en';
 }
 
-export function setStoredLanguage(lang: Language): void {
-  if (typeof window === 'undefined') return;
-  localStorage.setItem(LANG_KEY, lang);
-  window.dispatchEvent(new CustomEvent('kstdc_lang_changed', { detail: lang }));
+export function setStoredLanguage(_lang: Language): void {
+  // English only
 }

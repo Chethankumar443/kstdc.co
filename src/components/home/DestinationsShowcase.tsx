@@ -1,22 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { ArrowRight } from 'lucide-react';
 import { DESTINATIONS_DATA } from '../../data/destinationsData';
-import { getStoredLanguage } from '../../lib/bookingStore';
-import { TRANSLATIONS } from '../../data/translations';
-import type { Language } from '../../types/travel';
 
 export const DestinationsShowcase: React.FC = () => {
-  const [lang, setLang] = useState<Language>('en');
-
-  useEffect(() => {
-    setLang(getStoredLanguage());
-    const handler = (e: any) => setLang(e.detail);
-    window.addEventListener('kstdc_lang_changed', handler);
-    return () => window.removeEventListener('kstdc_lang_changed', handler);
-  }, []);
-
-  const t = TRANSLATIONS[lang] || TRANSLATIONS.en;
-
   return (
     <section className="py-12 sm:py-18 bg-canvas transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
@@ -24,13 +10,13 @@ export const DestinationsShowcase: React.FC = () => {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div className="space-y-1">
             <span className="text-xs uppercase tracking-wider font-bold text-blue-600 dark:text-blue-400 block">
-              {t.destinationsTag || 'Destination Atlas'}
+              Destination Atlas
             </span>
             <h2 className="text-2xl sm:text-4xl font-bold tracking-tight text-slate-900 dark:text-white">
-              {t.destinationsTitle || 'Explore by Destination'}
+              Explore by Destination
             </h2>
             <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 max-w-xl">
-              {t.destinationsSubtitle || 'Start with the places you want to experience, then browse conducted routes and stays.'}
+              Start with the places you want to experience, then browse conducted routes and stays.
             </p>
           </div>
 
@@ -38,7 +24,7 @@ export const DestinationsShowcase: React.FC = () => {
             href="/destinations"
             className="inline-flex items-center gap-1.5 text-xs font-bold text-blue-600 dark:text-blue-400 hover:underline self-start md:self-end"
           >
-            <span>{t.viewAllDestinations || 'View All Destinations'}</span>
+            <span>View All Destinations</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </a>
         </div>
@@ -68,7 +54,7 @@ export const DestinationsShowcase: React.FC = () => {
                     {dest.region}
                   </span>
                   <span className="text-xs text-white/90 font-semibold">
-                    {dest.tripsCount} {lang === 'kn' ? 'ಪ್ರವಾಸಗಳು' : 'Tours'}
+                    {dest.tripsCount} Tours
                   </span>
                 </div>
 
@@ -81,9 +67,9 @@ export const DestinationsShowcase: React.FC = () => {
                 </p>
 
                 <div className="pt-2 flex items-center justify-between text-xs text-white font-semibold">
-                  <span>{lang === 'kn' ? 'ವಾಸ್ತವ್ಯ:' : 'Stay:'} {dest.featuredStay}</span>
+                  <span>Stay: {dest.featuredStay}</span>
                   <span className="group-hover:translate-x-1 transition-transform">
-                    {lang === 'kn' ? 'ವೀಕ್ಷಿಸಿ' : 'Explore'} →
+                    Explore →
                   </span>
                 </div>
               </div>

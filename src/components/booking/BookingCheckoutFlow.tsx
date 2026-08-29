@@ -1,19 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import {
-  Calendar, Users, MapPin, ShieldCheck, ArrowRight, ArrowLeft,
-  CheckCircle2, CreditCard, QrCode, AlertCircle, Building2,
-  Sparkles, Clock, Bus, Check, User
+  Calendar, MapPin, ShieldCheck, ArrowRight, ArrowLeft,
+  CreditCard, QrCode, Building2
 } from 'lucide-react';
-import { getStoredLanguage, saveBooking } from '../../lib/bookingStore';
-import { TRANSLATIONS } from '../../data/translations';
-import type { TripPackage, Language, BookingRecord, PassengerDetail } from '../../types/travel';
+import { saveBooking } from '../../lib/bookingStore';
+import type { TripPackage, BookingRecord, PassengerDetail } from '../../types/travel';
 
 interface Props {
   trip: TripPackage;
 }
 
 export const BookingCheckoutFlow: React.FC<Props> = ({ trip }) => {
-  const [lang, setLang] = useState<Language>('en');
   const [step, setStep] = useState<1 | 2 | 3>(1);
 
   // Step 1: Schedule & Pickup
@@ -42,26 +39,17 @@ export const BookingCheckoutFlow: React.FC<Props> = ({ trip }) => {
   const [paymentMethod, setPaymentMethod] = useState<'UPI' | 'Card' | 'NetBanking' | 'Counter Cash'>('UPI');
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
 
-  useEffect(() => {
-    setLang(getStoredLanguage());
-    const handler = (e: any) => setLang(e.detail);
-    window.addEventListener('kstdc_lang_changed', handler);
-    return () => window.removeEventListener('kstdc_lang_changed', handler);
-  }, []);
-
   // Synchronize passenger list slots whenever counts change
   useEffect(() => {
     const totalCount = adults + seniors + children;
     setPassengers((prev) => {
       const updated: PassengerDetail[] = [...prev];
       
-      // Build required types
       const requiredTypes: Array<'Adult' | 'Senior' | 'Child'> = [];
       for (let i = 0; i < adults; i++) requiredTypes.push('Adult');
       for (let i = 0; i < seniors; i++) requiredTypes.push('Senior');
       for (let i = 0; i < children; i++) requiredTypes.push('Child');
 
-      // Adjust array size
       while (updated.length < totalCount) {
         const idx = updated.length;
         const type = requiredTypes[idx] || 'Adult';
@@ -79,7 +67,6 @@ export const BookingCheckoutFlow: React.FC<Props> = ({ trip }) => {
         updated.pop();
       }
 
-      // Update types
       return updated.map((p, idx) => ({
         ...p,
         type: requiredTypes[idx] || p.type,
@@ -87,7 +74,6 @@ export const BookingCheckoutFlow: React.FC<Props> = ({ trip }) => {
     });
   }, [adults, seniors, children]);
 
-  // Keep Lead passenger synced with contactName
   const updatePassenger = (index: number, field: keyof PassengerDetail, value: any) => {
     setPassengers((prev) => {
       const next = [...prev];
@@ -98,8 +84,6 @@ export const BookingCheckoutFlow: React.FC<Props> = ({ trip }) => {
       return next;
     });
   };
-
-  const t = TRANSLATIONS[lang] || TRANSLATIONS.en;
 
   // Price calculations
   const adultFare = adults * trip.pricePerPerson;
@@ -177,25 +161,25 @@ export const BookingCheckoutFlow: React.FC<Props> = ({ trip }) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
         
         {/* Checkout Header & Stepper */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-hairline-soft">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-slate-200 dark:border-slate-800">
           <div>
-            <span className="text-xs font-bold text-primary-cobalt uppercase tracking-wider block">
+            <span className="text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider block">
               Official Booking
             </span>
-            <h1 className="text-2xl sm:text-3xl font-bold text-ink-deep">
+            <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
               {trip.title}
             </h1>
           </div>
 
           {/* Stepper Tabs */}
-          <div className="flex items-center gap-1.5 bg-surface-soft p-1 rounded-full border border-hairline-soft text-xs font-semibold">
-            <span className={`px-4 py-1.5 rounded-full transition-all ${step === 1 ? 'bg-black text-white shadow-sm' : 'text-steel'}`}>
+          <div className="flex items-center gap-1.5 bg-slate-100 dark:bg-slate-800 p-1 rounded-full border border-slate-200 dark:border-slate-700 text-xs font-semibold">
+            <span className={`px-4 py-1.5 rounded-full transition-all ${step === 1 ? 'bg-slate-950 dark:bg-white text-white dark:text-slate-950 shadow-sm' : 'text-slate-500 dark:text-slate-400'}`}>
               01 Date & Pickup
             </span>
-            <span className={`px-4 py-1.5 rounded-full transition-all ${step === 2 ? 'bg-black text-white shadow-sm' : 'text-steel'}`}>
+            <span className={`px-4 py-1.5 rounded-full transition-all ${step === 2 ? 'bg-slate-950 dark:bg-white text-white dark:text-slate-950 shadow-sm' : 'text-slate-500 dark:text-slate-400'}`}>
               02 Travellers Manifest
             </span>
-            <span className={`px-4 py-1.5 rounded-full transition-all ${step === 3 ? 'bg-black text-white shadow-sm' : 'text-steel'}`}>
+            <span className={`px-4 py-1.5 rounded-full transition-all ${step === 3 ? 'bg-slate-950 dark:bg-white text-white dark:text-slate-950 shadow-sm' : 'text-slate-500 dark:text-slate-400'}`}>
               03 Review & Pay
             </span>
           </div>
@@ -208,17 +192,17 @@ export const BookingCheckoutFlow: React.FC<Props> = ({ trip }) => {
             
             {/* STEP 1: DATE & PICKUP */}
             {step === 1 && (
-              <div className="bg-canvas p-6 sm:p-8 rounded-[28px] border border-hairline-soft shadow-sm space-y-6">
-                <div className="flex items-center justify-between border-b border-hairline-soft pb-3">
-                  <h2 className="text-xl font-bold text-ink-deep">
-                    {t.step1Title}
+              <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-[28px] border border-slate-200 dark:border-slate-800 shadow-sm space-y-6">
+                <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
+                  <h2 className="text-xl font-bold text-slate-900 dark:text-white">
+                    Select Departure Schedule & Boarding Point
                   </h2>
-                  <span className="text-xs text-steel">Guaranteed Government Departures</span>
+                  <span className="text-xs text-slate-500 dark:text-slate-400">Guaranteed Government Departures</span>
                 </div>
 
                 {/* Available Date Chips */}
                 <div className="space-y-2">
-                  <label className="text-xs font-bold text-steel uppercase tracking-wider block">
+                  <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">
                     Select Departure Date
                   </label>
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
@@ -230,10 +214,10 @@ export const BookingCheckoutFlow: React.FC<Props> = ({ trip }) => {
                           key={dateStr}
                           type="button"
                           onClick={() => setSelectedDate(dateStr)}
-                          className={`p-3.5 rounded-2xl border text-left transition-all ${
+                          className={`p-3.5 rounded-2xl border text-left transition-all cursor-pointer ${
                             isSelected
                               ? 'bg-slate-900 dark:bg-blue-600 text-white border-slate-900 dark:border-blue-600 shadow-sm'
-                              : 'bg-surface-soft border-hairline-soft text-ink hover:border-steel'
+                              : 'bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white hover:border-slate-400'
                           }`}
                         >
                           <span className="text-[11px] block opacity-80">
@@ -250,7 +234,7 @@ export const BookingCheckoutFlow: React.FC<Props> = ({ trip }) => {
 
                 {/* Pickup Point Selection */}
                 <div className="space-y-2 pt-2">
-                  <label className="text-xs font-bold text-steel uppercase tracking-wider block">
+                  <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">
                     Boarding Point in Bengaluru
                   </label>
                   <div className="space-y-2.5">
@@ -261,23 +245,23 @@ export const BookingCheckoutFlow: React.FC<Props> = ({ trip }) => {
                           key={point.name}
                           type="button"
                           onClick={() => setSelectedPickup(point)}
-                          className={`w-full p-4 rounded-2xl border text-left transition-all flex items-center justify-between ${
+                          className={`w-full p-4 rounded-2xl border text-left transition-all flex items-center justify-between cursor-pointer ${
                             isSelected
-                              ? 'bg-surface-soft border-2 border-primary-cobalt shadow-sm'
-                              : 'bg-canvas border-hairline-soft hover:bg-surface-soft'
+                              ? 'bg-slate-50 dark:bg-slate-800 border-2 border-blue-600 dark:border-blue-400 shadow-sm'
+                              : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800'
                           }`}
                         >
                           <div>
-                            <div className="flex items-center gap-2 font-bold text-sm text-ink-deep">
-                              <MapPin className="w-4 h-4 text-primary-cobalt" />
+                            <div className="flex items-center gap-2 font-bold text-sm text-slate-900 dark:text-white">
+                              <MapPin className="w-4 h-4 text-blue-600 dark:text-blue-400" />
                               <span>{point.name}</span>
                             </div>
-                            <span className="text-xs text-steel block pl-6">
+                            <span className="text-xs text-slate-500 dark:text-slate-400 block pl-6">
                               Landmark: {point.landmark}
                             </span>
                           </div>
 
-                          <span className="px-3 py-1 rounded-full bg-surface-soft text-xs font-bold text-primary-cobalt border border-hairline-soft">
+                          <span className="px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-700 text-xs font-bold text-blue-600 dark:text-blue-400 border border-slate-200 dark:border-slate-600">
                             {point.time}
                           </span>
                         </button>
@@ -288,33 +272,33 @@ export const BookingCheckoutFlow: React.FC<Props> = ({ trip }) => {
 
                 {/* Hotel Room Preference */}
                 <div className="space-y-2 pt-2">
-                  <label className="text-xs font-bold text-steel uppercase tracking-wider block">
+                  <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">
                     Hotel Room Preference ({trip.hotel.name})
                   </label>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <button
                       type="button"
                       onClick={() => setRoomType('twin')}
-                      className={`p-4 rounded-2xl border text-left transition-all ${
+                      className={`p-4 rounded-2xl border text-left transition-all cursor-pointer ${
                         roomType === 'twin'
-                          ? 'bg-surface-soft border-2 border-primary-cobalt shadow-sm'
-                          : 'bg-canvas border-hairline-soft hover:bg-surface-soft'
+                          ? 'bg-slate-50 dark:bg-slate-800 border-2 border-blue-600 dark:border-blue-400 shadow-sm'
+                          : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800'
                       }`}
                     >
-                      <div className="font-bold text-sm text-ink-deep">Deluxe Twin Sharing</div>
-                      <div className="text-xs text-steel">Included in standard package tariff</div>
+                      <div className="font-bold text-sm text-slate-900 dark:text-white">Deluxe Twin Sharing</div>
+                      <div className="text-xs text-slate-500 dark:text-slate-400">Included in standard package tariff</div>
                     </button>
                     <button
                       type="button"
                       onClick={() => setRoomType('single_upgrade')}
-                      className={`p-4 rounded-2xl border text-left transition-all ${
+                      className={`p-4 rounded-2xl border text-left transition-all cursor-pointer ${
                         roomType === 'single_upgrade'
-                          ? 'bg-surface-soft border-2 border-primary-cobalt shadow-sm'
-                          : 'bg-canvas border-hairline-soft hover:bg-surface-soft'
+                          ? 'bg-slate-50 dark:bg-slate-800 border-2 border-blue-600 dark:border-blue-400 shadow-sm'
+                          : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800'
                       }`}
                     >
-                      <div className="font-bold text-sm text-ink-deep">Private Single Room Upgrade</div>
-                      <div className="text-xs text-emerald-700 font-semibold">+₹1,200 supplement</div>
+                      <div className="font-bold text-sm text-slate-900 dark:text-white">Private Single Room Upgrade</div>
+                      <div className="text-xs text-emerald-600 dark:text-emerald-400 font-semibold">+₹1,200 supplement</div>
                     </button>
                   </div>
                 </div>
@@ -324,7 +308,7 @@ export const BookingCheckoutFlow: React.FC<Props> = ({ trip }) => {
                   <button
                     type="button"
                     onClick={() => setStep(2)}
-                    className="px-8 py-3 rounded-full bg-black hover:bg-neutral-800 text-white font-bold text-xs shadow-sm transition-all flex items-center gap-2"
+                    className="px-8 py-3 rounded-full bg-slate-950 dark:bg-blue-600 hover:bg-black dark:hover:bg-blue-700 text-white font-bold text-xs shadow-sm transition-all flex items-center gap-2 cursor-pointer"
                   >
                     <span>Proceed to Travellers Manifest</span>
                     <ArrowRight className="w-3.5 h-3.5" />
@@ -335,18 +319,18 @@ export const BookingCheckoutFlow: React.FC<Props> = ({ trip }) => {
 
             {/* STEP 2: TRAVELLERS MANIFEST & CONTACT DETAILS */}
             {step === 2 && (
-              <div className="bg-canvas p-6 sm:p-8 rounded-[28px] border border-hairline-soft shadow-sm space-y-6">
-                <div className="flex items-center justify-between border-b border-hairline-soft pb-3">
+              <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-[28px] border border-slate-200 dark:border-slate-800 shadow-sm space-y-6">
+                <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
                   <div>
-                    <h2 className="text-xl font-bold text-ink-deep">
-                      {t.step2Title}
+                    <h2 className="text-xl font-bold text-slate-900 dark:text-white">
+                      Traveller Information & Manifest
                     </h2>
-                    <p className="text-xs text-steel">Enter details for all passengers travelling in this booking</p>
+                    <p className="text-xs text-slate-500 dark:text-slate-400">Enter details for all passengers travelling in this booking</p>
                   </div>
                   <button
                     type="button"
                     onClick={handleFillDemoData}
-                    className="text-xs text-primary-cobalt hover:underline font-semibold"
+                    className="text-xs text-blue-600 dark:text-blue-400 hover:underline font-semibold cursor-pointer"
                   >
                     Auto-Fill Demo Family
                   </button>
@@ -354,101 +338,101 @@ export const BookingCheckoutFlow: React.FC<Props> = ({ trip }) => {
 
                 {/* Passenger Count Counters */}
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
-                  <div className="p-4 rounded-2xl bg-surface-soft border border-hairline-soft space-y-2">
-                    <span className="text-xs font-bold text-ink-deep block">{t.adultsLabel}</span>
+                  <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 space-y-2">
+                    <span className="text-xs font-bold text-slate-900 dark:text-white block">Adults (12+ yrs)</span>
                     <div className="flex items-center justify-between">
                       <button
                         type="button"
                         onClick={() => setAdults(Math.max(1, adults - 1))}
-                        className="w-8 h-8 rounded-full bg-canvas border border-hairline-soft font-bold text-ink"
+                        className="w-8 h-8 rounded-full bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 font-bold text-slate-900 dark:text-white cursor-pointer"
                       >
                         −
                       </button>
-                      <span className="text-xl font-bold text-ink-deep">{adults}</span>
+                      <span className="text-xl font-bold text-slate-900 dark:text-white">{adults}</span>
                       <button
                         type="button"
                         onClick={() => setAdults(adults + 1)}
-                        className="w-8 h-8 rounded-full bg-canvas border border-hairline-soft font-bold text-ink"
+                        className="w-8 h-8 rounded-full bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 font-bold text-slate-900 dark:text-white cursor-pointer"
                       >
                         +
                       </button>
                     </div>
                   </div>
 
-                  <div className="p-4 rounded-2xl bg-surface-soft border border-hairline-soft space-y-2">
-                    <span className="text-xs font-bold text-ink-deep block">{t.childrenLabel}</span>
+                  <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 space-y-2">
+                    <span className="text-xs font-bold text-slate-900 dark:text-white block">Children (5-11 yrs)</span>
                     <div className="flex items-center justify-between">
                       <button
                         type="button"
                         onClick={() => setChildren(Math.max(0, children - 1))}
-                        className="w-8 h-8 rounded-full bg-canvas border border-hairline-soft font-bold text-ink"
+                        className="w-8 h-8 rounded-full bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 font-bold text-slate-900 dark:text-white cursor-pointer"
                       >
                         −
                       </button>
-                      <span className="text-xl font-bold text-ink-deep">{children}</span>
+                      <span className="text-xl font-bold text-slate-900 dark:text-white">{children}</span>
                       <button
                         type="button"
                         onClick={() => setChildren(children + 1)}
-                        className="w-8 h-8 rounded-full bg-canvas border border-hairline-soft font-bold text-ink"
+                        className="w-8 h-8 rounded-full bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 font-bold text-slate-900 dark:text-white cursor-pointer"
                       >
                         +
                       </button>
                     </div>
-                    <span className="text-[11px] text-steel block">30% child tariff concession</span>
+                    <span className="text-[11px] text-slate-500 dark:text-slate-400 block">30% child tariff concession</span>
                   </div>
 
-                  <div className="p-4 rounded-2xl bg-surface-soft border border-hairline-soft space-y-2">
-                    <span className="text-xs font-bold text-ink-deep block">{t.seniorsLabel}</span>
+                  <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 space-y-2">
+                    <span className="text-xs font-bold text-slate-900 dark:text-white block">Senior Citizens (60+ yrs)</span>
                     <div className="flex items-center justify-between">
                       <button
                         type="button"
                         onClick={() => setSeniors(Math.max(0, seniors - 1))}
-                        className="w-8 h-8 rounded-full bg-canvas border border-hairline-soft font-bold text-ink"
+                        className="w-8 h-8 rounded-full bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 font-bold text-slate-900 dark:text-white cursor-pointer"
                       >
                         −
                       </button>
-                      <span className="text-xl font-bold text-ink-deep">{seniors}</span>
+                      <span className="text-xl font-bold text-slate-900 dark:text-white">{seniors}</span>
                       <button
                         type="button"
                         onClick={() => setSeniors(seniors + 1)}
-                        className="w-8 h-8 rounded-full bg-canvas border border-hairline-soft font-bold text-ink"
+                        className="w-8 h-8 rounded-full bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 font-bold text-slate-900 dark:text-white cursor-pointer"
                       >
                         +
                       </button>
                     </div>
-                    <span className="text-[11px] text-emerald-700 font-bold block">5% senior concession</span>
+                    <span className="text-[11px] text-emerald-600 dark:text-emerald-400 font-bold block">5% senior concession</span>
                   </div>
                 </div>
 
                 {/* INDIVIDUAL PASSENGER MANIFEST FORM */}
                 <div className="space-y-4 pt-2">
                   <div className="flex items-center justify-between">
-                    <h3 className="text-xs font-bold text-ink-deep uppercase tracking-wider">
+                    <h3 className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">
                       Individual Passenger Manifest ({passengers.length} Travellers)
                     </h3>
-                    <span className="text-[11px] text-slate-500">Official Government Boarding List</span>
+                    <span className="text-[11px] text-slate-500 dark:text-slate-400">Official Government Boarding List</span>
                   </div>
 
                   <div className="space-y-3">
                     {passengers.map((p, idx) => (
                       <div
                         key={p.id || idx}
-                        className="p-4 rounded-2xl bg-slate-50/80 border border-slate-200 space-y-3"
+                        className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 space-y-3"
                       >
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-2">
-                            <span className="w-6 h-6 rounded-full bg-slate-900 text-white text-xs font-bold flex items-center justify-center">
+                            <span className="w-6 h-6 rounded-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-xs font-bold flex items-center justify-center">
                               {idx + 1}
                             </span>
-                            <span className="text-xs font-bold text-slate-900">
+                            <span className="text-xs font-bold text-slate-900 dark:text-white">
                               {idx === 0 ? 'Lead Passenger (Primary Contact)' : `Passenger ${idx + 1}`}
                             </span>
                           </div>
                           <div className="flex items-center gap-2">
-                            <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded-full bg-blue-100 text-blue-800">
+                            <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded-full bg-blue-100 dark:bg-blue-950 text-blue-800 dark:text-blue-300">
                               {p.type}
                             </span>
-                            <span className="text-[10px] font-mono font-bold text-slate-600 bg-white px-2 py-0.5 rounded-md border border-slate-200">
+                            <span className="text-[10px] font-mono font-bold text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-700 px-2 py-0.5 rounded-md border border-slate-200 dark:border-slate-600">
                               {p.seatNumber}
                             </span>
                           </div>
@@ -456,36 +440,36 @@ export const BookingCheckoutFlow: React.FC<Props> = ({ trip }) => {
 
                         <div className="grid grid-cols-1 sm:grid-cols-12 gap-3">
                           <div className="sm:col-span-6 space-y-1">
-                            <label className="text-[11px] font-semibold text-slate-600">Full Name (As per Govt ID)</label>
+                            <label className="text-[11px] font-semibold text-slate-600 dark:text-slate-400">Full Name (As per Govt ID)</label>
                             <input
                               type="text"
                               value={p.name}
                               onChange={(e) => updatePassenger(idx, 'name', e.target.value)}
                               placeholder={`Passenger ${idx + 1} Full Name`}
-                              className="w-full p-2.5 rounded-xl bg-white border border-slate-200 text-xs font-semibold text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900"
+                              className="w-full p-2.5 rounded-xl bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-xs font-semibold text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-blue-500"
                               required
                             />
                           </div>
 
                           <div className="sm:col-span-3 space-y-1">
-                            <label className="text-[11px] font-semibold text-slate-600">Age</label>
+                            <label className="text-[11px] font-semibold text-slate-600 dark:text-slate-400">Age</label>
                             <input
                               type="number"
                               value={p.age}
                               onChange={(e) => updatePassenger(idx, 'age', Number(e.target.value))}
                               min={1}
                               max={110}
-                              className="w-full p-2.5 rounded-xl bg-white border border-slate-200 text-xs font-semibold text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900"
+                              className="w-full p-2.5 rounded-xl bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-xs font-semibold text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-blue-500"
                               required
                             />
                           </div>
 
                           <div className="sm:col-span-3 space-y-1">
-                            <label className="text-[11px] font-semibold text-slate-600">Gender</label>
+                            <label className="text-[11px] font-semibold text-slate-600 dark:text-slate-400">Gender</label>
                             <select
                               value={p.gender}
                               onChange={(e) => updatePassenger(idx, 'gender', e.target.value as any)}
-                              className="w-full p-2.5 rounded-xl bg-white border border-slate-200 text-xs font-semibold text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900 cursor-pointer"
+                              className="w-full p-2.5 rounded-xl bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-xs font-semibold text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-blue-500 cursor-pointer"
                             >
                               <option value="Male">Male</option>
                               <option value="Female">Female</option>
@@ -498,29 +482,29 @@ export const BookingCheckoutFlow: React.FC<Props> = ({ trip }) => {
                   </div>
                 </div>
 
-                {/* Primary Contact Details (Email & Phone for SMS/Ticket) */}
-                <div className="space-y-3 pt-3 border-t border-hairline-soft">
-                  <h3 className="text-xs font-bold text-ink-deep uppercase tracking-wider">
+                {/* Primary Contact Details */}
+                <div className="space-y-3 pt-3 border-t border-slate-100 dark:border-slate-800">
+                  <h3 className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">
                     Official Ticket Delivery & Contact
                   </h3>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div className="space-y-1">
-                      <label className="text-[11px] font-semibold text-steel">Email (For Tax Invoice & PDF)</label>
+                      <label className="text-[11px] font-semibold text-slate-500 dark:text-slate-400">Email (For Tax Invoice & PDF)</label>
                       <input
                         type="email"
                         value={contactEmail}
                         onChange={(e) => setContactEmail(e.target.value)}
-                        className="w-full p-3 rounded-xl bg-surface-soft border border-hairline-soft text-xs sm:text-sm text-ink font-semibold focus:outline-none focus:ring-2 focus:ring-primary-cobalt"
+                        className="w-full p-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs sm:text-sm text-slate-900 dark:text-white font-semibold focus:outline-none focus:ring-2 focus:ring-blue-600"
                         required
                       />
                     </div>
                     <div className="space-y-1">
-                      <label className="text-[11px] font-semibold text-steel">WhatsApp Phone (For Instant Pass)</label>
+                      <label className="text-[11px] font-semibold text-slate-500 dark:text-slate-400">WhatsApp Phone (For Instant Pass)</label>
                       <input
                         type="tel"
                         value={contactPhone}
                         onChange={(e) => setContactPhone(e.target.value)}
-                        className="w-full p-3 rounded-xl bg-surface-soft border border-hairline-soft text-xs sm:text-sm text-ink font-semibold focus:outline-none focus:ring-2 focus:ring-primary-cobalt"
+                        className="w-full p-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs sm:text-sm text-slate-900 dark:text-white font-semibold focus:outline-none focus:ring-2 focus:ring-blue-600"
                         required
                       />
                     </div>
@@ -528,25 +512,25 @@ export const BookingCheckoutFlow: React.FC<Props> = ({ trip }) => {
                 </div>
 
                 {/* Senior & Mobility Assistance */}
-                <div className="p-4 rounded-2xl bg-surface-soft border border-hairline-soft flex items-start gap-3">
+                <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-start gap-3">
                   <input
                     type="checkbox"
                     id="specialAssist"
                     checked={specialAssistance}
                     onChange={(e) => setSpecialAssistance(e.target.checked)}
-                    className="w-4 h-4 mt-0.5 accent-primary-cobalt rounded cursor-pointer"
+                    className="w-4 h-4 mt-0.5 accent-blue-600 rounded cursor-pointer"
                   />
-                  <label htmlFor="specialAssist" className="text-xs text-charcoal cursor-pointer font-medium">
+                  <label htmlFor="specialAssist" className="text-xs text-slate-700 dark:text-slate-300 cursor-pointer font-medium">
                     <strong>Senior Citizen & Mobility Support:</strong> Request lower bus berth and ground-floor room allocation at Hotel Mayura.
                   </label>
                 </div>
 
                 {/* Back / Next */}
-                <div className="pt-4 flex items-center justify-between border-t border-hairline-soft">
+                <div className="pt-4 flex items-center justify-between border-t border-slate-100 dark:border-slate-800">
                   <button
                     type="button"
                     onClick={() => setStep(1)}
-                    className="px-6 py-2.5 rounded-full bg-surface-soft hover:bg-neutral-200 text-ink font-semibold text-xs border border-hairline-soft flex items-center gap-1.5"
+                    className="px-6 py-2.5 rounded-full bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-900 dark:text-white font-semibold text-xs border border-slate-200 dark:border-slate-700 flex items-center gap-1.5 cursor-pointer"
                   >
                     <ArrowLeft className="w-3.5 h-3.5" />
                     <span>Back</span>
@@ -555,7 +539,7 @@ export const BookingCheckoutFlow: React.FC<Props> = ({ trip }) => {
                   <button
                     type="button"
                     onClick={() => setStep(3)}
-                    className="px-8 py-3 rounded-full bg-black hover:bg-neutral-800 text-white font-bold text-xs shadow-sm transition-all flex items-center gap-2"
+                    className="px-8 py-3 rounded-full bg-slate-950 dark:bg-blue-600 hover:bg-black dark:hover:bg-blue-700 text-white font-bold text-xs shadow-sm transition-all flex items-center gap-2 cursor-pointer"
                   >
                     <span>Proceed to Review & Pay</span>
                     <ArrowRight className="w-3.5 h-3.5" />
@@ -567,47 +551,47 @@ export const BookingCheckoutFlow: React.FC<Props> = ({ trip }) => {
 
             {/* STEP 3: REVIEW & PAYMENT */}
             {step === 3 && (
-              <div className="bg-canvas p-6 sm:p-8 rounded-[28px] border border-hairline-soft shadow-sm space-y-6">
-                <div className="border-b border-hairline-soft pb-3">
-                  <h2 className="text-xl font-bold text-ink-deep">
-                    {t.step3Title}
+              <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-[28px] border border-slate-200 dark:border-slate-800 shadow-sm space-y-6">
+                <div className="border-b border-slate-100 dark:border-slate-800 pb-3">
+                  <h2 className="text-xl font-bold text-slate-900 dark:text-white">
+                    Review Booking & Payment Gateway
                   </h2>
                 </div>
 
                 {/* Booking Recap */}
-                <div className="p-4 rounded-2xl bg-surface-soft border border-hairline-soft flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+                <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
                   <div className="space-y-1">
-                    <div className="text-steel flex flex-wrap items-center gap-2 pt-0.5">
+                    <div className="text-slate-500 dark:text-slate-400 flex flex-wrap items-center gap-2 pt-0.5">
                       <div className="flex items-center gap-1">
-                        <Calendar className="w-3.5 h-3.5 text-primary-cobalt" />
+                        <Calendar className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
                         <span>{new Date(selectedDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
                       </div>
                       <span>•</span>
                       <div className="flex items-center gap-1">
-                        <MapPin className="w-3.5 h-3.5 text-primary-cobalt" />
+                        <MapPin className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
                         <span>{selectedPickup.name} ({selectedPickup.time})</span>
                       </div>
                     </div>
                   </div>
                   <div className="text-right">
-                    <span className="font-bold text-ink-deep block">
+                    <span className="font-bold text-slate-900 dark:text-white block">
                       {adults} Adults {children > 0 && `· ${children} Children`} {seniors > 0 && `· ${seniors} Senior`}
                     </span>
-                    <span className="text-steel">Hotel: {trip.hotel.name}</span>
+                    <span className="text-slate-500 dark:text-slate-400">Hotel: {trip.hotel.name}</span>
                   </div>
                 </div>
 
                 {/* Manifest Summary */}
                 <div className="space-y-2">
-                  <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider">Passenger Manifest</h4>
+                  <h4 className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider">Passenger Manifest</h4>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
                     {passengers.map((p, i) => (
-                      <div key={i} className="p-3 rounded-xl bg-white border border-slate-200 flex items-center justify-between">
+                      <div key={i} className="p-3 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-between">
                         <div>
-                          <span className="font-bold text-slate-900 block">{p.name || `Passenger ${i + 1}`}</span>
-                          <span className="text-[11px] text-slate-500">{p.gender} · {p.age} yrs · {p.type}</span>
+                          <span className="font-bold text-slate-900 dark:text-white block">{p.name || `Passenger ${i + 1}`}</span>
+                          <span className="text-[11px] text-slate-500 dark:text-slate-400">{p.gender} · {p.age} yrs · {p.type}</span>
                         </div>
-                        <span className="font-mono font-bold text-xs bg-slate-100 px-2 py-1 rounded-md text-slate-800">
+                        <span className="font-mono font-bold text-xs bg-slate-100 dark:bg-slate-700 px-2 py-1 rounded-md text-slate-800 dark:text-slate-200">
                           {p.seatNumber}
                         </span>
                       </div>
@@ -617,66 +601,66 @@ export const BookingCheckoutFlow: React.FC<Props> = ({ trip }) => {
 
                 {/* Payment Selector */}
                 <div className="space-y-2">
-                  <label className="text-xs font-bold text-steel uppercase tracking-wider block">
+                  <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">
                     Payment Method
                   </label>
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
                     <button
                       type="button"
                       onClick={() => setPaymentMethod('UPI')}
-                      className={`p-4 rounded-2xl text-left border flex items-center gap-3 transition-all ${
+                      className={`p-4 rounded-2xl text-left border flex items-center gap-3 transition-all cursor-pointer ${
                         paymentMethod === 'UPI'
-                          ? 'bg-surface-soft border-2 border-primary-cobalt shadow-sm'
-                          : 'bg-canvas border-hairline-soft text-charcoal hover:bg-surface-soft'
+                          ? 'bg-slate-50 dark:bg-slate-800 border-2 border-blue-600 dark:border-blue-400 shadow-sm'
+                          : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800'
                       }`}
                     >
-                      <QrCode className="w-5 h-5 text-primary-cobalt" />
+                      <QrCode className="w-5 h-5 text-blue-600 dark:text-blue-400" />
                       <div>
-                        <span className="font-bold text-xs text-ink-deep block">UPI QR Code</span>
-                        <span className="text-[10px] text-steel">GPay, PhonePe, Paytm</span>
+                        <span className="font-bold text-xs text-slate-900 dark:text-white block">UPI QR Code</span>
+                        <span className="text-[10px] text-slate-500 dark:text-slate-400">GPay, PhonePe, Paytm</span>
                       </div>
                     </button>
 
                     <button
                       type="button"
                       onClick={() => setPaymentMethod('Card')}
-                      className={`p-4 rounded-2xl text-left border flex items-center gap-3 transition-all ${
+                      className={`p-4 rounded-2xl text-left border flex items-center gap-3 transition-all cursor-pointer ${
                         paymentMethod === 'Card'
-                          ? 'bg-surface-soft border-2 border-primary-cobalt shadow-sm'
-                          : 'bg-canvas border-hairline-soft text-charcoal hover:bg-surface-soft'
+                          ? 'bg-slate-50 dark:bg-slate-800 border-2 border-blue-600 dark:border-blue-400 shadow-sm'
+                          : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800'
                       }`}
                     >
-                      <CreditCard className="w-5 h-5 text-primary-cobalt" />
+                      <CreditCard className="w-5 h-5 text-blue-600 dark:text-blue-400" />
                       <div>
-                        <span className="font-bold text-xs text-ink-deep block">Debit / Credit Card</span>
-                        <span className="text-[10px] text-steel">Visa, Mastercard, RuPay</span>
+                        <span className="font-bold text-xs text-slate-900 dark:text-white block">Debit / Credit Card</span>
+                        <span className="text-[10px] text-slate-500 dark:text-slate-400">Visa, Mastercard, RuPay</span>
                       </div>
                     </button>
 
                     <button
                       type="button"
                       onClick={() => setPaymentMethod('NetBanking')}
-                      className={`p-4 rounded-2xl text-left border flex items-center gap-3 transition-all ${
+                      className={`p-4 rounded-2xl text-left border flex items-center gap-3 transition-all cursor-pointer ${
                         paymentMethod === 'NetBanking'
-                          ? 'bg-surface-soft border-2 border-primary-cobalt shadow-sm'
-                          : 'bg-canvas border-hairline-soft text-charcoal hover:bg-surface-soft'
+                          ? 'bg-slate-50 dark:bg-slate-800 border-2 border-blue-600 dark:border-blue-400 shadow-sm'
+                          : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800'
                       }`}
                     >
-                      <Building2 className="w-5 h-5 text-primary-cobalt" />
+                      <Building2 className="w-5 h-5 text-blue-600 dark:text-blue-400" />
                       <div>
-                        <span className="font-bold text-xs text-ink-deep block">Net Banking</span>
-                        <span className="text-[10px] text-steel">SBI, Canara, HDFC, ICICI</span>
+                        <span className="font-bold text-xs text-slate-900 dark:text-white block">Net Banking</span>
+                        <span className="text-[10px] text-slate-500 dark:text-slate-400">SBI, Canara, HDFC, ICICI</span>
                       </div>
                     </button>
                   </div>
                 </div>
 
                 {/* Back / Pay Action */}
-                <div className="pt-4 flex items-center justify-between border-t border-hairline-soft">
+                <div className="pt-4 flex items-center justify-between border-t border-slate-100 dark:border-slate-800">
                   <button
                     type="button"
                     onClick={() => setStep(2)}
-                    className="px-6 py-2.5 rounded-full bg-surface-soft hover:bg-neutral-200 text-ink font-semibold text-xs border border-hairline-soft flex items-center gap-1.5"
+                    className="px-6 py-2.5 rounded-full bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-900 dark:text-white font-semibold text-xs border border-slate-200 dark:border-slate-700 flex items-center gap-1.5 cursor-pointer"
                   >
                     <ArrowLeft className="w-3.5 h-3.5" />
                     <span>Back</span>
@@ -686,7 +670,7 @@ export const BookingCheckoutFlow: React.FC<Props> = ({ trip }) => {
                     type="button"
                     onClick={handleCompleteBooking}
                     disabled={isProcessing}
-                    className="px-10 py-3.5 rounded-full bg-black hover:bg-neutral-900 text-white font-bold text-xs sm:text-sm shadow-md transition-all flex items-center gap-2"
+                    className="px-10 py-3.5 rounded-full bg-slate-950 dark:bg-blue-600 hover:bg-black dark:hover:bg-blue-700 text-white font-bold text-xs sm:text-sm shadow-md transition-all flex items-center gap-2 cursor-pointer"
                   >
                     {isProcessing ? (
                       <span>Issuing Government Ticket...</span>
@@ -706,60 +690,60 @@ export const BookingCheckoutFlow: React.FC<Props> = ({ trip }) => {
 
           {/* Sticky Price Breakdown Card */}
           <div className="lg:col-span-4 sticky top-24 space-y-4">
-            <div className="bg-canvas p-6 rounded-[28px] border border-hairline-soft shadow-sm space-y-5">
-              <h3 className="text-base font-bold text-ink-deep border-b border-hairline-soft pb-3">
+            <div className="bg-white dark:bg-slate-900 p-6 rounded-[28px] border border-slate-200 dark:border-slate-800 shadow-sm space-y-5">
+              <h3 className="text-base font-bold text-slate-900 dark:text-white border-b border-slate-100 dark:border-slate-800 pb-3">
                 Fare Breakdown (Official Tariff)
               </h3>
 
               <div className="space-y-2.5 text-xs">
-                <div className="flex justify-between text-charcoal">
+                <div className="flex justify-between text-slate-700 dark:text-slate-300">
                   <span>Adult Fare ({adults} × ₹{trip.pricePerPerson.toLocaleString('en-IN')}):</span>
-                  <span className="font-bold text-ink-deep">₹{adultFare.toLocaleString('en-IN')}</span>
+                  <span className="font-bold text-slate-900 dark:text-white">₹{adultFare.toLocaleString('en-IN')}</span>
                 </div>
 
                 {children > 0 && (
-                  <div className="flex justify-between text-charcoal">
+                  <div className="flex justify-between text-slate-700 dark:text-slate-300">
                     <span>Child Fare ({children} × ₹{(trip.pricePerPerson * 0.7).toLocaleString('en-IN')}):</span>
-                    <span className="font-bold text-ink-deep">₹{childFare.toLocaleString('en-IN')}</span>
+                    <span className="font-bold text-slate-900 dark:text-white">₹{childFare.toLocaleString('en-IN')}</span>
                   </div>
                 )}
 
                 {seniors > 0 && (
-                  <div className="flex justify-between text-charcoal">
+                  <div className="flex justify-between text-slate-700 dark:text-slate-300">
                     <span>Senior Citizens ({seniors} × ₹{trip.pricePerPerson.toLocaleString('en-IN')}):</span>
-                    <span className="font-bold text-ink-deep">₹{seniorFare.toLocaleString('en-IN')}</span>
+                    <span className="font-bold text-slate-900 dark:text-white">₹{seniorFare.toLocaleString('en-IN')}</span>
                   </div>
                 )}
 
                 {seniorDiscount > 0 && (
-                  <div className="flex justify-between text-emerald-700 font-semibold">
+                  <div className="flex justify-between text-emerald-600 dark:text-emerald-400 font-semibold">
                     <span>Senior Concession (5%):</span>
                     <span>−₹{seniorDiscount.toLocaleString('en-IN')}</span>
                   </div>
                 )}
 
                 {roomType === 'single_upgrade' && (
-                  <div className="flex justify-between text-charcoal">
+                  <div className="flex justify-between text-slate-700 dark:text-slate-300">
                     <span>Single Room Supplement:</span>
-                    <span className="font-bold text-ink-deep">+₹1,200</span>
+                    <span className="font-bold text-slate-900 dark:text-white">+₹1,200</span>
                   </div>
                 )}
 
-                <div className="flex justify-between text-steel pt-2 border-t border-hairline-soft">
+                <div className="flex justify-between text-slate-500 dark:text-slate-400 pt-2 border-t border-slate-100 dark:border-slate-800">
                   <span>GST (CGST 2.5% + SGST 2.5%):</span>
                   <span>₹{gstAmount.toLocaleString('en-IN')}</span>
                 </div>
 
-                <div className="flex justify-between items-baseline pt-3 border-t border-hairline-soft text-ink-deep">
+                <div className="flex justify-between items-baseline pt-3 border-t border-slate-100 dark:border-slate-800 text-slate-900 dark:text-white">
                   <span className="font-bold text-sm">Total Amount:</span>
-                  <span className="text-2xl font-black text-ink-deep">
+                  <span className="text-2xl font-black text-slate-900 dark:text-white">
                     ₹{totalAmount.toLocaleString('en-IN')}
                   </span>
                 </div>
               </div>
 
-              <div className="p-3.5 rounded-2xl bg-surface-soft border border-hairline-soft space-y-1.5 text-[11px] text-steel">
-                <div className="flex items-center gap-1.5 text-emerald-700 font-bold">
+              <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 space-y-1.5 text-[11px] text-slate-500 dark:text-slate-400">
+                <div className="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400 font-bold">
                   <ShieldCheck className="w-3.5 h-3.5" />
                   <span>Transparent Government Billing</span>
                 </div>

@@ -1,22 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { MapPin, Star, ArrowRight } from 'lucide-react';
 import { HOTELS_DATA } from '../../data/hotelsData';
-import { getStoredLanguage } from '../../lib/bookingStore';
-import { TRANSLATIONS } from '../../data/translations';
-import type { Language } from '../../types/travel';
 
 export const MayuraStaysStrip: React.FC = () => {
-  const [lang, setLang] = useState<Language>('en');
-
-  useEffect(() => {
-    setLang(getStoredLanguage());
-    const handler = (e: any) => setLang(e.detail);
-    window.addEventListener('kstdc_lang_changed', handler);
-    return () => window.removeEventListener('kstdc_lang_changed', handler);
-  }, []);
-
-  const t = TRANSLATIONS[lang] || TRANSLATIONS.en;
-
   return (
     <section className="py-12 sm:py-18 bg-canvas border-t border-hairline-soft transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
@@ -24,13 +10,13 @@ export const MayuraStaysStrip: React.FC = () => {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div className="space-y-1">
             <span className="text-xs uppercase tracking-wider font-bold text-blue-600 dark:text-blue-400 block">
-              {t.staysTag || 'Government-Run Hospitality'}
+              Government-Run Hospitality
             </span>
             <h2 className="text-2xl sm:text-4xl font-bold tracking-tight text-slate-900 dark:text-white">
-              {t.staysTitle}
+              Stay with Hotel Mayura
             </h2>
             <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 max-w-xl">
-              {t.staysSubtitle}
+              Iconic government-run heritage properties, hillside retreats, and coastal lodges situated at Karnataka’s prime destinations with transparent citizen rates.
             </p>
           </div>
 
@@ -38,12 +24,12 @@ export const MayuraStaysStrip: React.FC = () => {
             href="/stays"
             className="inline-flex items-center gap-1.5 text-xs font-bold text-blue-600 dark:text-blue-400 hover:underline self-start md:self-end"
           >
-            <span>{t.exploreAllStays || 'Explore All Mayura Properties'}</span>
+            <span>Explore All Mayura Properties</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </a>
         </div>
 
-        {/* Stays Grid with 28px card rounding */}
+        {/* Stays Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {HOTELS_DATA.slice(0, 3).map((hotel) => (
             <div
@@ -94,11 +80,11 @@ export const MayuraStaysStrip: React.FC = () => {
                 <div className="pt-4 border-t border-slate-100 dark:border-slate-700 flex items-center justify-between">
                   <div>
                     <span className="text-[11px] text-slate-500 dark:text-slate-400 block font-medium">
-                      {t.directTariff || 'Direct Citizen Tariff'}
+                      Direct Citizen Tariff
                     </span>
                     <span className="text-xl font-bold text-slate-900 dark:text-white">
                       ₹{hotel.pricePerNight.toLocaleString('en-IN')}
-                      <span className="text-xs font-normal text-slate-500 dark:text-slate-400"> {t.perNight || '/ night'}</span>
+                      <span className="text-xs font-normal text-slate-500 dark:text-slate-400"> / night</span>
                     </span>
                   </div>
 
@@ -106,7 +92,7 @@ export const MayuraStaysStrip: React.FC = () => {
                     href="/stays"
                     className="px-4 py-2 rounded-full bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-900 dark:text-white font-bold text-xs border border-slate-200 dark:border-slate-600 transition-colors"
                   >
-                    {t.viewStayBtn || 'View Property'} →
+                    View Property →
                   </a>
                 </div>
               </div>

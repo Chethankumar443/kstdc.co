@@ -1,22 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Clock, MapPin, Building, Star, ArrowRight } from 'lucide-react';
 import { TRIPS_DATA } from '../../data/tripsData';
-import { getStoredLanguage } from '../../lib/bookingStore';
-import { TRANSLATIONS } from '../../data/translations';
-import type { Language, TripCategory } from '../../types/travel';
+import type { TripCategory } from '../../types/travel';
 
 export const TrendingTrips: React.FC = () => {
-  const [lang, setLang] = useState<Language>('en');
   const [selectedFilter, setSelectedFilter] = useState<'all' | TripCategory>('all');
-
-  useEffect(() => {
-    setLang(getStoredLanguage());
-    const handler = (e: any) => setLang(e.detail);
-    window.addEventListener('kstdc_lang_changed', handler);
-    return () => window.removeEventListener('kstdc_lang_changed', handler);
-  }, []);
-
-  const t = TRANSLATIONS[lang] || TRANSLATIONS.en;
 
   const filteredTrips = selectedFilter === 'all'
     ? TRIPS_DATA
@@ -30,23 +18,23 @@ export const TrendingTrips: React.FC = () => {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div className="space-y-1">
             <span className="text-xs uppercase tracking-wider font-bold text-blue-600 dark:text-blue-400 block">
-              {t.trendingSectionTag || 'Conducted Tour Packages'}
+              Conducted Tour Packages
             </span>
             <h2 className="text-2xl sm:text-4xl font-bold tracking-tight text-slate-900 dark:text-white">
-              {t.trendingSectionTitle || 'Curated Escapes from Bengaluru'}
+              Curated Escapes from Bengaluru
             </h2>
             <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 max-w-xl">
-              {t.trendingSectionSubtitle || 'All packages include Volvo AC transport, certified guides, and Hotel Mayura stays with 100% price transparency.'}
+              All packages include Volvo AC transport, certified guides, and Hotel Mayura stays with 100% price transparency.
             </p>
           </div>
 
           {/* Pill Filter Tabs */}
           <div className="flex flex-wrap gap-2 bg-slate-100 dark:bg-slate-800/80 p-1 rounded-full border border-slate-200 dark:border-slate-700">
             {[
-              { id: 'all', label: t.filterAll },
-              { id: 'nature', label: t.filterNature },
-              { id: 'heritage', label: t.filterHeritage },
-              { id: 'beach', label: t.filterBeach },
+              { id: 'all', label: 'All Curated Trips' },
+              { id: 'nature', label: 'Nature & Hills' },
+              { id: 'heritage', label: 'Heritage & History' },
+              { id: 'beach', label: 'Coastal & Beaches' },
             ].map((f) => (
               <button
                 key={f.id}
@@ -105,7 +93,7 @@ export const TrendingTrips: React.FC = () => {
                     <span>{trip.origin} → {trip.destination}</span>
                     <span>•</span>
                     <Clock className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
-                    <span>{trip.durationDays} {trip.durationDays === 1 ? t.dayTour : t.daysTour}</span>
+                    <span>{trip.durationDays} {trip.durationDays === 1 ? 'Day Tour' : 'Days Tour'}</span>
                   </div>
 
                   <h3 className="text-xl font-bold text-slate-900 dark:text-white leading-snug">
@@ -122,7 +110,7 @@ export const TrendingTrips: React.FC = () => {
                       <Building className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400 shrink-0" />
                       <span className="truncate">{trip.hotel.name}</span>
                       <span className="text-[10px] text-blue-600 dark:text-blue-400 font-bold ml-auto shrink-0 uppercase tracking-wider">
-                        {lang === 'kn' ? 'ಸೇರಿದೆ' : 'Included'}
+                        Included
                       </span>
                     </div>
                   )}
@@ -132,13 +120,13 @@ export const TrendingTrips: React.FC = () => {
                 <div className="pt-4 border-t border-slate-100 dark:border-slate-700 flex items-center justify-between">
                   <div>
                     <span className="text-[11px] text-slate-500 dark:text-slate-400 block font-medium">
-                      {lang === 'kn' ? 'ಪ್ರಾರಂಭಿಕ ದರ' : 'From'}
+                      From
                     </span>
                     <div className="flex items-baseline gap-1">
                       <span className="text-2xl font-bold text-slate-900 dark:text-white">
                         ₹{trip.pricePerPerson.toLocaleString('en-IN')}
                       </span>
-                      <span className="text-xs text-slate-500 dark:text-slate-400">/{t.perPerson || 'person'}</span>
+                      <span className="text-xs text-slate-500 dark:text-slate-400">/ person</span>
                     </div>
                   </div>
 
@@ -146,7 +134,7 @@ export const TrendingTrips: React.FC = () => {
                     href={`/trips/${trip.slug}`}
                     className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-slate-900 dark:bg-blue-600 hover:bg-black dark:hover:bg-blue-700 text-white font-bold text-xs shadow-sm transition-all"
                   >
-                    <span>{t.viewTripBtn || 'View Details'}</span>
+                    <span>View Details</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </a>
                 </div>

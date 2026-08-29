@@ -1,23 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { ArrowRight, Search, MapPin, X } from 'lucide-react';
+import React, { useState } from 'react';
+import { ArrowRight, Search, X } from 'lucide-react';
 import { DESTINATIONS_DATA } from '../../data/destinationsData';
-import { getStoredLanguage } from '../../lib/bookingStore';
-import { TRANSLATIONS } from '../../data/translations';
-import type { Language } from '../../types/travel';
 
 export const DestinationsExplorer: React.FC = () => {
-  const [lang, setLang] = useState<Language>('en');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedRegion, setSelectedRegion] = useState<string>('all');
-
-  useEffect(() => {
-    setLang(getStoredLanguage());
-    const handler = (e: any) => setLang(e.detail);
-    window.addEventListener('kstdc_lang_changed', handler);
-    return () => window.removeEventListener('kstdc_lang_changed', handler);
-  }, []);
-
-  const t = TRANSLATIONS[lang] || TRANSLATIONS.en;
 
   const filteredDestinations = DESTINATIONS_DATA.filter((dest) => {
     if (searchQuery.trim()) {
@@ -44,13 +31,13 @@ export const DestinationsExplorer: React.FC = () => {
         {/* Header */}
         <div className="bg-slate-900 dark:bg-slate-950 p-8 sm:p-12 rounded-[32px] text-white border border-slate-800 shadow-md space-y-2">
           <span className="text-xs uppercase tracking-wider font-bold text-emerald-400 block">
-            {t.destinationsTag || 'Karnataka State Atlas'}
+            Karnataka State Atlas
           </span>
           <h1 className="text-2xl sm:text-4xl font-bold tracking-tight text-white">
-            {t.destinationsTitle || 'Discover Karnataka’s Destinations'}
+            Discover Karnataka’s Destinations
           </h1>
           <p className="text-xs sm:text-sm text-slate-300 max-w-2xl leading-relaxed">
-            {t.destinationsSubtitle || 'From the misty rainforest slopes of the Western Ghats to the ancient granite boulders of the Deccan, plan your next getaway destination-first.'}
+            From the misty rainforest slopes of the Western Ghats to the ancient granite boulders of the Deccan, plan your next getaway destination-first.
           </p>
         </div>
 
@@ -62,13 +49,13 @@ export const DestinationsExplorer: React.FC = () => {
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder={lang === 'kn' ? 'ತಾಣ, ಜಲಪಾತ, ದೇವಸ್ಥಾನ, ಕರಾವಳಿ ಹುಡುಕಿ...' : 'Search destination, experiences (e.g. waterfalls, coffee, temples, rainforest, beaches)...'}
-              className="w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-full text-xs font-semibold text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-slate-900"
+              placeholder="Search destination, experiences (e.g. waterfalls, coffee, temples, rainforest, beaches)..."
+              className="w-full pl-10 pr-10 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-full text-xs font-semibold text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-blue-500"
             />
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery('')}
-                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 cursor-pointer"
+                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 cursor-pointer"
               >
                 <X className="w-3.5 h-3.5" />
               </button>
@@ -78,11 +65,11 @@ export const DestinationsExplorer: React.FC = () => {
           <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-slate-100 dark:border-slate-800">
             <div className="flex flex-wrap items-center gap-1.5 bg-slate-100 dark:bg-slate-800 p-1 rounded-full border border-slate-200 dark:border-slate-700">
               {[
-                { id: 'all', label: lang === 'kn' ? 'ಎಲ್ಲಾ ಪ್ರಾಂತ್ಯಗಳು' : 'All Regions' },
-                { id: 'Western Ghats', label: lang === 'kn' ? 'ಪಶ್ಚಿಮ ಘಟ್ಟಗಳು' : 'Western Ghats' },
-                { id: 'Deccan Plateau', label: lang === 'kn' ? 'ದಖನ್ ಪ್ರಸ್ಥಭೂಮಿ' : 'Deccan Plateau' },
-                { id: 'Coastal Karnataka', label: lang === 'kn' ? 'ಕರಾವಳಿ ಕರ್ನಾಟಕ' : 'Coastal Karnataka' },
-                { id: 'Southern Plains', label: lang === 'kn' ? 'ದಕ್ಷಿಣ ಬಯಲು ಪ್ರದೇಶ' : 'Southern Plains' },
+                { id: 'all', label: 'All Regions' },
+                { id: 'Western Ghats', label: 'Western Ghats' },
+                { id: 'Deccan Plateau', label: 'Deccan Plateau' },
+                { id: 'Coastal Karnataka', label: 'Coastal Karnataka' },
+                { id: 'Southern Plains', label: 'Southern Plains' },
               ].map((reg) => (
                 <button
                   key={reg.id}
@@ -99,11 +86,7 @@ export const DestinationsExplorer: React.FC = () => {
             </div>
 
             <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">
-              {lang === 'kn' ? (
-                <>ಲಭ್ಯವಿರುವ <strong>{filteredDestinations.length}</strong> ಅಧಿಕೃತ ತಾಣಗಳು</>
-              ) : (
-                <>Showing <strong>{filteredDestinations.length}</strong> verified state destinations</>
-              )}
+              Showing <strong>{filteredDestinations.length}</strong> verified state destinations
             </span>
           </div>
         </div>
@@ -127,7 +110,7 @@ export const DestinationsExplorer: React.FC = () => {
                     {dest.region}
                   </div>
                   <div className="absolute bottom-3.5 right-3.5 bg-white/95 dark:bg-slate-900/95 px-3 py-1 rounded-full text-xs font-bold text-slate-900 dark:text-white">
-                    {dest.tripsCount} {lang === 'kn' ? 'ಪ್ರವಾಸಗಳು' : 'Conducted Tours'}
+                    {dest.tripsCount} Conducted Tours
                   </div>
                 </div>
 
@@ -137,9 +120,6 @@ export const DestinationsExplorer: React.FC = () => {
                       <h2 className="text-2xl font-bold text-slate-950 dark:text-white">
                         {dest.name}
                       </h2>
-                      <span className="text-xs font-bold text-blue-600 dark:text-blue-400">
-                        {dest.kannadaName}
-                      </span>
                     </div>
                     <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
                       {dest.description}
@@ -149,13 +129,13 @@ export const DestinationsExplorer: React.FC = () => {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-700/60 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-300">
                     <div>
                       <span className="text-slate-500 dark:text-slate-400 text-[11px] block">
-                        {lang === 'kn' ? 'ಬೆಂಗಳೂರಿನಿಂದ ಪ್ರಯಾಣದ ಸಮಯ' : 'Travel Time from BLR'}
+                        Travel Time from BLR
                       </span>
                       <span className="font-bold text-slate-900 dark:text-white">{dest.travelDurationFromBlr}</span>
                     </div>
                     <div>
                       <span className="text-slate-500 dark:text-slate-400 text-[11px] block">
-                        {lang === 'kn' ? 'ಉತ್ತಮ ಭೇಟಿ ಸಮಯ' : 'Best Season'}
+                        Best Season
                       </span>
                       <span className="font-bold text-slate-900 dark:text-white">{dest.bestTimeToVisit}</span>
                     </div>
@@ -163,7 +143,7 @@ export const DestinationsExplorer: React.FC = () => {
 
                   <div className="space-y-1.5">
                     <span className="text-xs font-bold text-slate-900 dark:text-white block">
-                      {lang === 'kn' ? 'ಪ್ರಮುಖ ಅನುಭವಗಳು:' : 'Key Experiences:'}
+                      Key Experiences:
                     </span>
                     <div className="flex flex-wrap gap-1.5">
                       {dest.experiences.map((exp, i) => (
@@ -176,14 +156,14 @@ export const DestinationsExplorer: React.FC = () => {
 
                   <div className="pt-4 border-t border-slate-100 dark:border-slate-700 flex items-center justify-between">
                     <span className="text-xs text-slate-600 dark:text-slate-400 font-semibold">
-                      {lang === 'kn' ? 'ವಾಸ್ತವ್ಯ:' : 'Stay:'} {dest.featuredStay}
+                      Stay: {dest.featuredStay}
                     </span>
 
                     <a
                       href={`/trips?destination=${encodeURIComponent(dest.name)}`}
                       className="inline-flex items-center gap-1.5 px-5 py-2 rounded-full bg-slate-950 dark:bg-blue-600 hover:bg-black dark:hover:bg-blue-700 text-white font-bold text-xs shadow-sm transition-all"
                     >
-                      <span>{lang === 'kn' ? 'ಪ್ರವಾಸ ವೀಕ್ಷಿಸಿ' : 'View Tours'}</span>
+                      <span>View Tours</span>
                       <ArrowRight className="w-3.5 h-3.5" />
                     </a>
                   </div>
@@ -194,7 +174,7 @@ export const DestinationsExplorer: React.FC = () => {
         ) : (
           <div className="text-center py-16 bg-white dark:bg-slate-900 rounded-[32px] border border-slate-200 dark:border-slate-800 p-8 space-y-4">
             <h3 className="text-lg font-bold text-slate-900 dark:text-white">
-              {lang === 'kn' ? 'ಯಾವುದೇ ತಾಣ ಕಂಡುಬಂದಿಲ್ಲ' : 'No destinations match your search'}
+              No destinations match your search
             </h3>
             <button
               onClick={() => {
@@ -203,7 +183,7 @@ export const DestinationsExplorer: React.FC = () => {
               }}
               className="px-6 py-2.5 rounded-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold text-xs cursor-pointer"
             >
-              {lang === 'kn' ? 'ಮರುಹೊಂದಿಸಿ' : 'Reset Search'}
+              Reset Search
             </button>
           </div>
         )}

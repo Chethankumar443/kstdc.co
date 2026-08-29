@@ -1,16 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import {
-  MapPin, Star, Check, ArrowRight, Search, SlidersHorizontal,
-  Calendar, Users, Building, ShieldCheck, X, CheckCircle2
+  MapPin, Star, Check, Search, X
 } from 'lucide-react';
 import { HOTELS_DATA } from '../../data/hotelsData';
-import { getStoredLanguage, saveBooking } from '../../lib/bookingStore';
-import { TRANSLATIONS } from '../../data/translations';
+import { saveBooking } from '../../lib/bookingStore';
 import { CustomSelect } from '../common/CustomSelect';
-import type { Language, MayuraHotel, BookingRecord, PassengerDetail } from '../../types/travel';
+import type { MayuraHotel, BookingRecord, PassengerDetail } from '../../types/travel';
 
 export const StaysDirectory: React.FC = () => {
-  const [lang, setLang] = useState<Language>('en');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [maxPrice, setMaxPrice] = useState<number>(6000);
@@ -55,10 +52,6 @@ export const StaysDirectory: React.FC = () => {
   };
 
   useEffect(() => {
-    setLang(getStoredLanguage());
-    const handler = (e: any) => setLang(e.detail);
-    window.addEventListener('kstdc_lang_changed', handler);
-
     if (typeof window !== 'undefined') {
       const params = new URLSearchParams(window.location.search);
       const searchParam = params.get('search') || params.get('destination') || params.get('q');
@@ -66,11 +59,7 @@ export const StaysDirectory: React.FC = () => {
         setSearchQuery(searchParam);
       }
     }
-
-    return () => window.removeEventListener('kstdc_lang_changed', handler);
   }, []);
-
-  const t = TRANSLATIONS[lang] || TRANSLATIONS.en;
 
   const filteredHotels = HOTELS_DATA.filter((hotel) => {
     if (searchQuery.trim()) {
@@ -168,13 +157,13 @@ export const StaysDirectory: React.FC = () => {
         {/* Header */}
         <div className="bg-slate-900 dark:bg-slate-950 p-8 sm:p-12 rounded-[32px] text-white border border-slate-800 shadow-md space-y-2">
           <span className="text-xs uppercase tracking-wider font-bold text-emerald-400 block">
-            {t.staysTag || 'Government-Run Hospitality'}
+            Government-Run Hospitality
           </span>
           <h1 className="text-2xl sm:text-4xl font-bold tracking-tight text-white">
-            {t.staysTitle || 'Stay with Hotel Mayura'}
+            Stay with Hotel Mayura
           </h1>
           <p className="text-xs sm:text-sm text-slate-300 max-w-2xl leading-relaxed">
-            {t.staysSubtitle || "Heritage properties, hilltop view lodges, and coastal retreats situated right next to Karnataka's prime monuments, peaks and waterfalls. Direct citizen pricing with zero commission markups."}
+            Heritage properties, hilltop view lodges, and coastal retreats situated right next to Karnataka's prime monuments, peaks and waterfalls. Direct citizen pricing with zero commission markups.
           </p>
         </div>
 
@@ -190,13 +179,13 @@ export const StaysDirectory: React.FC = () => {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder={t.hotelSearchPlaceholder || 'Search hotel name or destination (e.g. Coorg, Hampi, Mysuru, Jog Falls)...'}
-                className="w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-full text-xs font-semibold text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-slate-900"
+                placeholder="Search hotel name or destination (e.g. Coorg, Hampi, Mysuru, Jog Falls)..."
+                className="w-full pl-10 pr-10 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-full text-xs font-semibold text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-blue-500"
               />
               {searchQuery && (
                 <button
                   onClick={() => setSearchQuery('')}
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 cursor-pointer"
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 cursor-pointer"
                 >
                   <X className="w-3.5 h-3.5" />
                 </button>
@@ -206,7 +195,7 @@ export const StaysDirectory: React.FC = () => {
             {/* Price Range Slider */}
             <div className="md:col-span-6 flex items-center gap-3 bg-slate-50 dark:bg-slate-800 p-2 px-4 rounded-full border border-slate-200 dark:border-slate-700">
               <span className="text-xs font-bold text-slate-600 dark:text-slate-300 shrink-0">
-                {lang === 'kn' ? 'ಗರಿಷ್ಠ ದರ:' : 'Max:'} ₹{maxPrice.toLocaleString('en-IN')}/{t.perNight ? t.perNight.replace('/', '').trim() : 'night'}
+                Max: ₹{maxPrice.toLocaleString('en-IN')}/night
               </span>
               <input
                 type="range"
@@ -215,7 +204,7 @@ export const StaysDirectory: React.FC = () => {
                 step="250"
                 value={maxPrice}
                 onChange={(e) => setMaxPrice(Number(e.target.value))}
-                className="w-full accent-slate-900 cursor-pointer"
+                className="w-full accent-slate-900 dark:accent-blue-500 cursor-pointer"
               />
             </div>
 
@@ -225,11 +214,11 @@ export const StaysDirectory: React.FC = () => {
           <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-slate-100 dark:border-slate-800">
             <div className="flex flex-wrap items-center gap-1.5 bg-slate-100 dark:bg-slate-800 p-1 rounded-full border border-slate-200 dark:border-slate-700">
               {[
-                { id: 'all', label: lang === 'kn' ? 'ಎಲ್ಲಾ ಹೋಟೆಲ್‌ಗಳು' : 'All Properties' },
-                { id: 'Scenic Retreat', label: lang === 'kn' ? 'ಪ್ರಕೃತಿ ತಾಣ' : 'Scenic Retreat' },
-                { id: 'Heritage', label: lang === 'kn' ? 'ಪರಂಪರೆ' : 'Heritage' },
-                { id: 'Premium', label: lang === 'kn' ? 'ಪ್ರೀಮಿಯಂ' : 'Premium' },
-                { id: 'Budget Comfort', label: lang === 'kn' ? 'ಬಜೆಟ್ ವಾಸ್ತವ್ಯ' : 'Budget Comfort' },
+                { id: 'all', label: 'All Properties' },
+                { id: 'Scenic Retreat', label: 'Scenic Retreat' },
+                { id: 'Heritage', label: 'Heritage' },
+                { id: 'Premium', label: 'Premium' },
+                { id: 'Budget Comfort', label: 'Budget Comfort' },
               ].map((cat) => (
                 <button
                   key={cat.id}
@@ -246,11 +235,7 @@ export const StaysDirectory: React.FC = () => {
             </div>
 
             <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">
-              {lang === 'kn' ? (
-                <>ಲಭ್ಯವಿರುವ <strong>{filteredHotels.length}</strong> ಅಧಿಕೃತ ಹೋಟೆಲ್‌ಗಳು</>
-              ) : (
-                <>Showing <strong>{filteredHotels.length}</strong> official properties</>
-              )}
+              Showing <strong>{filteredHotels.length}</strong> official properties
             </span>
           </div>
 
@@ -308,11 +293,11 @@ export const StaysDirectory: React.FC = () => {
                 <div className="pt-4 border-t border-slate-100 dark:border-slate-700 flex items-center justify-between">
                   <div>
                     <span className="text-[11px] text-slate-500 dark:text-slate-400 block font-medium">
-                      {t.directTariff || 'Direct Citizen Tariff'}
+                      Direct Citizen Tariff
                     </span>
                     <span className="text-xl font-bold text-slate-950 dark:text-white">
                       ₹{hotel.pricePerNight.toLocaleString('en-IN')}
-                      <span className="text-xs font-normal text-slate-500 dark:text-slate-400"> {t.perNight || '/ night'}</span>
+                      <span className="text-xs font-normal text-slate-500 dark:text-slate-400"> / night</span>
                     </span>
                   </div>
 
@@ -324,7 +309,7 @@ export const StaysDirectory: React.FC = () => {
                     }}
                     className="px-4 py-2 rounded-full bg-slate-950 dark:bg-blue-600 hover:bg-black dark:hover:bg-blue-700 text-white font-bold text-xs shadow-sm transition-all cursor-pointer"
                   >
-                    {lang === 'kn' ? 'ಬುಕ್ ಮಾಡಿ' : 'Reserve Room'}
+                    Reserve Room
                   </button>
                 </div>
               </div>
@@ -337,11 +322,11 @@ export const StaysDirectory: React.FC = () => {
       {/* Quick Reserve Modal */}
       {selectedHotel && (
         <div className="fixed inset-0 z-50 overflow-y-auto bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6">
-          <div className="bg-white rounded-[32px] max-w-lg w-full border border-slate-200 shadow-2xl p-6 sm:p-8 space-y-6 text-slate-900 animate-fade-in relative">
+          <div className="bg-white dark:bg-slate-900 rounded-[32px] max-w-lg w-full border border-slate-200 dark:border-slate-800 shadow-2xl p-6 sm:p-8 space-y-6 text-slate-900 dark:text-white animate-fade-in relative">
             
             <button
               onClick={() => setSelectedHotel(null)}
-              className="absolute top-6 right-6 text-slate-400 hover:text-slate-700 p-1 rounded-full"
+              className="absolute top-6 right-6 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 p-1 rounded-full cursor-pointer"
             >
               <X className="w-5 h-5" />
             </button>
@@ -349,41 +334,41 @@ export const StaysDirectory: React.FC = () => {
             {!confirmedId ? (
               <form onSubmit={handleReserveRoom} className="space-y-5">
                 <div className="space-y-1">
-                  <span className="text-[11px] font-bold text-blue-600 uppercase tracking-wider block">
+                  <span className="text-[11px] font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider block">
                     Direct Government Hospitality Reservation
                   </span>
-                  <h3 className="text-2xl font-bold text-slate-950">
+                  <h3 className="text-2xl font-bold text-slate-950 dark:text-white">
                     {selectedHotel.name}
                   </h3>
-                  <p className="text-xs text-slate-500">
+                  <p className="text-xs text-slate-500 dark:text-slate-400">
                     {selectedHotel.destination} · ₹{selectedHotel.pricePerNight}/night
                   </p>
                 </div>
 
-                <div className="grid grid-cols-2 gap-3 p-4 rounded-2xl bg-slate-50 border border-slate-200">
+                <div className="grid grid-cols-2 gap-3 p-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
                   <div className="space-y-1">
-                    <label className="text-[11px] font-bold text-slate-500 block">Check-in Date</label>
+                    <label className="text-[11px] font-bold text-slate-500 dark:text-slate-400 block">Check-in Date</label>
                     <input
                       type="date"
                       value={checkInDate}
                       onChange={(e) => setCheckInDate(e.target.value)}
-                      className="w-full p-2 rounded-xl bg-white border border-slate-200 text-xs font-semibold"
+                      className="w-full p-2 rounded-xl bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-900 dark:text-white text-xs font-semibold"
                     />
                   </div>
                   <div className="space-y-1">
-                    <label className="text-[11px] font-bold text-slate-500 block">Check-out Date</label>
+                    <label className="text-[11px] font-bold text-slate-500 dark:text-slate-400 block">Check-out Date</label>
                     <input
                       type="date"
                       value={checkOutDate}
                       onChange={(e) => setCheckOutDate(e.target.value)}
-                      className="w-full p-2 rounded-xl bg-white border border-slate-200 text-xs font-semibold"
+                      className="w-full p-2 rounded-xl bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-900 dark:text-white text-xs font-semibold"
                     />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
                   <div className="space-y-1">
-                    <label className="text-[11px] font-bold text-slate-500 block">Guests</label>
+                    <label className="text-[11px] font-bold text-slate-500 dark:text-slate-400 block">Guests</label>
                     <CustomSelect
                       value={String(guestsCount)}
                       onChange={(v) => setGuestsCount(Number(v))}
@@ -397,7 +382,7 @@ export const StaysDirectory: React.FC = () => {
                     />
                   </div>
                   <div className="space-y-1">
-                    <label className="text-[11px] font-bold text-slate-500 block">Rooms</label>
+                    <label className="text-[11px] font-bold text-slate-500 dark:text-slate-400 block">Rooms</label>
                     <CustomSelect
                       value={String(roomsCount)}
                       onChange={(v) => setRoomsCount(Number(v))}
@@ -412,13 +397,13 @@ export const StaysDirectory: React.FC = () => {
 
                 {/* Guest Names List */}
                 <div className="space-y-2">
-                  <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">
+                  <label className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">
                     Guest Manifest ({guestList.length} Guests)
                   </label>
                   <div className="space-y-2">
                     {guestList.map((gName, idx) => (
                       <div key={idx} className="space-y-1">
-                        <label className="text-[10px] font-semibold text-slate-500">
+                        <label className="text-[10px] font-semibold text-slate-500 dark:text-slate-400">
                           {idx === 0 ? 'Lead Guest (Primary Contact)' : `Guest ${idx + 1} Full Name`}
                         </label>
                         <input
@@ -426,7 +411,7 @@ export const StaysDirectory: React.FC = () => {
                           value={gName}
                           onChange={(e) => updateGuestName(idx, e.target.value)}
                           placeholder={`Guest ${idx + 1} Full Name`}
-                          className="w-full p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-semibold"
+                          className="w-full p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white text-xs font-semibold"
                           required
                         />
                       </div>
@@ -434,8 +419,8 @@ export const StaysDirectory: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="space-y-2 pt-1 border-t border-slate-100">
-                  <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">
+                <div className="space-y-2 pt-1 border-t border-slate-100 dark:border-slate-800">
+                  <label className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">
                     Contact Information
                   </label>
                   <div className="grid grid-cols-2 gap-2">
@@ -444,7 +429,7 @@ export const StaysDirectory: React.FC = () => {
                       value={contactPhone}
                       onChange={(e) => setContactPhone(e.target.value)}
                       placeholder="Phone Number"
-                      className="w-full p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-semibold"
+                      className="w-full p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white text-xs font-semibold"
                       required
                     />
                     <input
@@ -452,23 +437,23 @@ export const StaysDirectory: React.FC = () => {
                       value={contactEmail}
                       onChange={(e) => setContactEmail(e.target.value)}
                       placeholder="Email Address"
-                      className="w-full p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-semibold"
+                      className="w-full p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white text-xs font-semibold"
                       required
                     />
                   </div>
                 </div>
 
-                <div className="pt-3 border-t border-slate-200 flex items-center justify-between">
+                <div className="pt-3 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
                   <div>
-                    <span className="text-[11px] text-slate-500 block">Total for 2 Nights + GST</span>
-                    <span className="text-xl font-bold text-slate-900">
+                    <span className="text-[11px] text-slate-500 dark:text-slate-400 block">Total for 2 Nights + GST</span>
+                    <span className="text-xl font-bold text-slate-900 dark:text-white">
                       ₹{(selectedHotel.pricePerNight * 2 * roomsCount * 1.05).toLocaleString('en-IN')}
                     </span>
                   </div>
                   <button
                     type="submit"
                     disabled={isProcessing}
-                    className="px-6 py-3 rounded-full bg-slate-950 hover:bg-black text-white font-bold text-xs shadow-md transition-all disabled:opacity-50"
+                    className="px-6 py-3 rounded-full bg-slate-950 dark:bg-blue-600 hover:bg-black dark:hover:bg-blue-700 text-white font-bold text-xs shadow-md transition-all disabled:opacity-50 cursor-pointer"
                   >
                     {isProcessing ? 'Confirming...' : 'Confirm Mayura Stay'}
                   </button>
@@ -476,29 +461,29 @@ export const StaysDirectory: React.FC = () => {
               </form>
             ) : (
               <div className="text-center space-y-4 py-2">
-                <div className="w-14 h-14 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center mx-auto text-2xl font-bold">
+                <div className="w-14 h-14 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 flex items-center justify-center mx-auto text-2xl font-bold">
                   ✓
                 </div>
-                <span className="text-xs font-mono font-bold text-emerald-700 uppercase tracking-wider block">
+                <span className="text-xs font-mono font-bold text-emerald-700 dark:text-emerald-400 uppercase tracking-wider block">
                   Ref: {confirmedId}
                 </span>
-                <h3 className="text-2xl font-bold text-slate-950">
+                <h3 className="text-2xl font-bold text-slate-950 dark:text-white">
                   Room Reserved at {selectedHotel.name}!
                 </h3>
-                <p className="text-xs text-slate-600">
+                <p className="text-xs text-slate-600 dark:text-slate-400">
                   Your reservation slip is confirmed and stored in your citizen wallet.
                 </p>
                 <div className="pt-2 flex items-center gap-3">
                   <a
                     href="/my-bookings"
-                    className="flex-1 py-3 rounded-full bg-slate-950 text-white font-bold text-xs text-center shadow-sm"
+                    className="flex-1 py-3 rounded-full bg-slate-950 dark:bg-blue-600 text-white font-bold text-xs text-center shadow-sm"
                   >
                     View in Citizen Wallet
                   </a>
                   <button
                     type="button"
                     onClick={() => setSelectedHotel(null)}
-                    className="py-3 px-5 rounded-full bg-slate-100 text-slate-800 font-bold text-xs"
+                    className="py-3 px-5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-bold text-xs cursor-pointer"
                   >
                     Done
                   </button>
